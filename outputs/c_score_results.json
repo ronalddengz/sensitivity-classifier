@@ -1,0 +1,783 @@
+[
+  {
+    "name": "High Sensitivity - Medical with Small Community",
+    "text": "My name is Sarah Chen and I live in Millbrook, a small town in Dutchess County, NY (population ~1,500). I'm 34 years old and was diagnosed with Ehlers-Danlos syndrome hypermobility type last March at the Mayo Clinic. I've been experiencing severe joint dislocations, chronic fatigue, and recently developed POTS. My cardiologist Dr. Williams started me on midodrine and compression therapy. I'm also dealing with anxiety because my employer at the local elementary school doesn't understand why I need so many sick days. Last month I fainted during a school assembly and it was really embarrassing—the whole town is talking about it now.",
+    "overall_risk": "CRITICAL",
+    "risk_score": 0.752,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "The mention of workplace conflicts and accommodation requests related to Sarah's condition, without specifying the nature of her job or its impact on her health, suggests that there is employment-related concern.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The mention of 'POTS' (Postural Orthostatic Tachycardia Syndrome), a rare and stigmatized condition, along with the symptoms described, could imply that Sarah is suffering from this condition without directly stating it.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The mention of 'anxiety' and 'embarrassment' from a public incident, along with the implication that Sarah's employer does not understand her needs, suggests mental health concerns.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The mention of a 'small town' (Millbrook, NY) and the specific details about local community events (e.g., fainted during a school assembly), combined with the unique symptoms described, suggests that this is an unusual narrative that could reveal identity.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The mention of a small town (Millbrook, NY) with a population of ~1,500 and the local elementary school setting suggests that Sarah is part of a tight-knit community where individuals could be easily identified.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The stigma surrounding Ehlers-Danlos syndrome hypermobility type, POTS, and workplace conflicts could lead to social stigma or discrimination if disclosed.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "High PII - Full Patient Record",
+    "text": "Patient: John Michael Smith\nDOB: 03/15/1978\nSSN: 123-45-6789\nMRN: MR-12345678\nAddress: 456 Oak Street, Millbrook, NY 12545\nPhone: (845) 555-1234\nEmail: john.smith@email.com\n\nChief Complaint: Patient presents with chest pain and shortness of breath.\nDiagnosis: Acute myocardial infarction (ICD-10: I21.9)\nAttending Physician: Dr. Williams\n\nThe patient was started on aspirin 325mg and atorvastatin 40mg.\nFollow-up scheduled at Mayo Clinic Cardiology department.",
+    "overall_risk": "HIGH",
+    "risk_score": 0.504,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The patient's diagnosis of acute myocardial infarction (ICD-10: I21.9) and symptoms like chest pain and shortness of breath reveal a serious medical condition that could be inferred even after removing explicit identifiers.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": true,
+        "confidence": 0.4,
+        "explanation": "The mention of anxiety and the patient's symptoms could indicate underlying mental health concerns that require special protection.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": true,
+        "confidence": 0.6,
+        "explanation": "The unique combination of symptoms (chest pain and shortness of breath) and diagnosis (acute myocardial infarction) makes the narrative unusual enough to potentially identify the person.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "The diagnosis of acute myocardial infarction, a serious heart condition, carries the risk of social stigma, discrimination, or embarrassment.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The specific dates (DOB: 03/15/1978) and appointment times (Follow-up scheduled at Mayo Clinic Cardiology department.) could be correlated with external records to identify the person.",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "Medium Sensitivity - Employment Concerns",
+    "text": "I've been having trouble at work lately. My manager keeps scheduling me for early morning shifts even though I told HR about my sleep disorder. I take medication that makes it hard to wake up early. Last week I was late three times and got a written warning. I'm worried about losing my job but I don't want to disclose more details about my condition. I work at a small accounting firm downtown with only 12 employees.",
+    "overall_risk": "HIGH",
+    "risk_score": 0.598,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The employee's concern about being late and receiving a written warning may indicate job performance issues, potentially putting the individual at risk of employment sensitivity.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The mention of a sleep disorder and its medication could potentially reveal the person's condition, despite the removal of explicit identifiers.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "The mention of a sleep disorder and medication could be indicative of an underlying mental health condition, requiring special protection.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The fact that the individual works at a small accounting firm with only 12 employees increases the risk of being identified and potentially disclosed.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.6,
+        "explanation": "Disclosing the employee's sleep disorder and its impact on work could lead to social stigma or embarrassment.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": true,
+        "confidence": 0.5,
+        "explanation": "The specific dates mentioned (e.g., 'last week') could potentially be correlated with external records to identify the person, although this is less likely due to the lack of detailed information.",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "High PII - Insurance Information",
+    "text": "Member Name: Sarah Chen\nMember ID: XYZ123456789\nPolicy Number: POL-987654321\nGroup Number: GRP-555-1234\nMedicare Beneficiary ID: 1A23B45CD67\n\nPlease process my claim for the visit on January 15, 2025 at Northside Medical Center. The diagnosis code is E11.9 and the procedure code is 99213.",
+    "overall_risk": "CRITICAL",
+    "risk_score": 0.698,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The mention of a specific date (January 15, 2025) and medical center (Northside Medical Center) could be used to infer the individual's identity or relationship with the healthcare provider.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": true,
+        "confidence": 0.6,
+        "explanation": "The mention of a diagnosis code (E11.9) without additional context could be interpreted as indicating a specific medical condition, although this is not explicitly stated.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The unique combination of a Medicare Beneficiary ID (1A23B45CD67) with a specific policy number (POL-987654321), group number (GRP-555-1234), and medical codes (E11.9, 99213) makes the narrative unusually detailed for an average claim.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The mention of a specific medical center (Northside Medical Center) and group number (GRP-555-1234) suggests that the individual is part of a relatively small community or organization, increasing the risk of identification.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "The disclosure of personal details (e.g., name, address) could lead to social stigma if the individual's identity were to be revealed.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The mention of a specific date (January 15, 2025) and appointment time could be correlated with external records to identify the individual or their relationship with the healthcare provider.",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "Low Sensitivity - General Medical Question",
+    "text": "I've been experiencing occasional headaches for the past few weeks, usually in the afternoon. They're not severe but they're annoying. I drink plenty of water and try to take breaks from my computer screen. Should I be concerned? What over-the-counter medications would you recommend for tension headaches?",
+    "overall_risk": "HIGH",
+    "risk_score": 0.504,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The mention of 'tension headaches' and the query about over-the-counter medications implies a diagnosis, which could be inferred even without explicit identifiers.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": true,
+        "confidence": 0.4,
+        "explanation": "The mention of 'anxiety' and the self-described 'emotional distress' could be considered sensitive mental health information.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": true,
+        "confidence": 0.6,
+        "explanation": "The individual's experience with headaches and their attempt to seek recommendations suggests a unique personal situation, making it potentially identifiable.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "Disclosing a diagnosis of tension headaches or emotional distress could lead to social stigma, especially if the individual is seen as 'overly anxious' or 'needing medication'.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The mention of 'afternoon' and the individual's experience with headaches could potentially be correlated with external records, such as work or school schedules.",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "High Sensitivity - Mental Health Crisis",
+    "text": "I'm a nurse at St. Mary's Hospital and I've been struggling with severe depression for months. I haven't told anyone at work because I'm afraid they'll think I can't handle patient care. Last Tuesday I had to excuse myself during a code blue because I started having a panic attack. My colleague noticed and asked if I was okay. I've been calling in sick more often and I think my supervisor is getting suspicious. I live alone in a small apartment complex where my coworkers also live.",
+    "overall_risk": "CRITICAL",
+    "risk_score": 0.792,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "Concerns about job performance issues and potential suspicion from supervisors suggest that employment-related concerns are being discussed.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The mention of a specific hospital and apartment complex where coworkers also live could lead to inference about the person's identity.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": true,
+        "confidence": 1.0,
+        "explanation": "The explicit mention of severe depression, panic attack, and therapy could be considered sensitive mental health information requiring special protection.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The narrative describes an unusual and specific work-related incident, a panic attack during a code blue, which could help identify the person.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": true,
+        "confidence": 1.0,
+        "explanation": "The mention of coworkers living in the same apartment complex as the narrator suggests a small community where individuals are easily identifiable.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "Disclosing struggles with depression and anxiety in a professional setting could lead to social stigma, embarrassment, or discrimination.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "High Sensitivity - Rare Disease in Small Town",
+    "text": "My 8-year-old daughter was just diagnosed with Hutchinson-Gilford progeria syndrome. We live in a rural community in Vermont with only about 800 residents. The nearest specialist is 3 hours away in Boston. The school doesn't know yet but they'll notice when she starts showing more symptoms. I'm terrified of how the other kids will treat her. There was an article in the local paper last week about rare diseases and I'm worried someone will connect the dots.",
+    "overall_risk": "CRITICAL",
+    "risk_score": 0.644,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The mention of 'rare diseases' and the specific syndrome (Hutchinson-Gilford progeria syndrome) could potentially connect to a specific individual, especially given the small community size.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "The mention of fear and anxiety about how others will treat the child suggests mental health concerns.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The unique combination of living in a rural community with only 800 residents and the specific symptoms mentioned make it unusual enough to identify the person.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The small community size and location in Vermont increase the risk of the individual being identifiable due to geographical and demographic factors.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The fear of social stigma and discrimination due to the rare disease and potential treatment issues could be a concern for the individual and their family.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "No Sensitivity - Completely Generic",
+    "text": "What's the weather like in New York City today? I'm planning to visit next week and want to know what to pack. Also, can you recommend some good restaurants in Manhattan?",
+    "overall_risk": "HIGH",
+    "risk_score": 0.504,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "Inferential disclosure is detected through the mention of 'rare achievements' and 'good restaurants in Manhattan', which could be associated with a specific person or group",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The narrative is unique due to the combination of visiting New York City, planning to visit next week, and asking about specific restaurants in Manhattan, which could be an unusual travel plan",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "The text implies visiting New York City and specifically asking about restaurants in Manhattan, which could be associated with a small community or group",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.6,
+        "explanation": "Disclosure could lead to social stigma due to the mention of 'embarrassing incidents' in restaurants, although this is not explicitly stated",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "Q-Score Example - Rare Disease and Small Town",
+    "text": "Patient is a 34-year-old female who lives in a town of 1,500 people. She was diagnosed with Ehlers-Danlos syndrome last year and works as a professional pilot.",
+    "overall_risk": "HIGH",
+    "risk_score": 0.5359999999999999,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.6,
+        "explanation": "The mention of Ehlers-Danlos syndrome, a rare genetic disorder, and the profession of professional pilot could lead to inferential disclosure about the individual.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": true,
+        "confidence": 0.4,
+        "explanation": "The mention of a health condition (Ehlers-Danlos syndrome) could imply anxiety or stress related to the diagnosis, potentially revealing mental health indicators.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The combination of living in a small town, having a rare genetic disorder, and working as a professional pilot creates an unusual narrative that could identify the person.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The text mentions living in a town of 1,500 people, which is a relatively small community that could make the individual easily identifiable.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "The individual's rare genetic disorder and profession as a professional pilot could lead to social stigma or embarrassment if disclosed, particularly in a small community.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "Q-Score Example - Common Conditions",
+    "text": "The patient is a 45-year-old male from California with hypertension and type 2 diabetes. He works as an engineer.",
+    "overall_risk": "HIGH",
+    "risk_score": 0.5800000000000001,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": true,
+        "confidence": 0.7,
+        "explanation": "The mention of a specific profession (engineer) may reveal job performance issues or workplace conflicts that could be sensitive to the individual.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The mention of hypertension and type 2 diabetes together with a specific profession (engineer) could infer sensitive health information about the individual.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The narrative provides unusual details that are not commonly associated with individuals of this age group, such as working as an engineer and having two significant health conditions.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.6,
+        "explanation": "The mention of health conditions (hypertension and type 2 diabetes) may lead to social stigma, discrimination, or embarrassment.",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The text does not contain specific dates, but the mention of hypertension and type 2 diabetes could be correlated with external records using demographic information.",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  },
+  {
+    "name": "Q-Score Example - Minimal QIs",
+    "text": "The patient presents with flu-like symptoms including fever and cough. Treatment plan includes rest and hydration.",
+    "overall_risk": "MEDIUM",
+    "risk_score": 0.39800000000000013,
+    "detections": [
+      {
+        "type": "EMPLOYMENT_SENSITIVITY",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "INFERENTIAL_DISCLOSURE",
+        "detected": true,
+        "confidence": 0.8,
+        "explanation": "The patient presents with flu-like symptoms including fever and cough, which could infer the presence of a respiratory illness",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "MENTAL_HEALTH_INDICATORS",
+        "detected": true,
+        "confidence": 0.6,
+        "explanation": "The patient presents with flu-like symptoms, which could imply a mental health concern such as anxiety or depression",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "NARRATIVE_UNIQUENESS",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SMALL_COMMUNITY_RISK",
+        "detected": false,
+        "confidence": 0.0,
+        "explanation": "",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "SOCIAL_STIGMA_RISK",
+        "detected": true,
+        "confidence": 0.9,
+        "explanation": "The patient's flu-like symptoms and treatment plan could lead to social stigma if disclosed, particularly in a medical setting",
+        "start": null,
+        "end": null,
+        "text": null
+      },
+      {
+        "type": "TEMPORAL_CORRELATION_RISK",
+        "detected": true,
+        "confidence": 0.4,
+        "explanation": "The timestamp 'flu-like symptoms' could be correlated with external records, such as appointment times or medical events",
+        "start": null,
+        "end": null,
+        "text": null
+      }
+    ]
+  }
+]

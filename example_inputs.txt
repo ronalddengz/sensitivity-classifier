@@ -1,0 +1,73 @@
+# name: High Sensitivity - Medical with Small Community
+# expected_critical: false
+
+My name is Sarah Chen and I live in Millbrook, a small town in Dutchess County, NY (population ~1,500). I'm 34 years old and was diagnosed with Ehlers-Danlos syndrome hypermobility type last March at the Mayo Clinic. I've been experiencing severe joint dislocations, chronic fatigue, and recently developed POTS. My cardiologist Dr. Williams started me on midodrine and compression therapy. I'm also dealing with anxiety because my employer at the local elementary school doesn't understand why I need so many sick days. Last month I fainted during a school assembly and it was really embarrassing—the whole town is talking about it now.
+---
+# name: High PII - Full Patient Record
+# expected_critical: true
+
+Patient: John Michael Smith
+DOB: 03/15/1978
+SSN: 123-45-6789
+MRN: MR-12345678
+Address: 456 Oak Street, Millbrook, NY 12545
+Phone: (845) 555-1234
+Email: john.smith@email.com
+
+Chief Complaint: Patient presents with chest pain and shortness of breath.
+Diagnosis: Acute myocardial infarction (ICD-10: I21.9)
+Attending Physician: Dr. Williams
+
+The patient was started on aspirin 325mg and atorvastatin 40mg.
+Follow-up scheduled at Mayo Clinic Cardiology department.
+---
+# name: Medium Sensitivity - Employment Concerns
+# expected_critical: false
+
+I've been having trouble at work lately. My manager keeps scheduling me for early morning shifts even though I told HR about my sleep disorder. I take medication that makes it hard to wake up early. Last week I was late three times and got a written warning. I'm worried about losing my job but I don't want to disclose more details about my condition. I work at a small accounting firm downtown with only 12 employees.
+---
+# name: High PII - Insurance Information
+# expected_critical: true
+
+Member Name: Sarah Chen
+Member ID: XYZ123456789
+Policy Number: POL-987654321
+Group Number: GRP-555-1234
+Medicare Beneficiary ID: 1A23B45CD67
+
+Please process my claim for the visit on January 15, 2025 at Northside Medical Center. The diagnosis code is E11.9 and the procedure code is 99213.
+---
+# name: Low Sensitivity - General Medical Question
+# expected_critical: false
+
+I've been experiencing occasional headaches for the past few weeks, usually in the afternoon. They're not severe but they're annoying. I drink plenty of water and try to take breaks from my computer screen. Should I be concerned? What over-the-counter medications would you recommend for tension headaches?
+---
+# name: High Sensitivity - Mental Health Crisis
+# expected_critical: false
+
+I'm a nurse at St. Mary's Hospital and I've been struggling with severe depression for months. I haven't told anyone at work because I'm afraid they'll think I can't handle patient care. Last Tuesday I had to excuse myself during a code blue because I started having a panic attack. My colleague noticed and asked if I was okay. I've been calling in sick more often and I think my supervisor is getting suspicious. I live alone in a small apartment complex where my coworkers also live.
+---
+# name: High Sensitivity - Rare Disease in Small Town
+# expected_critical: false
+
+My 8-year-old daughter was just diagnosed with Hutchinson-Gilford progeria syndrome. We live in a rural community in Vermont with only about 800 residents. The nearest specialist is 3 hours away in Boston. The school doesn't know yet but they'll notice when she starts showing more symptoms. I'm terrified of how the other kids will treat her. There was an article in the local paper last week about rare diseases and I'm worried someone will connect the dots.
+---
+# name: No Sensitivity - Completely Generic
+# expected_critical: false
+
+What's the weather like in New York City today? I'm planning to visit next week and want to know what to pack. Also, can you recommend some good restaurants in Manhattan?
+---
+# name: Q-Score Example - Rare Disease and Small Town
+# expected_critical: false
+
+Patient is a 34-year-old female who lives in a town of 1,500 people. She was diagnosed with Ehlers-Danlos syndrome last year and works as a professional pilot.
+---
+# name: Q-Score Example - Common Conditions
+# expected_critical: false
+
+The patient is a 45-year-old male from California with hypertension and type 2 diabetes. He works as an engineer.
+---
+# name: Q-Score Example - Minimal QIs
+# expected_critical: false
+
+The patient presents with flu-like symptoms including fever and cough. Treatment plan includes rest and hydration.
