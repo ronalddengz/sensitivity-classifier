@@ -12,7 +12,6 @@ Usage:
 
 import json
 import sys
-import textwrap
 from datetime import datetime
 from pathlib import Path
 
@@ -25,7 +24,7 @@ import numpy as np
 from example_inputs import load_example_inputs
 
 # ---------------------------------------------------------------------------
-# Scorer imports
+# Scorer imports  (modules use hyphens so we use importlib)
 # ---------------------------------------------------------------------------
 from importlib import import_module
 
@@ -33,7 +32,7 @@ from importlib import import_module
 def _import_e_scorer():
     """Import and return the E-Score detector class."""
     mod = import_module("e-score")
-    return mod.ExplicitPIIDetector
+    return mod.PIIDetector
 
 
 def _import_q_scorer():
@@ -66,8 +65,8 @@ def run_e_score(examples: list[dict]) -> list[dict]:
     print("Running E-Score (Presidio PII/PHI detection)...")
     print("=" * 60)
 
-    ExplicitPIIDetector = _import_e_scorer()
-    detector = ExplicitPIIDetector()
+    PIIDetector = _import_e_scorer()
+    detector = PIIDetector()
 
     results = []
     for i, ex in enumerate(examples, 1):
@@ -76,23 +75,20 @@ def run_e_score(examples: list[dict]) -> list[dict]:
         results.append({
             "name": name,
             "e_score": result.e_score,
-            "entity_count": result.entity_count,
-            "has_critical_pii": result.has_critical_pii,
-            "max_weighted_score": result.max_weighted_score,
-            "total_weighted_score": result.total_weighted_score,
+            "entity_count": len(result.entities),
             "entities": [
                 {
                     "type": e.entity_type,
                     "text": e.text,
                     "confidence": e.confidence,
-                    "sensitivity_weight": e.sensitivity_weight,
+                    "weight": e.weight,
                     "weighted_score": e.weighted_score,
                 }
                 for e in result.entities
             ],
         })
         print(f"  [{i}/{len(examples)}] {name}: e_score={result.e_score:.4f}  "
-              f"entities={result.entity_count}")
+              f"entities={len(result.entities)}")
 
     print()
     return results
@@ -114,12 +110,8 @@ def run_q_score(examples: list[dict]) -> list[dict]:
         results.append({
             "name": name,
             "q_score": q_result.q_score,
-            "q_rarest": q_result.q_rarest,
-            "q_combination": q_result.q_combination,
-            "q_subsets": q_result.q_subsets,
             "expected_k": q_result.expected_k,
             "num_qis": len(q_result.detected_qis),
-            "identifying_subsets_count": len(q_result.identifying_subsets),
         })
         print(f"  [{i}/{len(examples)}] {name}: q_score={q_result.q_score:.4f}  "
               f"E[k]={q_result.expected_k:.2f}  QIs={len(q_result.detected_qis)}")
@@ -225,11 +217,10 @@ def combine_results(
             # Detail counts
             "e_entity_count": e["entity_count"],
             "q_num_qis": q["num_qis"],
+            "q_expected_k": round(q["expected_k"], 4),
             "c_num_factors": c["num_factors_detected"],
 
-            # Extra detail
-            "e_has_critical_pii": e["has_critical_pii"],
-            "q_expected_k": round(q["expected_k"], 4),
+            # C-Score factor detail
             "c_factors": c["factors"],
             "c_error": c["error"],
         }
@@ -553,17 +544,15 @@ def print_summary(combined: list[dict]):
     print("  SUGGESTED DECISION RULE")
     print("-" * 65)
 
-    # Find the lowest combined_eq_score where C-Score was NOT additive
     if n_additive == 0:
         print("  → C-Score never added value beyond E+Q in this corpus.")
         print("  → You may be able to skip C-Score entirely at all E+Q levels.")
     else:
-        # Find the threshold
         additive_eq_scores = [
             r["combined_eq_score"] for r in valid if r["c_score_additive"]
         ]
         max_additive_eq = max(additive_eq_scores)
-        suggested_threshold = round(max_additive_eq + 0.05, 2)  # small margin
+        suggested_threshold = round(max_additive_eq + 0.05, 2)
         suggested_threshold = min(suggested_threshold, 1.0)
 
         print(f"  → C-Score added value for examples with max(E,Q) up to "
