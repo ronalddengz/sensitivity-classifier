@@ -10,7 +10,9 @@ Usage:
     python benchmark.py
 """
 
+import argparse
 import json
+import math
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -52,6 +54,7 @@ def _import_c_scorer():
 # ---------------------------------------------------------------------------
 
 C_SCORE_THRESHOLD = 0.2   # risk_score >= this → C-Score "found something"
+FALSE_NEG_TOLERANCE = 0.05  # max acceptable miss rate when choosing skip threshold
 OUTPUT_DIR = Path("outputs")
 
 
@@ -489,11 +492,265 @@ def plot_per_example_bars(combined: list[dict], out_dir: Path):
     print(f"  Saved: {path}")
 
 
+def plot_threshold_sweep(combined: list[dict], out_dir: Path):
+    """Sweep max(E,Q) thresholds and plot miss-rate vs skip-rate curves.
+
+    At each candidate threshold *t*, examples with max(E,Q) >= t would be
+    considered "safe" and C-Score would be skipped.  We measure:
+      * skip_rate  – fraction of examples we'd skip  (efficiency)
+      * miss_rate  – of the skipped examples, fraction where C-Score was
+                     actually flagged  (danger / false-negative rate)
+    """
+    _setup_plot_style()
+
+    valid = [r for r in combined if r["c_risk_score"] is not None]
+    if len(valid) < 2:
+        print("  ⚠ Not enough valid C-Score results for threshold sweep.")
+        return
+
+    thresholds = np.linspace(0.0, 1.0, 201)
+    skip_rates = []
+    miss_rates = []
+
+    for t in thresholds:
+        skipped = [r for r in valid if r["combined_eq_score"] >= t]
+        n_skip = len(skipped)
+        skip_rate = n_skip / len(valid)
+
+        if n_skip == 0:
+            miss_rate = 0.0
+        else:
+            missed = sum(1 for r in skipped if r["c_score_flagged"])
+            miss_rate = missed / n_skip
+
+        skip_rates.append(skip_rate)
+        miss_rates.append(miss_rate)
+
+    fig, ax1 = plt.subplots(figsize=(10, 6))
+
+    color_skip = "#38bdf8"
+    color_miss = "#ef4444"
+
+    ax1.plot(thresholds, skip_rates, color=color_skip, linewidth=2,
+             label="Skip rate (efficiency)")
+    ax1.set_xlabel("max(E, Q) skip threshold")
+    ax1.set_ylabel("Skip rate", color=color_skip)
+    ax1.tick_params(axis="y", labelcolor=color_skip)
+    ax1.set_xlim(0, 1)
+    ax1.set_ylim(-0.02, 1.02)
+
+    ax2 = ax1.twinx()
+    ax2.plot(thresholds, miss_rates, color=color_miss, linewidth=2,
+             linestyle="--", label="Miss rate (false negatives)")
+    ax2.set_ylabel("Miss rate (of skipped)", color=color_miss)
+    ax2.tick_params(axis="y", labelcolor=color_miss)
+    ax2.set_ylim(-0.02, 1.02)
+
+    # Shade the tolerance band
+    ax2.axhline(y=FALSE_NEG_TOLERANCE, color="#facc15", linestyle=":",
+                alpha=0.7, label=f"Miss-rate tolerance ({FALSE_NEG_TOLERANCE:.0%})")
+
+    # Find optimal threshold (lowest t where miss_rate <= tolerance)
+    optimal_t = None
+    for t, mr in zip(thresholds, miss_rates):
+        if mr <= FALSE_NEG_TOLERANCE:
+            optimal_t = t
+            break
+    if optimal_t is not None:
+        ax1.axvline(x=optimal_t, color="#22c55e", linestyle="-.",
+                    alpha=0.8, linewidth=1.5)
+        ax1.annotate(
+            f"Optimal threshold ≈ {optimal_t:.2f}",
+            xy=(optimal_t, 0.5), xytext=(optimal_t + 0.08, 0.65),
+            fontsize=10, color="#22c55e",
+            arrowprops=dict(arrowstyle="->", color="#22c55e"),
+        )
+
+    # Merged legend
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc="center right",
+              framealpha=0.9)
+
+    ax1.set_title("Threshold Sweep: Skip Rate vs Miss Rate")
+    fig.tight_layout()
+    path = out_dir / "threshold_sweep.png"
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"  Saved: {path}")
+
+
+def plot_eq_c_correlation(combined: list[dict], out_dir: Path):
+    """Scatter of max(E,Q) vs C-Score risk_score with linear regression."""
+    _setup_plot_style()
+
+    xs, ys = [], []
+    for r in combined:
+        if r["c_risk_score"] is not None:
+            xs.append(r["combined_eq_score"])
+            ys.append(r["c_risk_score"])
+
+    if len(xs) < 3:
+        print("  ⚠ Not enough data points for correlation plot.")
+        return
+
+    xs_arr = np.array(xs)
+    ys_arr = np.array(ys)
+
+    # Linear regression via numpy
+    coeffs = np.polyfit(xs_arr, ys_arr, 1)
+    slope, intercept = coeffs
+    fit_line = np.poly1d(coeffs)
+
+    # Pearson r
+    r_val = np.corrcoef(xs_arr, ys_arr)[0, 1]
+    r_sq = r_val ** 2
+
+    fig, ax = plt.subplots(figsize=(9, 7))
+
+    colors = [_RISK_COLORS.get(r_rec["c_risk_level"], "#94a3b8")
+              for r_rec in combined if r_rec["c_risk_score"] is not None]
+    ax.scatter(xs, ys, c=colors, s=100, edgecolors="#475569",
+              linewidths=0.8, zorder=3, alpha=0.85)
+
+    # Regression line
+    x_fit = np.linspace(0, 1, 100)
+    ax.plot(x_fit, fit_line(x_fit), color="#facc15", linewidth=2,
+            linestyle="--", label=f"Fit: y = {slope:.2f}x + {intercept:.2f}")
+
+    ax.set_xlabel("max(E-Score, Q-Score)")
+    ax.set_ylabel("C-Score Risk Score")
+    ax.set_title("Correlation: E+Q Combined vs C-Score")
+    ax.set_xlim(-0.05, 1.05)
+    ax.set_ylim(-0.05, 1.05)
+
+    # Stats box
+    stats_text = f"r = {r_val:.3f}\nR² = {r_sq:.3f}\nn = {len(xs)}"
+    ax.text(0.97, 0.03, stats_text, transform=ax.transAxes,
+            fontsize=11, verticalalignment="bottom",
+            horizontalalignment="right",
+            bbox=dict(boxstyle="round,pad=0.4", facecolor="#1e293b",
+                      edgecolor="#475569", alpha=0.9),
+            color="#e2e8f0", family="monospace")
+
+    ax.legend(loc="upper left", framealpha=0.9)
+    fig.tight_layout()
+    path = out_dir / "correlation_eq_c.png"
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"  Saved: {path}")
+
+    return r_val, r_sq  # for the summary
+
+
+def plot_agreement_matrix(combined: list[dict], eq_threshold: float,
+                          out_dir: Path):
+    """2×2 confusion matrix: E+Q prediction vs C-Score ground truth."""
+    _setup_plot_style()
+
+    valid = [r for r in combined if r["c_risk_score"] is not None]
+    if not valid:
+        print("  ⚠ No valid C-Score results for agreement matrix.")
+        return
+
+    # Confusion counts
+    tp = fp = fn = tn = 0
+    for r in valid:
+        eq_pos = r["combined_eq_score"] >= eq_threshold
+        c_pos = r["c_score_flagged"]
+        if eq_pos and c_pos:
+            tp += 1
+        elif eq_pos and not c_pos:
+            fp += 1
+        elif not eq_pos and c_pos:
+            fn += 1
+        else:
+            tn += 1
+
+    matrix = np.array([[tn, fp], [fn, tp]])
+    labels_pred = ["E+Q < thresh\n(would run C)", "E+Q ≥ thresh\n(would skip C)"]
+    labels_truth = ["C-Score: NOT flagged", "C-Score: FLAGGED"]
+
+    fig, ax = plt.subplots(figsize=(7, 6))
+
+    cmap = mcolors.LinearSegmentedColormap.from_list(
+        "custom", ["#1e293b", "#3b82f6", "#ef4444"], N=256)
+    im = ax.imshow(matrix, cmap=cmap, aspect="auto")
+
+    # Annotate cells
+    total = len(valid)
+    for i in range(2):
+        for j in range(2):
+            count = matrix[i, j]
+            pct = count / total * 100 if total else 0
+            color = "white" if count > 0 else "#64748b"
+            ax.text(j, i, f"{count}\n({pct:.1f}%)",
+                    ha="center", va="center", fontsize=14,
+                    fontweight="bold", color=color)
+
+    ax.set_xticks([0, 1])
+    ax.set_xticklabels(labels_pred, fontsize=9)
+    ax.set_yticks([0, 1])
+    ax.set_yticklabels(labels_truth, fontsize=9)
+    ax.set_xlabel("E+Q Decision (predicted)")
+    ax.set_ylabel("C-Score (ground truth)")
+    ax.set_title(f"Agreement Matrix @ max(E,Q) threshold = {eq_threshold:.2f}")
+
+    # Precision / Recall / F1 footer
+    precision = tp / (tp + fp) if (tp + fp) else float("nan")
+    recall = tp / (tp + fn) if (tp + fn) else float("nan")
+    f1 = (2 * precision * recall / (precision + recall)
+          if (precision + recall) else float("nan"))
+    fnr = fn / (fn + tp) if (fn + tp) else 0.0  # false-negative rate
+
+    footer = (f"Precision={precision:.2f}  Recall={recall:.2f}  "
+              f"F1={f1:.2f}  FNR(miss)={fnr:.2%}")
+    fig.text(0.5, 0.01, footer, ha="center", fontsize=10, color="#cbd5e1")
+
+    fig.tight_layout(rect=[0, 0.04, 1, 1])
+    path = out_dir / "agreement_matrix.png"
+    fig.savefig(path, dpi=150)
+    plt.close(fig)
+    print(f"  Saved: {path}")
+
+    return {"tp": tp, "fp": fp, "fn": fn, "tn": tn,
+            "precision": precision, "recall": recall,
+            "f1": f1, "fnr": fnr}
+
+
 # ---------------------------------------------------------------------------
 # Summary analysis
 # ---------------------------------------------------------------------------
 
-def print_summary(combined: list[dict]):
+def _find_optimal_threshold(combined: list[dict],
+                            tolerance: float = FALSE_NEG_TOLERANCE
+                            ) -> tuple[float | None, float, float]:
+    """Find the lowest max(E,Q) threshold where miss-rate ≤ *tolerance*.
+
+    Returns (optimal_threshold, skip_rate_at_optimal, miss_rate_at_optimal).
+    If no threshold satisfies the tolerance, returns (None, 0, 0).
+    """
+    valid = [r for r in combined if r["c_risk_score"] is not None]
+    if not valid:
+        return None, 0.0, 0.0
+
+    thresholds = np.linspace(0.0, 1.0, 201)
+    for t in thresholds:
+        skipped = [r for r in valid if r["combined_eq_score"] >= t]
+        if not skipped:
+            continue
+        n_missed = sum(1 for r in skipped if r["c_score_flagged"])
+        mr = n_missed / len(skipped)
+        if mr <= tolerance:
+            sr = len(skipped) / len(valid)
+            return float(round(t, 3)), sr, mr
+
+    return None, 0.0, 0.0
+
+
+def print_summary(combined: list[dict],
+                  corr_stats: tuple | None = None,
+                  agreement: dict | None = None):
     """Print the calibration summary and suggested thresholds."""
 
     valid = [r for r in combined if r["c_risk_score"] is not None]
@@ -538,7 +795,60 @@ def print_summary(combined: list[dict]):
     _region_stats("MID   (0.2 ≤ max(E,Q) < 0.5)", eq_mid)
     _region_stats("LOW   (max(E,Q) < 0.2)", eq_low)
 
-    # Threshold suggestion
+    # ── Correlation statistics ─────────────────────────────────────────
+    if corr_stats is not None:
+        r_val, r_sq = corr_stats
+        print()
+        print("-" * 65)
+        print("  E+Q ↔ C-SCORE CORRELATION")
+        print("-" * 65)
+        print(f"  Pearson r:  {r_val:+.3f}")
+        print(f"  R²:         {r_sq:.3f}")
+        if r_sq >= 0.5:
+            print("  → Strong correlation: E+Q is a good predictor of C-Score.")
+        elif r_sq >= 0.25:
+            print("  → Moderate correlation: E+Q captures some C-Score signal.")
+        else:
+            print("  → Weak correlation: C-Score catches fundamentally")
+            print("    different things than E+Q — be cautious skipping it.")
+
+    # ── Optimal threshold via sweep ────────────────────────────────────
+    print()
+    print("-" * 65)
+    print("  OPTIMAL SKIP THRESHOLD  "
+          f"(≤ {FALSE_NEG_TOLERANCE:.0%} false-negative tolerance)")
+    print("-" * 65)
+
+    opt_t, opt_sr, opt_mr = _find_optimal_threshold(combined)
+
+    if opt_t is not None:
+        print(f"  → Recommended threshold: max(E,Q) ≥ {opt_t:.2f}")
+        print(f"     Skip rate:  {opt_sr:.1%} of inputs skip C-Score")
+        print(f"     Miss rate:  {opt_mr:.1%} of skipped inputs had C-Score")
+        print(f"                 flagged (false negatives)")
+    else:
+        print("  → No threshold found that satisfies the tolerance.")
+        print("    C-Score may be catching things E+Q fundamentally cannot;")
+        print("    consider always running C-Score.")
+
+    # ── Agreement matrix stats ─────────────────────────────────────────
+    if agreement is not None:
+        print()
+        print("-" * 65)
+        print("  AGREEMENT MATRIX STATS")
+        print("-" * 65)
+        print(f"  True Positives:  {agreement['tp']:3d}   "
+              f"False Positives: {agreement['fp']:3d}")
+        print(f"  False Negatives: {agreement['fn']:3d}   "
+              f"True Negatives:  {agreement['tn']:3d}")
+        p = agreement["precision"]
+        r = agreement["recall"]
+        f1 = agreement["f1"]
+        fnr = agreement["fnr"]
+        print(f"  Precision: {p:.2f}  Recall: {r:.2f}  "
+              f"F1: {f1:.2f}  FNR(miss): {fnr:.2%}")
+
+    # ── Legacy threshold suggestion ────────────────────────────────────
     print()
     print("-" * 65)
     print("  SUGGESTED DECISION RULE")
@@ -599,15 +909,14 @@ def print_summary(combined: list[dict]):
 # ---------------------------------------------------------------------------
 
 def main():
-    print()
-    print("╔══════════════════════════════════════════════════════════════╗")
-    print("║  C-Score Necessity Calibration Benchmark                   ║")
-    print("║  Determines when E+Q scores are sufficient to skip the LLM ║")
-    print("╚══════════════════════════════════════════════════════════════╝")
-    print()
+    parser = argparse.ArgumentParser(description="C-Score Necessity Calibration Benchmark")
+    parser.add_argument("--limit", type=int, help="Limit the number of examples to run")
+    args = parser.parse_args()
 
     # 1. Load examples
     examples = load_example_inputs()
+    if args.limit:
+        examples = examples[:args.limit]
     print(f"Loaded {len(examples)} example inputs.\n")
 
     # 2. Run scorers
@@ -644,10 +953,19 @@ def main():
     plot_combined_vs_c(combined, OUTPUT_DIR)
     plot_heatmap(combined, OUTPUT_DIR)
     plot_per_example_bars(combined, OUTPUT_DIR)
+
+    # 5b. Calibration analysis plots
+    plot_threshold_sweep(combined, OUTPUT_DIR)
+    corr_stats = plot_eq_c_correlation(combined, OUTPUT_DIR)
+
+    # Find optimal threshold for the agreement matrix
+    opt_t, _, _ = _find_optimal_threshold(combined)
+    eq_thresh_for_matrix = opt_t if opt_t is not None else 0.5
+    agreement = plot_agreement_matrix(combined, eq_thresh_for_matrix, OUTPUT_DIR)
     print()
 
-    # 6. Summary
-    print_summary(combined)
+    # 6. Summary (enhanced with calibration metrics)
+    print_summary(combined, corr_stats=corr_stats, agreement=agreement)
 
 
 if __name__ == "__main__":
