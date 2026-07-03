@@ -1,0 +1,185 @@
+{
+  "total_samples": 93,
+  "c_score_sensitive_count": 5,
+  "c_score_not_sensitive_count": 88,
+  "correlations": {
+    "e_mean_confidence_vs_c_sensitive": 0.117480251836056,
+    "e_median_confidence_vs_c_sensitive": 0.11584857100568337,
+    "q_mean_confidence_vs_c_sensitive": 0.21540110874155252,
+    "q_median_confidence_vs_c_sensitive": 0.2131746587990848,
+    "combined_mean_confidence_vs_c_sensitive": 0.10258452955778478,
+    "combined_median_confidence_vs_c_sensitive": 0.09510835106711991,
+    "e_score_vs_c_sensitive": 0.08140625782066395,
+    "q_score_vs_c_sensitive": -0.03482709812405036,
+    "e_q_score_sum_vs_c_sensitive": 0.052370069049896106,
+    "e_q_score_product_vs_c_sensitive": -0.035330567288544786,
+    "e_q_score_max_vs_c_sensitive": 0.07337147204279872,
+    "score_disparity_vs_c_sensitive": 0.08842749847465224,
+    "total_entity_count_vs_c_sensitive": 0.1404875155200386,
+    "e_score_entity_count_vs_c_sensitive": 0.09727685844423994,
+    "q_score_qi_count_vs_c_sensitive": 0.2294975321079712,
+    "unique_entity_type_count_vs_c_sensitive": 0.2124278551895826,
+    "entity_density_vs_c_sensitive": 0.02607697925342513,
+    "narrative_entity_count_vs_c_sensitive": 0.1702470434842346,
+    "direct_identifier_count_vs_c_sensitive": -0.057670201866192004,
+    "mask_ratio_vs_c_sensitive": 0.04355063213533336,
+    "mask_token_count_vs_c_sensitive": 0.17198760939381272,
+    "chars_masked_ratio_vs_c_sensitive": -0.026093418972005778,
+    "e_score_coverage_vs_c_sensitive": 0.039511140991272224,
+    "q_score_coverage_vs_c_sensitive": 0.08334442021862992,
+    "text_length_vs_c_sensitive": 0.292384130223868,
+    "word_count_vs_c_sensitive": 0.36581566471066795,
+    "sentence_count_vs_c_sensitive": 0.26545027152287587,
+    "has_person_vs_c_sensitive": -0.02613866510869673,
+    "has_location_vs_c_sensitive": 0.1897893798383736,
+    "has_datetime_vs_c_sensitive": 0.1524591802840766,
+    "has_organization_vs_c_sensitive": 0.2804840970025377,
+    "has_direct_identifier_vs_c_sensitive": 0.010610415521292172,
+    "has_high_risk_combo_vs_c_sensitive": 0.16141878877621052,
+    "high_risk_combo_count_vs_c_sensitive": 0.04190611611759003
+  },
+  "feature_importance": [
+    [
+      "word_count",
+      0.36581566471066795
+    ],
+    [
+      "text_length",
+      0.292384130223868
+    ],
+    [
+      "has_organization",
+      0.2804840970025377
+    ],
+    [
+      "sentence_count",
+      0.26545027152287587
+    ],
+    [
+      "q_score_qi_count",
+      0.2294975321079712
+    ],
+    [
+      "q_mean_confidence",
+      0.21540110874155252
+    ],
+    [
+      "q_median_confidence",
+      0.2131746587990848
+    ],
+    [
+      "unique_entity_type_count",
+      0.2124278551895826
+    ],
+    [
+      "has_location",
+      0.1897893798383736
+    ],
+    [
+      "mask_token_count",
+      0.17198760939381272
+    ],
+    [
+      "narrative_entity_count",
+      0.1702470434842346
+    ],
+    [
+      "has_high_risk_combo",
+      0.16141878877621052
+    ],
+    [
+      "has_datetime",
+      0.1524591802840766
+    ],
+    [
+      "total_entity_count",
+      0.1404875155200386
+    ],
+    [
+      "e_mean_confidence",
+      0.117480251836056
+    ],
+    [
+      "e_median_confidence",
+      0.11584857100568337
+    ],
+    [
+      "combined_mean_confidence",
+      0.10258452955778478
+    ],
+    [
+      "e_score_entity_count",
+      0.09727685844423994
+    ],
+    [
+      "combined_median_confidence",
+      0.09510835106711991
+    ],
+    [
+      "score_disparity",
+      0.08842749847465224
+    ],
+    [
+      "q_score_coverage",
+      0.08334442021862992
+    ],
+    [
+      "e_score",
+      0.08140625782066395
+    ],
+    [
+      "e_q_score_max",
+      0.07337147204279872
+    ],
+    [
+      "direct_identifier_count",
+      0.057670201866192004
+    ],
+    [
+      "e_q_score_sum",
+      0.052370069049896106
+    ],
+    [
+      "mask_ratio",
+      0.04355063213533336
+    ],
+    [
+      "high_risk_combo_count",
+      0.04190611611759003
+    ],
+    [
+      "e_score_coverage",
+      0.039511140991272224
+    ],
+    [
+      "e_q_score_product",
+      0.035330567288544786
+    ],
+    [
+      "q_score",
+      0.03482709812405036
+    ],
+    [
+      "has_person",
+      0.02613866510869673
+    ],
+    [
+      "chars_masked_ratio",
+      0.026093418972005778
+    ],
+    [
+      "entity_density",
+      0.02607697925342513
+    ],
+    [
+      "has_direct_identifier",
+      0.010610415521292172
+    ]
+  ],
+  "suggested_e_score_threshold": 0.7701333333333333,
+  "suggested_q_score_threshold": 0.7368421052631579,
+  "suggested_combined_threshold": 1.4929999999999999,
+  "best_predictors": [
+    "word_count"
+  ]
+}

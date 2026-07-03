@@ -1,0 +1,51 @@
+{
+  "text": "\n   [PERSON], a [AGE] year old [OCCUPATION] at [ORGANIZATION] in [LOCATION], \nwas treating [PERSON] for [DISEASE] when the cardiac arrest occurred on [DATE_TIME].\nThe case received significant media attention due to the patient's public profile. He is the only person in the world with this condition.\n\n    ",
+  "overall_risk": "LOW",
+  "risk_score": 0.144,
+  "summary": "The narrative uniqueness factor is detected as HIGH RISK due to the claim that the person is 'the only person in the world with this condition.' The other factors are assessed as LOW RISK.",
+  "detections": [
+    {
+      "type": "EMPLOYMENT_SENSITIVITY",
+      "detected": false,
+      "confidence": 0.0,
+      "explanation": ""
+    },
+    {
+      "type": "INFERENTIAL_DISCLOSURE",
+      "detected": false,
+      "confidence": 0.0,
+      "explanation": ""
+    },
+    {
+      "type": "MENTAL_HEALTH_INDICATORS",
+      "detected": false,
+      "confidence": 0.0,
+      "explanation": ""
+    },
+    {
+      "type": "NARRATIVE_UNIQUENESS",
+      "detected": true,
+      "confidence": 0.8,
+      "explanation": "The text mentions that the person is 'the only person in the world with this condition.' This makes the narrative uniquely identifiable."
+    },
+    {
+      "type": "SMALL_COMMUNITY_RISK",
+      "detected": false,
+      "confidence": 0.0,
+      "explanation": ""
+    },
+    {
+      "type": "SOCIAL_STIGMA_RISK",
+      "detected": false,
+      "confidence": 0.0,
+      "explanation": ""
+    },
+    {
+      "type": "TEMPORAL_CORRELATION_RISK",
+      "detected": false,
+      "confidence": 0.0,
+      "explanation": ""
+    }
+  ],
+  "raw_llm_response": "{\n    \"factors\": [\n        {\"name\": \"INFERENTIAL_DISCLOSURE\", \"detected\": false, \"confidence\": 0.0, \"explanation\": \"\"},\n        {\"name\": \"NARRATIVE_UNIQUENESS\", \"detected\": true, \"confidence\": 0.8, \"explanation\": \"The text mentions that the person is 'the only person in the world with this condition.' This makes the narrative uniquely identifiable.\"},\n        {\"name\": \"EMPLOYMENT_SENSITIVITY\", \"detected\": false, \"confidence\": 0.0, \"explanation\": \"\"},\n        {\"name\": \"MENTAL_HEALTH_INDICATORS\", \"detected\": false, \"confidence\": 0.0, \"explanation\": \"\"},\n        {\"name\": \"SOCIAL_STIGMA_RISK\", \"detected\": false, \"confidence\": 0.0, \"explanation\": \"\"},\n        {\"name\": \"SMALL_COMMUNITY_RISK\", \"detected\": false, \"confidence\": 0.0, \"explanation\": \"\"},\n        {\"name\": \"TEMPORAL_CORRELATION_RISK\", \"detected\": false, \"confidence\": 0.0, \"explanation\": \"\"}\n    ],\n    \"summary\": \"The narrative uniqueness factor is detected as HIGH RISK due to the claim that the person is 'the only person in the world with this condition.' The other factors are assessed as LOW RISK.\"\n}"
+}

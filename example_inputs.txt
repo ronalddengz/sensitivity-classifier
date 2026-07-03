@@ -71,3 +71,882 @@ The patient is a 45-year-old male from California with hypertension and type 2 d
 # expected_critical: false
 
 The patient presents with flu-like symptoms including fever and cough. Treatment plan includes rest and hydration.
+
+---
+# name: High PII - Complete Demographics
+# expected_critical: true
+
+Patient Information Form:
+Full Name: Maria Elena Rodriguez-Garcia
+Date of Birth: July 22, 1985
+Social Security Number: 456-78-9012
+Driver's License: D12345678 (California)
+Address: 1234 Sunset Boulevard, Apt 5B, Los Angeles, CA 90028
+Home Phone: (213) 555-7890
+Cell Phone: (310) 555-4567
+Email: maria.rodriguez85@gmail.com
+Emergency Contact: Carlos Rodriguez (husband) - (213) 555-1111
+Employer: UCLA Medical Center
+Insurance: Blue Cross Blue Shield, Member ID: BCB998877665
+
+---
+# name: High PII - Financial and Medical Combined
+# expected_critical: true
+
+Account Holder: William James Thompson III
+Account Number: 7789456123
+Routing Number: 021000021
+Credit Card: **** **** **** 4532 (Exp: 09/27)
+Medical Record Number: MRN-2024-78945
+Health Plan Beneficiary Number: HPN-445566778
+Medicare ID: 1EG4-TE5-MK72
+
+Billing for cardiac catheterization performed on 02/14/2025.
+Total charges: $45,750.00
+
+---
+# name: High PII - Military/Government IDs
+# expected_critical: true
+
+Veteran Patient Record:
+Name: SGT Robert Allen Davis (Ret.)
+VA Patient ID: 123456789V
+Military Service Number: US12345678
+DD-214 on file: Yes
+Current Address: 789 Liberty Lane, Fort Worth, TX 76102
+Phone: (817) 555-3456
+DOB: 11/30/1968
+SSN: 234-56-7890
+
+Presenting for PTSD follow-up and TBI evaluation.
+
+---
+# name: High PII - Pediatric Record with Parent Info
+# expected_critical: true
+
+Minor Patient: Emma Grace Williams
+DOB: 04/12/2018 (Age 6)
+SSN: 987-65-4321
+School: Riverside Elementary, Room 104
+
+Parent/Guardian: Jennifer Williams
+SSN: 111-22-3333
+Phone: (555) 234-5678
+Address: 567 Maple Drive, Riverside, CA 92501
+Insurance: Aetna #AET-554433221
+
+Immunization records attached. Please fax to school nurse at (555) 234-9999.
+
+---
+# name: High PII - International Patient
+# expected_critical: true
+
+Patient: Hiroshi Tanaka
+Passport Number: TK4578912 (Japan)
+Visa Number: A12345678
+US Address (temporary): 890 5th Avenue, New York, NY 10021
+Japan Address: 3-5-7 Shibuya, Shibuya-ku, Tokyo 150-0002
+Phone: +81-3-5555-1234 / +1 (212) 555-8901
+Email: h.tanaka@company.co.jp
+Travel Insurance Policy: TI-JP-2025-445566
+
+Seeking treatment for acute appendicitis while visiting.
+
+---
+# name: High PII - Email Thread with Multiple Identifiers
+# expected_critical: true
+
+From: patricia.newman@hospital.org
+To: billing@insuranceco.com
+Subject: Prior Authorization Request - Patient David Chen
+
+Dear Claims Department,
+
+Requesting prior auth for patient David Chen (DOB: 08/23/1972, Member ID: IC-789456123).
+Patient SSN for verification: 333-44-5555
+Procedure: Total knee replacement (CPT 27447)
+Scheduled: March 15, 2025 at Mercy General Hospital
+Surgeon: Dr. Michael Roberts, NPI: 1234567890
+
+Please fax approval to (555) 123-4567 or email to scheduling@mercygeneral.org
+
+Patricia Newman, RN
+Pre-Authorization Coordinator
+Direct: (555) 987-6543
+
+---
+# name: High PII - Lab Results with Full Identifiers
+# expected_critical: true
+
+LABORATORY REPORT
+=================
+Facility: Quest Diagnostics - Location #4521
+Report Date: 01/28/2025
+
+Patient: JOHNSON, MICHAEL ANTHONY
+DOB: 12/05/1965
+MRN: QD-78945612
+SSN: 444-55-6666
+Accession #: 25-0128-4521-001
+
+Ordering Physician: Dr. Sandra Lee
+NPI: 9876543210
+Phone: (555) 222-3333
+
+RESULTS:
+HbA1c: 8.2% (H) - Reference: <5.7%
+Fasting Glucose: 187 mg/dL (H) - Reference: 70-100
+
+Critical value called to physician at 14:32 on 01/28/2025.
+
+---
+# name: High PII - Prescription Information
+# expected_critical: true
+
+Rx Number: 7845612
+Date: 02/01/2025
+
+Patient: Nancy Elizabeth Warren
+DOB: 06/17/1990
+Address: 234 Pine Street, Boston, MA 02108
+Phone: (617) 555-8765
+
+Medication: Adderall XR 30mg
+Quantity: 30 capsules
+Sig: Take one capsule by mouth every morning
+Refills: 2
+
+Prescriber: Dr. James Wilson
+DEA#: BW1234563
+NPI: 1122334455
+
+Pharmacy: CVS #4521, 100 Main St, Boston MA
+Pharmacist: L. Chen, RPh
+
+---
+# name: High PII - Worker's Compensation Claim
+# expected_critical: true
+
+WORKERS COMPENSATION CLAIM FORM
+
+Employer: ABC Construction LLC
+Employer ID: 12-3456789
+
+Employee: Thomas Richard Brown
+SSN: 555-66-7777
+DOB: 03/28/1982
+Address: 456 Industrial Way, Unit 12, Detroit, MI 48201
+Phone: (313) 555-4567
+
+Date of Injury: 01/15/2025
+Location: Job Site - 789 Commerce Blvd, Detroit
+Witnesses: John Smith (foreman), (313) 555-1111
+
+Injury Description: Fall from scaffolding, approximately 12 feet. 
+Diagnosis: L4-L5 disc herniation, fractured left wrist
+Treating Physician: Dr. Ahmed Patel, Detroit Medical Center
+Claim Number: WC-2025-789456
+
+---
+# name: High PII - Genetic Testing Results
+# expected_critical: true
+
+GENETIC TESTING REPORT
+Laboratory: GenomicsPlus Inc.
+CLIA#: 11D1234567
+
+Patient: Rebecca Lynn Foster
+DOB: 09/14/1988
+MRN: GP-2025-1234
+Sample ID: GS-78945
+Collection Date: 01/10/2025
+
+Ordering Provider: Dr. Lisa Chang
+Genetic Counselor: Sarah Martinez, MS, CGC
+
+RESULTS - BRCA1/BRCA2 Analysis:
+BRCA1: POSITIVE - Pathogenic variant detected (c.68_69delAG)
+BRCA2: Negative
+
+Family History: Mother deceased breast cancer age 42, maternal aunt ovarian cancer age 51.
+
+Recommend urgent genetic counseling and oncology referral.
+Patient notified by phone on 01/20/2025 at (555) 345-6789.
+
+# =============================================================================
+# HIGH SENSITIVITY - QI COMBINATIONS (expected_critical: false but high Q-score)
+# =============================================================================
+
+---
+# name: Rare Disease + Tiny Town + Specific Age
+# expected_critical: false
+
+I'm a 29-year-old woman living in Elk Creek, Nebraska (population 98). I was recently diagnosed with Pompe disease, which affects only about 1 in 40,000 people. The nearest specialist is in Omaha, 4 hours away. I have to travel there monthly for enzyme replacement therapy. Everyone in town knows when I leave for my "medical appointments" because there's only one road out and my car is pretty distinctive.
+
+---
+# name: Ultra-Rare Occupation + Small Community + Health Condition
+# expected_critical: false
+
+I'm one of only 12 female submarine officers in the Navy and I've been stationed at the base in Kings Bay, Georgia for two years. I was just diagnosed with multiple sclerosis and I'm terrified it will end my career. The base medical facility is small and everyone knows everyone. The neurologist who diagnosed me also treats the base commander's wife.
+
+---
+# name: Unique Accident + Identifiable Details
+# expected_critical: false
+
+Last month I was the only survivor of a small plane crash near Aspen, Colorado. I was airlifted to Denver Health with severe burns covering 40% of my body and a spinal cord injury at T6. It was all over the local news. Now I'm at Craig Hospital for rehabilitation. I'm 38, male, and I was the pilot. I've been struggling with survivor's guilt and PTSD. My wife and I have been arguing about whether I should give interviews.
+
+---
+# name: Rare Genetic Condition + Isolated Community
+# expected_critical: false
+
+Our family lives in an Amish community in Lancaster County, Pennsylvania. My 5-year-old son was diagnosed with maple syrup urine disease, which is more common in our community due to founder effect. Still, there are only about 4-5 children in our church district with this condition. The special formula he needs has to be ordered from Philadelphia, and the delivery driver knows exactly which families receive it.
+
+---
+# name: High-Profile Profession + Mental Health + Small Firm
+# expected_critical: false
+
+I'm a partner at a boutique law firm in Charleston, South Carolina. There are only 8 partners total and we specialize in maritime law—there are only about 200 attorneys in the entire state who practice this. I've been battling severe alcoholism and checked myself into rehab last month. I told my partners I was taking a "sabbatical" but I think they suspect. One of them saw me at the Betty Ford Center when he was visiting a family member.
+
+---
+# name: Specific Medical Event + Timestamp + Location
+# expected_critical: false
+
+I'm writing about what happened on December 14, 2024 at approximately 3:45 PM at the Westfield Mall in San Jose. I had a grand mal seizure on the escalator near Nordstrom and fell, hitting my head. The paramedics took me to Good Samaritan Hospital. I'm a 52-year-old Asian woman and I was wearing a distinctive red coat. Someone recorded it and posted it on social media. I'm now being evaluated for a brain tumor.
+
+---
+# name: Rare Profession + Rare Disease + Geographic Constraint
+# expected_critical: false
+
+I'm a volcanologist working at the Hawaiian Volcano Observatory on the Big Island. There are only about 15 scientists here full-time. I was diagnosed with Addison's disease six months ago and have to carry emergency hydrocortisone injections everywhere. During a recent field expedition to an active vent, I had an adrenal crisis and had to be evacuated by helicopter. The whole team knows now.
+
+---
+# name: Elite Athletics + Specific Injury + Treatment Location
+# expected_critical: false
+
+I'm a professional figure skater who competed in the last Winter Olympics. During training in Colorado Springs at the Olympic Training Center, I tore my ACL and meniscus. I'm 23 and female. The surgery was performed by Dr. Anderson at Steadman Clinic in Vail—the same surgeon who operates on all the Olympic athletes. I've been dealing with depression because I might miss the next Games. My coach thinks I should announce my injury but I want to keep it private.
+
+---
+# name: Unique Family Situation + Rare Condition + Small Town
+# expected_critical: false
+
+We're the only family with quintuplets in the state of Wyoming. Our five kids are now 7 years old and we live in Lander (population 7,500). One of our daughters was just diagnosed with juvenile Huntington's disease, which is incredibly rare—maybe 5-10% of all Huntington's cases occur in children. We haven't told the school yet. The local newspaper wrote about us when the quints were born and occasionally does "where are they now" stories.
+
+---
+# name: Specific Professional Role + Unique Event + Health Issue
+# expected_critical: false
+
+I'm the head zookeeper for large mammals at the San Diego Zoo. Last week I was attacked by one of our elephants and suffered a broken pelvis and internal injuries. I'm 47, female, and have worked here for 22 years. The incident was captured on security cameras and the zoo had to notify OSHA. I'm still in the hospital at UC San Diego Medical Center. I've also been hiding the fact that I have lupus from my employer because I was worried they'd reassign me.
+
+---
+# name: Whistleblower Scenario + Identifiable Position
+# expected_critical: false
+
+I'm the only compliance officer at a small biotech startup in Cambridge, Massachusetts. We have 45 employees. I discovered that our CEO has been falsifying clinical trial data for our lead drug candidate. I've been having panic attacks and insomnia since finding out. I want to report this to the FDA but I'm terrified of retaliation. I'm 39, have two kids, and I'm the sole income earner since my husband's disability. I've started seeing a psychiatrist but I had to drive to Worcester so no one would see me.
+
+---
+# name: Religious Leader + Stigmatized Condition + Small Congregation
+# expected_critical: false
+
+I'm the pastor of a small Baptist church in rural Alabama with about 120 members. I've been HIV positive for three years, contracted from a blood transfusion during heart surgery. I haven't told anyone in my congregation. The nearest HIV specialist is in Birmingham, 90 miles away. Last month, a church member who works at the clinic there saw me in the waiting room. I'm 58, married for 32 years, and I don't know how to tell my wife that someone might know.
+
+---
+# name: Academic + Controversial Research + Health Crisis
+# expected_critical: false
+
+I'm a tenured professor of evolutionary biology at a small Christian college in Oklahoma. There are only 3 of us in the biology department. I've been secretly researching CRISPR applications for human embryos, which goes against our institution's values. I just had a heart attack at age 51 and I'm worried that if I die, someone will find my research files. I'm also being treated for clinical depression. My cardiologist and psychiatrist are both in Oklahoma City, an hour away.
+
+---
+# name: Specific Timestamps + Unique Role + Medical Emergency
+# expected_critical: false
+
+On January 3, 2025 at exactly 11:47 AM, I collapsed during a live CNN broadcast. I'm a meteorologist and I was doing the noon weather forecast. I'm 34, female, and I've been with the network for 6 years. The doctors at Emory University Hospital diagnosed me with a brain aneurysm that had begun to leak. I had emergency surgery that evening. The video of my collapse has been viewed millions of times. I'm now dealing with vision problems and severe anxiety about returning to work.
+
+# =============================================================================
+# MEDIUM SENSITIVITY - MODERATE QI COMBINATIONS
+# =============================================================================
+
+---
+# name: Common Disease + Moderate Location Detail
+# expected_critical: false
+
+I'm a 42-year-old teacher in suburban Phoenix dealing with Type 2 diabetes. My A1C has been around 8.5 despite taking metformin. I'm overweight and have been struggling to exercise regularly because of my busy schedule. My doctor wants to add a second medication but I'm worried about the side effects. I teach high school biology and I'm on my feet all day.
+
+---
+# name: Mental Health + Medium-Sized Workplace
+# expected_critical: false
+
+I work as an accountant at a mid-sized firm in downtown Seattle with about 200 employees. I've been dealing with bipolar disorder for the past decade, but I've kept it hidden from my employer. My psychiatrist recently adjusted my lithium dosage and I've been having some side effects—hand tremors and difficulty concentrating. I'm worried my supervisor will notice during our busy tax season.
+
+---
+# name: Pregnancy Complications + Regional Hospital
+# expected_critical: false
+
+I'm 32 weeks pregnant and was just diagnosed with gestational diabetes and preeclampsia. I'm being monitored at the women's center at our regional hospital in central Oregon. I'm 36 years old and this is my first pregnancy after three years of IVF treatments. My blood pressure has been dangerously high and I might need to deliver early. I'm a graphic designer and I'm trying to finish projects before going on leave.
+
+---
+# name: Occupational Injury + Industry Context
+# expected_critical: false
+
+I've been a commercial fisherman in Alaska for 15 years. Last season I injured my back pulling crab pots and I've been diagnosed with three herniated discs. I'm 44 and this is the only work I know. I'm currently doing physical therapy in Anchorage and taking hydrocodone for pain management. I'm worried about becoming dependent on the pain medication and I don't know if I can return to fishing.
+
+---
+# name: Age-Related Condition + Retirement Community
+# expected_critical: false
+
+I'm an 82-year-old retired engineer living in a retirement community in Florida. I was recently diagnosed with early-stage Parkinson's disease. The tremors started about six months ago and I initially thought it was just age-related. I'm living independently in a condo but I'm worried about how quickly this might progress. My wife passed away two years ago and my children live in other states.
+
+---
+# name: Student + Academic Pressure + Anxiety
+# expected_critical: false
+
+I'm a third-year medical student at a large university on the East Coast. I've been having severe anxiety and panic attacks, especially before exams. I'm afraid to use the student health services because I'm worried it will affect my residency applications. I'm 27 and I've wanted to be a doctor my whole life, but now I'm not sure I can handle it. My grades have been slipping and I've been having trouble sleeping.
+
+---
+# name: Common Condition + Work Impact
+# expected_critical: false
+
+I'm a software developer in my mid-30s working at a tech company in Austin. I've been dealing with chronic migraines for years, but lately they've been getting worse—about 3-4 per week. I've tried multiple medications without much success. My neurologist wants me to try Botox injections. The migraines are affecting my productivity and I've had to miss several important meetings.
+
+---
+# name: Autoimmune Condition + Professional Impact
+# expected_critical: false
+
+I'm a 45-year-old professional violinist with a regional symphony orchestra. I was diagnosed with rheumatoid arthritis last year and the inflammation in my hands has been affecting my ability to play. I'm taking methotrexate and it's helping, but I'm worried about the long-term impact on my career. I've been playing professionally for 20 years and music is my entire identity.
+
+---
+# name: Chronic Pain + Opioid Concerns
+# expected_critical: false
+
+I'm a 50-year-old construction worker dealing with chronic lower back pain from years of heavy lifting. My doctor has had me on OxyContin for two years now and I'm worried about addiction. I've tried to cut back but the pain is unbearable without it. I live in a small city in Ohio and I'm the main provider for my family. Workers' comp doesn't cover my treatment anymore.
+
+---
+# name: Cancer Screening Anxiety
+# expected_critical: false
+
+I'm a 55-year-old woman who just had an abnormal mammogram. The radiologist saw a suspicious mass and I'm scheduled for a biopsy next week. My mother died of breast cancer at 60 and my sister is a survivor. I'm a nurse, so I know too much about all the things that could go wrong. I haven't told my husband yet because I don't want to worry him until I know more.
+
+---
+# name: Digestive Issues + Diet Restrictions
+# expected_critical: false
+
+I'm a 38-year-old lawyer recently diagnosed with Crohn's disease. I've been having severe flare-ups that have caused me to miss court dates. I'm on Humira now and it's helping, but the fatigue is overwhelming. I work at a mid-sized firm in Chicago and I'm worried about making partner if I can't keep up with the workload. I've lost 20 pounds in the past three months.
+
+---
+# name: Post-Surgical Recovery + Work Concerns
+# expected_critical: false
+
+I had gastric bypass surgery six weeks ago. I'm a 48-year-old male who weighed 320 pounds before the surgery. I work as a regional sales manager and I travel frequently. I'm recovering at home but I'm having complications—severe nausea and difficulty keeping food down. My surgeon says this is normal but it's been really hard. I haven't told my employer about the surgery; I said I was having my gallbladder removed.
+
+# =============================================================================
+# LOW SENSITIVITY - MINIMAL OR NO QIs
+# =============================================================================
+
+---
+# name: General Health Question - Sleep
+# expected_critical: false
+
+I've been having trouble sleeping lately. I fall asleep fine but I wake up around 3 AM and can't get back to sleep. This has been going on for about two weeks. I don't drink caffeine after noon and I try to keep a regular schedule. What are some strategies for improving sleep quality? Are there any over-the-counter options that might help?
+
+---
+# name: General Health Question - Exercise
+# expected_critical: false
+
+I'm trying to start an exercise routine but I'm not sure where to begin. I've been pretty sedentary for the past few years and I want to get healthier. What's a good way to start exercising if you're out of shape? How many days per week should I aim for? Should I focus on cardio or strength training?
+
+---
+# name: General Health Question - Nutrition
+# expected_critical: false
+
+I've been reading about different diets and I'm confused about what's actually healthy. Some sources say low-carb is best, others say plant-based. I'm not trying to lose weight necessarily, I just want to eat healthier. What does a balanced diet actually look like? Should I be taking any supplements?
+
+---
+# name: General Health Question - Vitamins
+# expected_critical: false
+
+I'm wondering if I should be taking a daily multivitamin. I eat a fairly varied diet but I'm not sure if I'm getting all the nutrients I need. Are multivitamins actually beneficial or is it better to get nutrients from food? What vitamins are most people deficient in?
+
+---
+# name: General Symptom Question - Cold
+# expected_critical: false
+
+I think I'm coming down with a cold. I've got a runny nose, mild sore throat, and I'm feeling a bit tired. It's been a couple of days. What's the best way to treat cold symptoms? Should I see a doctor or just wait it out? How long do colds usually last?
+
+---
+# name: General Health Question - Stress
+# expected_critical: false
+
+I've been feeling stressed out lately with everything going on. What are some healthy ways to manage stress? I've heard meditation helps but I don't know how to start. Are there any apps or resources you'd recommend? Does exercise help with stress?
+
+---
+# name: General Medication Question
+# expected_critical: false
+
+What's the difference between ibuprofen and acetaminophen? I get occasional headaches and I'm never sure which one to take. Are there situations where one is better than the other? How long can you safely take these medications?
+
+---
+# name: General Health Question - Skin
+# expected_critical: false
+
+I've noticed my skin has been really dry lately, especially on my hands and face. Is this just a winter thing or could it indicate something else? What are good moisturizers for dry skin? Should I be concerned about eczema?
+
+---
+# name: General First Aid Question
+# expected_critical: false
+
+I cut my finger while cooking and I'm not sure if it needs stitches. It's been bleeding for about 10 minutes with pressure. How do you know when a cut needs medical attention? What's the proper way to care for a minor cut at home?
+
+---
+# name: General Health Question - Allergies
+# expected_critical: false
+
+I think I might have seasonal allergies. My eyes have been itchy and I've been sneezing a lot, especially when I go outside. What's the difference between allergies and a cold? What over-the-counter allergy medications work best?
+
+---
+# name: General Health Question - Hydration
+# expected_critical: false
+
+How much water should a person drink per day? I've heard eight glasses but I'm not sure if that's accurate. Does coffee count toward your daily fluid intake? What are signs of dehydration?
+
+---
+# name: General Health Question - Back Pain
+# expected_critical: false
+
+I've been having some lower back pain after sitting at my desk all day. It's not severe but it's annoying. Are there stretches or exercises that help with desk-related back pain? Should I get a standing desk? When should back pain be evaluated by a doctor?
+
+---
+# name: No Medical Content - Travel
+# expected_critical: false
+
+I'm planning a trip to Italy next summer. What are the must-see attractions in Rome? How many days should I spend in Florence? Is it better to take the train between cities or rent a car? Any restaurant recommendations?
+
+---
+# name: No Medical Content - Cooking
+# expected_critical: false
+
+I want to learn how to make homemade pasta. What type of flour works best? Do I need a pasta machine or can I roll it by hand? How long does fresh pasta keep in the refrigerator? Any tips for a beginner?
+
+---
+# name: No Medical Content - Technology
+# expected_critical: false
+
+I'm thinking about getting a new laptop. What's the difference between Intel and AMD processors? How much RAM do I need for basic office work and web browsing? Is it worth paying extra for a solid-state drive?
+
+# =============================================================================
+# EDGE CASES AND SPECIAL SCENARIOS
+# =============================================================================
+
+---
+# name: Historical Medical Information Only
+# expected_critical: false
+
+My grandmother passed away from breast cancer in 1985. My mother had a hysterectomy in 1990 for fibroids. My father had a heart attack in 2010 but recovered well. I'm trying to understand my family medical history so I can share it with my doctor. What conditions should I be screened for given this history?
+
+---
+# name: Hypothetical Scenario
+# expected_critical: false
+
+If someone were diagnosed with Type 1 diabetes, what would their daily routine look like? How often would they need to check blood sugar? What happens if blood sugar gets too high or too low? I'm writing a novel and one of my characters has this condition.
+
+---
+# name: Medical Professional Asking General Question
+# expected_critical: false
+
+I'm a nurse and I have a question about medication interactions. If a patient is on warfarin, what common over-the-counter medications should they avoid? I want to make sure I'm giving accurate patient education. Are there foods that interact with warfarin as well?
+
+---
+# name: Research Question - No Patient Data
+# expected_critical: false
+
+I'm writing a research paper on the epidemiology of multiple sclerosis. What are the current theories about MS etiology? Is there evidence for genetic versus environmental factors? What geographic patterns have been observed in MS prevalence?
+
+---
+# name: Third-Party Description - Pet
+# expected_critical: false
+
+My dog has been limping for a few days. She's a 7-year-old golden retriever and she seems to favor her right front leg. Should I take her to the vet or wait to see if it gets better? What could cause limping in dogs? Are there any home treatments I can try?
+
+---
+# name: Third-Party - Vague Reference
+# expected_critical: false
+
+A friend of mine was recently diagnosed with a chronic illness and I want to be supportive. What are some helpful things to say to someone dealing with a new diagnosis? What should I avoid saying? Are there practical ways I can help?
+
+---
+# name: Aggregated/Statistical Question
+# expected_critical: false
+
+What percentage of Americans have high blood pressure? How does the rate of diabetes in the US compare to other countries? What are the leading causes of death in the United States? I'm preparing a presentation on public health.
+
+---
+# name: Mixed - Low PII with Medical Detail
+# expected_critical: false
+
+I was at my annual physical last week and my doctor said my cholesterol is borderline high. My LDL was 135 and HDL was 42. She recommended lifestyle changes before starting medication. I'm in my early 40s and I thought I was pretty healthy. What dietary changes have the biggest impact on cholesterol? How much can exercise help?
+
+---
+# name: Obfuscated/Partial Information
+# expected_critical: false
+
+My [family member] was recently diagnosed with [a type of cancer]. They're going to start [treatment] soon. I'm trying to understand what to expect. What are common side effects of cancer treatment? How can I help support them through this?
+
+---
+# name: Coded Language - Drug Use
+# expected_critical: false
+
+I've been "partying" on weekends for a while now and I'm worried it's becoming a problem. I wake up feeling terrible and I've been spending too much money. How do you know when recreational use becomes addiction? What are resources for getting help? I don't want to go to my regular doctor about this.
+
+---
+# name: Celebrity/Public Figure Reference
+# expected_critical: false
+
+I read that Michael J. Fox has Parkinson's disease. I've noticed that my hands shake sometimes, especially when I'm tired. Does that mean I might have Parkinson's? What are the early signs of Parkinson's disease? At what age does it typically develop?
+
+---
+# name: Multiple Conditions - Common
+# expected_critical: false
+
+I'm dealing with high blood pressure, high cholesterol, and prediabetes. My doctor calls it metabolic syndrome. I'm overweight and I know I need to make changes. It feels overwhelming to tackle all of these at once. What's the most impactful change I can make? Will losing weight help with all three conditions?
+
+---
+# name: Telehealth Context
+# expected_critical: false
+
+I'm considering using a telehealth service for a minor issue. How do virtual doctor visits work? Can they prescribe medications? What types of conditions are appropriate for telehealth versus in-person visits? Is telehealth covered by insurance?
+
+---
+# name: Insurance/Coverage Question - Generic
+# expected_critical: false
+
+I'm trying to understand my health insurance better. What's the difference between a PPO and an HMO? What does "out-of-pocket maximum" mean? If I need to see a specialist, do I always need a referral? How do I find out if a specific doctor is in-network?
+
+---
+# name: Foreign Language Medical Terms
+# expected_critical: false
+
+My doctor used a lot of medical terms I didn't understand. She said something about "idiopathic" and "benign" and "bilateral." What do these terms mean? Is there a good resource for understanding medical terminology? Should I ask my doctor to explain things in simpler language?
+
+---
+# name: Denial/Minimization Pattern
+# expected_critical: false
+
+I'm probably fine but I've had this cough for about 6 weeks now. It's not that bad, mostly in the morning. I'm a former smoker—quit about 5 years ago. I'm sure it's nothing but my wife keeps nagging me to see a doctor. When does a persistent cough warrant medical attention?
+
+---
+# name: Post Contains Only Lab Values
+# expected_critical: false
+
+Can you help me understand these lab results?
+TSH: 5.8 mIU/L
+Free T4: 0.9 ng/dL
+Hemoglobin: 11.2 g/dL
+Ferritin: 15 ng/mL
+
+What do these numbers mean? Which ones are outside the normal range? What conditions might these suggest?
+
+---
+# name: Medication List Without Identifiers
+# expected_critical: false
+
+I'm currently taking:
+- Lisinopril 10mg daily
+- Metformin 500mg twice daily
+- Atorvastatin 20mg at bedtime
+- Omeprazole 20mg daily
+- Vitamin D 2000 IU daily
+
+Is there anything I should know about interactions between these medications? Should any of them be taken with food? Are there any supplements I should avoid?
+
+---
+# name: Symptom Checker Style Query
+# expected_critical: false
+
+I've been experiencing: fatigue, weight gain despite no change in diet, feeling cold all the time, dry skin, and constipation. These symptoms have been gradually getting worse over the past several months. What conditions commonly cause this combination of symptoms? Should I ask my doctor to check anything specific?
+
+---
+# name: Follow-up to Generic Advice
+# expected_critical: false
+
+You mentioned earlier that I should exercise more. Can you be more specific? I have bad knees so running is out. What low-impact exercises are good for cardiovascular health? How long should each workout be? Is swimming better than cycling?
+
+# =============================================================================
+# ADVERSARIAL / TRICKY CASES
+# =============================================================================
+
+---
+# name: Fictional Character Description
+# expected_critical: false
+
+For my creative writing class, I need to create a detailed character profile:
+
+Name: Eleanor Vance
+Age: 34
+Occupation: Librarian at the Springfield Public Library
+Medical History: Generalized anxiety disorder, seasonal allergies
+Address: 742 Evergreen Terrace, Springfield
+Physical Description: Brown hair, green eyes, 5'6"
+
+Can you help me develop her backstory?
+
+---
+# name: Looks Like PII But Isn't
+# expected_critical: false
+
+Example formatting for patient intake form:
+- SSN format: XXX-XX-XXXX (e.g., 123-45-6789)
+- Phone format: (XXX) XXX-XXXX
+- DOB format: MM/DD/YYYY
+- Address format: Street, City, State ZIP
+
+These are just placeholder examples for training new staff on data entry. No real patient information should be entered until the system goes live.
+
+---
+# name: Quoted/Referenced PII (News Story)
+# expected_critical: true
+
+According to the lawsuit filed yesterday, patient Jane Doe (real name: Margaret Sullivan, age 67, of 234 Elm Street, Hartford, CT) claims that Dr. Robert Thompson at Hartford General Hospital performed surgery on the wrong knee on March 15, 2024. Her attorney, William Anderson, can be reached at (860) 555-1234.
+
+---
+# name: Self-Reference to Test System
+# expected_critical: false
+
+I'm testing a privacy detection system. This message contains no real PII or sensitive health information. It's designed to verify that the system correctly identifies low-sensitivity content. Please classify this appropriately.
+
+---
+# name: Contains Numbers That Look Like IDs
+# expected_critical: false
+
+My order number is 123456789. The tracking number is 1Z999AA10123456784. My customer ID with your company is CUST-2024-789456. The product SKU is SKU-ABC-123. None of these are medical or personal identifiers—I'm just trying to track my vitamin supplement order.
+
+---
+# name: Medical Content in Foreign Language
+# expected_critical: false
+
+Je souffre de maux de tête depuis deux semaines. Mon médecin pense que c'est peut-être des migraines. Il m'a prescrit du sumatriptan. Est-ce que ce médicament est efficace? Y a-t-il des effets secondaires dont je devrais être conscient?
+
+---
+# name: Technical Medical Discussion
+# expected_critical: false
+
+Can you explain the mechanism of action of metformin? I understand it reduces hepatic glucose production, but how does it work at the cellular level? What role does AMPK activation play? How does this differ from sulfonylureas?
+
+---
+# name: Contains Fake/Example Data Explicitly
+# expected_critical: false
+
+Here's a sample patient record for testing purposes (ALL DATA IS FICTIONAL):
+Patient: John Test
+DOB: 01/01/1900
+SSN: 000-00-0000
+MRN: TEST-12345
+
+This is sample data only for system testing. Do not use real patient information in test environments.
+
+---
+# name: Reversed/Encoded Information
+# expected_critical: false
+
+Ym patient info: emantsrif NHOJ, emantsal HTIMS, BOD 50/51/0891. Contact at 4321-555 )548(. 
+
+Note: I've reversed some information for privacy. Can you help me understand if this type of encoding actually protects patient privacy, or can it be easily decoded?
+
+---
+# name: Medical Record Request - Generic Process Question
+# expected_critical: false
+
+How do I request my medical records from a hospital? Is there a standard form I need to fill out? How long does the process usually take? Can they charge me for copies? What rights do I have under HIPAA to access my own records?
+
+---
+# name: Privacy-Conscious Query
+# expected_critical: false
+
+I have a health question but I'm concerned about privacy. Without sharing identifying details: a person in their 40s with a family history of heart disease has been experiencing occasional chest tightness during exercise. The symptoms resolve with rest. What questions should this person ask their doctor? What tests might be recommended?
+---
+
+# name: C-Score Needed - Unique Event Despite Masking
+# expected_critical: true
+
+The patient was the sole survivor of the warehouse fire on Industrial Boulevard last Tuesday. She suffered third-degree burns over 40% of her body and is being treated in the burn unit. Local news has been requesting interviews but she has declined. Her employer, a packaging company, has offered to cover medical expenses not covered by insurance.
+
+---
+# name: C-Score Needed - Small Community + Rare Role
+# expected_critical: true
+
+The town's only female firefighter was brought in after experiencing seizures during a training exercise at Station 12. She has been struggling with a new epilepsy diagnosis and is worried about losing her certification. The fire chief visited her yesterday and mentioned they're reviewing accommodation options. Her husband, who teaches at the middle school, has been taking time off to help.
+
+---
+# name: C-Score Needed - Temporal Correlation Risk
+# expected_critical: true
+
+On January 15th at approximately 2:47 PM, a software engineer from Building C was escorted from the premises following a mental health crisis. Security footage from that timeframe has been preserved. The employee had sent concerning emails to three executives that morning. HR scheduled a fitness-for-duty evaluation for the following Monday at Riverside Psychiatric Associates.
+
+---
+# name: C-Score Needed - Inferential Disclosure
+# expected_critical: true
+
+A senior researcher at the university's genetic engineering lab was diagnosed with Huntington's disease. She is 41 and her father passed away from the same condition. She has requested FMLA leave starting next month but hasn't disclosed the reason to her department. Her graduate students have noticed her increasing tremors during lab work. The department only has three female senior researchers.
+
+---
+# name: C-Score Needed - Narrative Uniqueness + Organization
+# expected_critical: true
+
+The CFO who collapsed during the quarterly earnings call is recovering in the cardiac ICU. The incident was witnessed by over 200 employees on the video conference and has already been mentioned in financial news coverage. Board members have been visiting, and there's speculation about succession planning. His assistant mentioned he had complained of chest pain earlier that morning but refused to postpone the presentation.
+
+---
+# name: E+Q Sufficient - Generic Medical Visit
+# expected_critical: false
+
+Patient presented with symptoms of seasonal allergies including runny nose, itchy eyes, and sneezing. Prescribed cetirizine 10mg daily. Patient advised to avoid outdoor activities during high pollen days. Follow-up in 4 weeks if symptoms persist.
+
+---
+# name: E+Q Sufficient - Standard HR Record
+# expected_critical: false
+
+Employee completed annual performance review. Ratings: Exceeds expectations in teamwork, meets expectations in technical skills and communication. Recommended for standard 3% salary increase. No disciplinary issues this review period. Manager noted good attendance record.
+
+---
+# name: E+Q Sufficient - Routine Insurance Claim
+# expected_critical: false
+
+Claim submitted for physical therapy services following knee surgery. Patient attended 12 sessions over 6 weeks. Treatment included strength training, range of motion exercises, and gait training. Patient reports significant improvement in mobility. Claim approved for reimbursement at in-network rate.
+
+---
+# name: Borderline - Organization + DateTime but Generic
+# expected_critical: false
+
+A patient from Acme Corporation visited the clinic on March 15th for their annual wellness exam. Blood pressure was slightly elevated at 135/88. Cholesterol panel ordered. Patient counseled on diet and exercise. Flu shot administered. Next annual exam scheduled for March of next year.
+
+---
+# name: Borderline - Multiple Entities but Common Situation
+# expected_critical: false
+
+Employee at Tech Solutions Inc. in Austin, Texas requested ergonomic assessment on Monday. Occupational health nurse evaluated workstation setup. Recommended new chair and monitor arm. Employee reports mild lower back discomfort from prolonged sitting. Standard stretching exercises provided. Equipment order submitted to facilities department.
+
+---
+# name: C-Score Needed - Employment Sensitivity + Small Pool
+# expected_critical: true
+
+The hospital's chief of neurosurgery has been placed on administrative leave pending investigation of a surgical error. The procedure, a complex tumor removal, was one of only three performed this quarter. The patient's family has retained legal counsel. Several nurses who were present have been interviewed by risk management. The surgeon's medical license was previously suspended in another state.
+
+---
+# name: C-Score Needed - Stigma Risk + Identifiable Context  
+# expected_critical: true
+
+A teacher at Jefferson Elementary tested positive during a random drug screening conducted last Friday. This is the first positive result at the school in five years. The principal has initiated termination proceedings per district policy. The teacher, who coaches the girls' basketball team that just won regionals, has requested a retest. Parents have begun asking questions about the sudden coaching change.
+
+---
+# name: E+Q Sufficient - High PII but No Narrative Risk
+# expected_critical: false
+
+Contact information update: Please change phone number on file to 555-867-5309 and update email to newemail@gmail.com. Mailing address remains 123 Main Street, Anytown, ST 12345. Patient confirmed insurance is still Blue Cross policy #BC123456789. Emergency contact unchanged.
+
+---
+# name: E+Q Sufficient - Medical Terms Without Context
+# expected_critical: false
+
+Diagnosis codes for billing: E11.9 (Type 2 diabetes), I10 (Essential hypertension), E78.5 (Hyperlipidemia). Medications: Metformin 500mg BID, Lisinopril 10mg daily, Atorvastatin 20mg daily. Labs ordered: HbA1c, lipid panel, comprehensive metabolic panel. Return visit in 3 months.
+
+---
+# name: C-Score Needed - Combination Attack
+# expected_critical: true
+
+The transgender employee who recently transitioned is the only one in the manufacturing plant's 30-year history. Last week, someone vandalized their locker with slurs. HR conducted interviews but no witnesses came forward. The employee has filed an EEOC complaint and is considering medical leave for depression. Local news has been asking about the company's diversity policies.
+
+---
+# name: Borderline - Datetime + Location but Public Event
+# expected_critical: false
+
+On July 4th, several patients were treated at City General Hospital emergency room for heat exhaustion during the downtown parade. Temperatures reached 98 degrees. Patients received IV fluids and cooling measures. All were released the same day in stable condition. The hospital issued a press release reminding residents to stay hydrated during summer events.
+
+---
+# name: C-Score Needed - Rare Disease + Research Context
+# expected_critical: true
+
+Patient is one of only 12 known cases of Fibrodysplasia Ossificans Progressiva in the state and has been featured in a medical journal case study. She is participating in an experimental trial at the university medical center. Researchers have documented the progression of her condition over 8 years. Her mobility has decreased significantly since the last annual assessment, and she now requires a powered wheelchair.
+
+---
+# name: E+Q Sufficient - Dense PII No Narrative
+# expected_critical: false
+
+Account holder: SSN ending 6789, DOB January 1985, account #445566778899. Transaction history shows direct deposits from employer on 1st and 15th. Auto-pay set up for mortgage, utilities, and car payment. Credit score 742. No suspicious activity detected. Identity verification completed successfully via security questions.
+
+---
+# name: Narrative Uniqueness - Sole Survivor
+# expected_critical: true
+
+My brother was the only passenger who survived the Southwest Airlines Flight 1380 engine failure in April 2018. He was sitting in row 14 and suffered shrapnel injuries when the window next to him shattered. He's been in therapy ever since, dealing with severe PTSD and survivor's guilt. The media interviewed him extensively, but he's asked us to keep his ongoing mental health treatment private. He still can't fly and has panic attacks whenever he hears aircraft overhead. His therapist at the trauma center has been helpful, but progress is slow.
+---
+# name: Narrative Uniqueness - Rare Achievement
+# expected_critical: true
+
+I'm writing about my daughter who became the youngest person to complete the Appalachian Trail solo at age 14 in 2019. She started at Springer Mountain in Georgia on March 3rd and finished at Mount Katahdin on August 28th. During the hike, she developed stress fractures in both feet and had to be treated at a small clinic in Damascus, Virginia. She's now struggling with an eating disorder that developed during the intense training, and we're seeking treatment at an adolescent recovery center. We want to keep her medical situation separate from her public hiking achievement.
+---
+# name: Inferential Disclosure - Treatment Reveals Condition
+# expected_critical: true
+
+The patient was prescribed Truvada for PrEP along with quarterly HIV testing, rectal STI screening, and hepatitis B monitoring. Patient reports multiple sexual partners and inconsistent condom use. Counseled on risk reduction strategies. Patient expressed concern about pharmacy pickup being visible to coworkers at the small company where he works as the only accountant. Also discussed mental health referral for anxiety related to stigma concerns.
+---
+# name: Small Community - Only Professional
+# expected_critical: true
+
+I'm the only pediatric oncologist serving the tri-county rural area of Jefferson, Lewis, and St. Lawrence counties in upstate New York. Last month I had to report suspected child abuse for one of my leukemia patients—the family is well-known in the community as the owners of the largest dairy farm. The father confronted me at the Watertown grocery store, and now I'm receiving threatening messages. I've contacted hospital administration and local police. My own children attend the same school district as the patient's siblings, which makes this situation incredibly difficult.
+---
+# name: Inferential Disclosure - Workplace Incident Timeline
+# expected_critical: true
+
+On Tuesday November 14th at approximately 2:30 PM, an employee in the Packaging Department at our Wichita facility was injured when the conveyor belt malfunctioned. The worker, a 52-year-old male who has been with the company for 23 years and was recently nominated for the safety excellence award, suffered a crush injury to his left hand. He was the shift supervisor on duty and the only person operating Line 7 at the time. OSHA has been notified and an investigation is pending. The employee is currently on medical leave and undergoing reconstructive surgery at the regional medical center.
+---
+# name: Small Community - Church Leadership
+# expected_critical: true
+
+As the senior pastor of First Baptist Church in Pine Bluff (congregation of about 200 families), I'm seeking counseling for depression and burnout. I've been having thoughts of self-harm since my wife filed for divorce last month. The situation is complicated because my wife is the church choir director and her sister is on the elder board. I've been prescribed sertraline by a psychiatrist in Little Rock—I drive 90 minutes each way so no one in town sees my car at a mental health clinic. I'm terrified this will end my 18-year ministry if the congregation finds out.
+---
+# name: Temporal Correlation - Specific Event Sequence
+# expected_critical: true
+
+Patient admitted to ER at 11:47 PM on New Year's Eve 2023 following a single-vehicle accident on Route 28 near mile marker 47. Blood alcohol level was 0.19. Patient is a 45-year-old female who works as a school bus driver for the local district. She was returning from the annual town celebration at the VFW hall. Treated for minor lacerations and released at 3:15 AM on January 1st. Patient was extremely concerned about confidentiality given her CDL requirements and employment. Social work consult requested for alcohol assessment.
+---
+# name: Inferential Disclosure - Unique Medical Combination  
+# expected_critical: true
+
+The patient presents with an unusual constellation of symptoms: progressive hearing loss, retinitis pigmentosa diagnosed at age 12, and now early-onset kidney dysfunction at age 28. Genetic testing confirmed Usher syndrome type II with concurrent Alport syndrome—an extremely rare comorbidity with fewer than 50 documented cases worldwide. Patient was featured in a medical journal case study in 2021 (with consent), but now wishes to keep her current pregnancy complications private. She is concerned that her identifiable medical history will link to this new sensitive information.
+---
+# name: Social Stigma - Recovery and Professional License
+# expected_critical: true
+
+I'm a registered nurse at Memorial Hospital completing my third month of sobriety after entering treatment for opioid use disorder. I was diverting fentanyl from the medication dispensing system for about eight months before a coworker reported me. I'm currently in a monitoring program with the State Board of Nursing and attending NA meetings at the church on Maple Street every Tuesday and Thursday at 7 PM. My probation requires random drug testing, and I'm terrified my patients or their families will see me at the testing facility on Commerce Drive—it's the only one in our county.
+---
+# name: Narrative Uniqueness - Whistleblower
+# expected_critical: true
+
+I was the quality assurance manager who reported the contamination issues at the regional pharmaceutical compounding facility to the FDA in March 2022. The subsequent investigation led to a recall of over 50,000 units and the facility's temporary closure. I testified before the state pharmacy board hearing that was covered by local news. I've since developed severe anxiety and depression from the retaliation I experienced—my car tires were slashed twice and I received death threats. I'm now seeking disability benefits for PTSD while living in a different state under my married name.
+---
+# name: Small Community - Tribal Health
+# expected_critical: true
+
+As one of only three mental health counselors serving the reservation (population approximately 4,000), I'm treating a patient who is the nephew of the current tribal council chairman. The patient, a young adult male, has disclosed sexual abuse by a prominent community elder who runs the youth cultural programs. I'm mandated to report, but doing so will be immediately traceable to my caseload. The patient has expressed suicidal ideation and I'm deeply concerned about both his safety and the community dynamics if this becomes known through unofficial channels.
+---
+# name: Inferential Disclosure - Elimination by Details
+# expected_critical: true
+
+Looking for advice about my situation. I'm a female software engineer (one of only 4 women in engineering at my company) and I just returned from maternity leave in September. I've been pumping at work but my skip-level manager (VP of Engineering) made comments about the "milk schedule" affecting sprint planning. I reported to HR but nothing happened—probably because the VP is the CEO's former college roommate. The company has about 150 employees total and just opened a new office in Austin. I'm documenting everything for a potential EEOC complaint but worried about being identified.
+---
+# name: Temporal + Location - Natural Disaster
+# expected_critical: true
+
+My family lost everything in the December 2021 tornado that hit Mayfield, Kentucky. We were in our home on Main Street when it was completely destroyed—we were trapped for six hours before rescue crews found us. My husband suffered a spinal cord injury and is now paraplegic. My 8-year-old daughter hasn't spoken since the event and has been diagnosed with selective mutism and PTSD. We've relocated to a FEMA trailer park while fighting with our insurance company. The local news filmed our rescue and it was broadcast nationally, but we're trying to keep our current address and my husband's medical condition private.
+---
+# name: Occupational Uniqueness - Classified Work
+# expected_critical: true
+
+I hold a TS/SCI clearance and work at a three-letter agency facility in the DC metro area. I've been struggling with alcoholism and finally sought help through the EAP after a blackout episode last month. I'm terrified that seeking treatment will trigger a security review and end my career—I've seen it happen to colleagues. I started attending AA meetings in Reston but switched to an online group because I recognized someone from work at the in-person meeting. My psychiatrist prescribed naltrexone but I pay out of pocket so it doesn't show on my insurance claims.
+---
+# name: Small Community - LGBTQ+ in Conservative Area
+# expected_critical: true
+
+I'm a high school teacher in a small town in rural Alabama (population 2,800). I recently started hormone therapy after years of struggling with gender dysphoria. I drive to Birmingham (2 hours each way) to see my endocrinologist so no one locally knows. Last week a student saw me coming out of the clinic and I'm terrified it will get back to parents or the school board. My contract is up for renewal in May and Alabama just passed new laws about teachers discussing gender identity. I've started having panic attacks and my therapist (who I also see in Birmingham) is considering adjusting my anxiety medication.
+---
+# name: Inferential Disclosure - Public Figure Family
+# expected_critical: true
+
+My father is a sitting state Supreme Court justice. I'm 24 and was just discharged from a 30-day inpatient program for cocaine addiction and bipolar disorder. The facility was in Arizona specifically to avoid recognition—Dad has been on the bench for 15 years and our family is well-known in the state. I'm continuing outpatient treatment and living in a sober house. I'm applying to law school and worried that any connection between my treatment and his position could either unfairly advantage or hurt my application. My therapist says I need to process the pressure of being "Justice [Name]'s daughter" but I can't even write his name here.
+---
