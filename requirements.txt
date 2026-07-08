@@ -51,6 +51,7 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.2.2
 PyYAML==6.0.3
 regex==2026.5.9
+reportlab==5.0.0
 requests==2.34.2
 requests-file==3.0.1
 rich==15.0.0
