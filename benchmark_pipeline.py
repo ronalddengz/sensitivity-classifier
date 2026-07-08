@@ -142,6 +142,12 @@ class PipelineResult:
     
     # Metadata
     processed_at: str = ""  # ISO timestamp
+    
+    # New fields for original C-Score and vary-k analysis
+    c_score_original_risk_score: float = 0.0
+    c_score_original_deemed_sensitive: bool = False
+    c_scores_by_k: Dict[str, float] = field(default_factory=dict)
+    masked_counts_by_k: Dict[str, int] = field(default_factory=dict)
 
 
 @dataclass
@@ -418,6 +424,9 @@ class BenchmarkPipeline:
         self._q_analyzer = QScoreAnalyzer()
         print("Initializing C-Score detector...")
         self._c_detector = NarrativeSensitivityDetector()
+        
+        # C-Score caching to prevent redundant LLM calls during vary-k simulation
+        self._c_score_cache = {}
     
     @property
     def e_detector(self):
@@ -431,6 +440,45 @@ class BenchmarkPipeline:
     def c_detector(self):
         return self._c_detector
     
+    def _mask_for_k(self, original_text: str, e_result, q_report: dict, k: float) -> Tuple[str, int]:
+        # We start with spans to mask
+        spans_to_mask = []
+        
+        # 1. E-Score entities (always mask direct PII)
+        for ent in e_result.entities:
+            spans_to_mask.append((ent.start, ent.end, ent.entity_type))
+            
+        # 2. Q-Score quasi-identifiers
+        # We mask them if their population count is less than 10_000_000 / k
+        threshold_pop = 10000000.0 / k
+        for qi in q_report.get("detected_quasi_identifiers", []):
+            freq = qi.get("frequency")
+            pop_count = freq.get("population_count") if freq else None
+            # If population count is unknown or below the threshold, mask it
+            if pop_count is None or pop_count < threshold_pop:
+                pos = qi.get("position", {})
+                start = pos.get("start")
+                end = pos.get("end")
+                if start is not None and end is not None:
+                    spans_to_mask.append((start, end, qi.get("type")))
+                    
+        # Sort and merge/deduplicate spans
+        sorted_spans = sorted(list(set(spans_to_mask)), key=lambda s: s[0], reverse=True)
+        
+        masked_text = original_text
+        masked_count = 0
+        last_start = len(original_text) + 1
+        
+        for start, end, qi_type in sorted_spans:
+            if start is None or end is None:
+                continue
+            if end <= last_start:
+                masked_text = masked_text[:start] + f"[{qi_type.upper()}]" + masked_text[end:]
+                masked_count += 1
+                last_start = start
+                
+        return masked_text, masked_count
+
     def run_sample(self, sample: BenchmarkSample) -> PipelineResult:
         """Run the full pipeline on a single sample."""
         
@@ -487,7 +535,12 @@ class BenchmarkPipeline:
         # =======================================================================
         start = time.time()
         try:
-            c_result = self.c_detector.analyze(q_masked)
+            default_cache_key = q_masked.strip()
+            if default_cache_key in self._c_score_cache:
+                c_result = self._c_score_cache[default_cache_key]
+            else:
+                c_result = self.c_detector.analyze(q_masked)
+                self._c_score_cache[default_cache_key] = c_result
             c_time = time.time() - start
             
             c_factors_detected = [f.name for f in c_result.factors if f.detected]
@@ -501,6 +554,41 @@ class BenchmarkPipeline:
             c_risk_score = 0
         
         c_deemed_sensitive = c_risk_score >= self.c_score_sensitivity_threshold
+        
+        # Ground truth: run unmasked text through C-Score to establish baseline
+        try:
+            orig_cache_key = original_text.strip()
+            if orig_cache_key in self._c_score_cache:
+                c_orig_result = self._c_score_cache[orig_cache_key]
+            else:
+                c_orig_result = self.c_detector.analyze(original_text)
+                self._c_score_cache[orig_cache_key] = c_orig_result
+            c_score_original_risk_score = c_orig_result.risk_score
+            c_score_original_deemed_sensitive = c_score_original_risk_score >= self.c_score_sensitivity_threshold
+        except Exception as e:
+            print(f"  C-Original error for {sample.name}: {e}")
+            c_score_original_risk_score = 0.0
+            c_score_original_deemed_sensitive = False
+
+        # Run multi-k analysis
+        c_scores_by_k = {}
+        masked_counts_by_k = {}
+        k_values = [1, 5, 20, 100, 500, 2000, 10000, 50000]
+        for k_val in k_values:
+            masked_t, masked_c = self._mask_for_k(original_text, e_result, q_report, k_val)
+            cache_key = masked_t.strip()
+            if cache_key in self._c_score_cache:
+                risk_score = self._c_score_cache[cache_key].risk_score
+            else:
+                try:
+                    c_res = self.c_detector.analyze(masked_t)
+                    self._c_score_cache[cache_key] = c_res
+                    risk_score = c_res.risk_score
+                except Exception as e:
+                    print(f"  C-Score error for k={k_val}: {e}")
+                    risk_score = 0.0
+            c_scores_by_k[str(k_val)] = risk_score
+            masked_counts_by_k[str(k_val)] = masked_c
         
         # =======================================================================
         # Calculate Features
@@ -969,6 +1057,10 @@ def create_visualizations(results: List[PipelineResult], output_dir: Path):
     plt.tight_layout()
     plt.savefig(output_dir / 'correlation_heatmap.png', dpi=150, bbox_inches='tight')
     plt.close()
+
+    if any(r.expected_critical for r in results):  # Need labeled data
+        create_privacy_accuracy_visualization(results, output_dir)
+        create_score_distribution_plot(results, output_dir)
     
     print(f"Saved visualizations to {output_dir}")
 
@@ -1265,6 +1357,178 @@ def create_privacy_accuracy_visualization(results: List[PipelineResult], output_
     plt.tight_layout()
     plt.savefig(output_dir / 'privacy_accuracy_tradeoff.png', dpi=150, bbox_inches='tight')
     plt.close()
+
+def create_score_distribution_plot(results: List[PipelineResult], output_dir: Path):
+    """Show how scores distribute between sensitive and non-sensitive samples."""
+    
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    
+    sensitive = [r for r in results if r.expected_critical]
+    not_sensitive = [r for r in results if not r.expected_critical]
+    
+    scores = ['e_score', 'q_score', 'c_score_risk_score']
+    titles = ['E-Score (Explicit PII)', 'Q-Score (Quasi-Identifiers)', 'C-Score (Contextual)']
+    
+    for ax, score_attr, title in zip(axes, scores, titles):
+        sens_scores = [getattr(r, score_attr) for r in sensitive]
+        not_sens_scores = [getattr(r, score_attr) for r in not_sensitive]
+        
+        # Overlapping histograms
+        ax.hist(not_sens_scores, bins=20, alpha=0.5, label='Not Sensitive', 
+                color='green', density=True)
+        ax.hist(sens_scores, bins=20, alpha=0.5, label='Sensitive', 
+                color='red', density=True)
+        
+        # Add threshold line
+        ax.axvline(x=0.3, color='black', linestyle='--', label='Threshold=0.3')
+        
+        ax.set_xlabel(title)
+        ax.set_ylabel('Density')
+        ax.set_title(f'{title} Distribution')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig(output_dir / 'score_distributions.png', dpi=150, bbox_inches='tight')
+    plt.close()
+
+# =============================================================================
+# Main Benchmark Runner
+# =============================================================================
+def run_benchmark(
+    input_file: str,
+    output_dir: str = "benchmark_outputs",
+    max_samples: Optional[int] = None,
+    c_score_threshold: float = 0.3,
+    fresh_start: bool = False
+):
+    """
+    Run the full benchmark suite with checkpoint support.
+    
+    Args:
+        input_file: Path to input samples file
+        output_dir: Output directory for results
+        max_samples: Limit number of samples (None = all)
+        c_score_threshold: Threshold for C-Score sensitivity
+        fresh_start: If True, ignore existing checkpoint
+    """
+    
+    print("=" * 70)
+    print("C-SCORE NECESSITY BENCHMARK (with Checkpointing)")
+    print("=" * 70)
+    print()
+    
+    out_path = Path(output_dir)
+    out_path.mkdir(exist_ok=True)
+    
+    print(f"Loading samples from: {input_file}")
+    samples = parse_input_file(input_file, max_samples)
+    print(f"Loaded {len(samples)} benchmark samples")
+    
+    if max_samples:
+        print(f"(Limited to {max_samples} samples)")
+    print()
+    
+    # Initialize checkpoint manager
+    checkpoint = CheckpointManager(out_path, input_file, c_score_threshold)
+    
+    # Handle fresh start
+    if fresh_start:
+        print("Fresh start requested - clearing checkpoint...")
+        checkpoint.clear_checkpoint()
+    else:
+        checkpoint.load_checkpoint()
+    
+    # Initialize pipeline with checkpoint
+    pipeline = BenchmarkPipeline(checkpoint, c_score_sensitivity_threshold=c_score_threshold)
+    
+    print("\n" + "-" * 70)
+    print("PROCESSING SAMPLES")
+    print("-" * 70)
+    
+    results = pipeline.run_all(samples)
+    
+    # Save raw results
+    results_data = [asdict(r) for r in results]
+    with open(out_path / "pipeline_results.json", "w") as f:
+        json.dump(results_data, f, indent=2, default=str)
+    print(f"\nSaved pipeline results to {out_path / 'pipeline_results.json'}")
+    
+    # Only generate visualizations and analysis if we have results and weren't interrupted
+    if results and not checkpoint.was_interrupted:
+        print("\nGenerating visualizations...")
+        create_visualizations(results, out_path)
+        
+        print("\n" + "=" * 70)
+        print("ANALYSIS")
+        print("=" * 70)
+        
+        analysis = analyze_results(results)
+        
+        print(f"\nTotal Samples: {analysis.total_samples}")
+        print(f"C-Score Sensitivity Distribution:")
+        print(f"  Sensitive: {analysis.c_score_sensitive_count}")
+        print(f"  Not Sensitive: {analysis.c_score_not_sensitive_count}")
+        
+        print(f"\n{'='*70}")
+        print("FEATURE IMPORTANCE (by correlation with C-Score sensitivity)")
+        print("="*70)
+        
+        for i, (name, corr) in enumerate(analysis.feature_importance[:15], 1):
+            strength = "STRONG" if corr > 0.5 else "MODERATE" if corr > 0.3 else "WEAK"
+            bar = "█" * int(corr * 20)
+            print(f"  {i:2}. {name:35} {corr:+.3f} {bar} ({strength})")
+        
+        print(f"\nBest Predictors (|corr| > 0.3): {', '.join(analysis.best_predictors) or 'None'}")
+        
+        print(f"\nSuggested Thresholds:")
+        print(f"  E-Score threshold: {analysis.suggested_e_score_threshold:.2f}")
+        print(f"  Q-Score threshold: {analysis.suggested_q_score_threshold:.2f}")
+        print(f"  Combined threshold: {analysis.suggested_combined_threshold:.2f}")
+        
+        # Save analysis
+        analysis_data = asdict(analysis)
+        with open(out_path / "benchmark_analysis.json", "w") as f:
+            json.dump(analysis_data, f, indent=2, default=str)
+        print(f"\nSaved analysis to {out_path / 'benchmark_analysis.json'}")
+        
+        # Print detailed sample results
+        print("\n" + "=" * 70)
+        print("DETAILED SAMPLE RESULTS")
+        print("=" * 70)
+        
+        for result in results:
+            marker = "🔴 SENSITIVE" if result.c_score_deemed_sensitive else "🟢 NOT SENSITIVE"
+            
+            print(f"\n{result.sample_name}:")
+            print(f"  Scores: E={result.e_score:.2f}, Q={result.q_score:.2f}, Sum={result.e_q_score_sum:.2f}")
+            print(f"  Entities: total={result.total_entity_count}, types={result.unique_entity_type_count}, density={result.entity_density:.2f}")
+            print(f"  Entity Types: {result.e_score_entity_types}")
+            print(f"  Flags: person={result.has_person}, location={result.has_location}, high_risk_combo={result.has_high_risk_combo}")
+            print(f"  Mask: ratio={result.mask_ratio:.2f}, tokens={result.mask_token_count}")
+            print(f"  C-Score: {result.c_score_risk_level} ({result.c_score_risk_score:.2f}) -> {marker}")
+            print(f"  C-Score Factors: {result.c_score_factors_detected}")
+    
+    elif checkpoint.was_interrupted:
+        print("\n" + "=" * 70)
+        print("RUN INTERRUPTED")
+        print("=" * 70)
+        print(f"Progress saved: {len(results)}/{len(samples)} samples")
+        print(f"Resume by running the same command again.")
+        print("Use --fresh to start over from scratch.")
+    
+    print("\n" + "=" * 70)
+    print(f"Output directory: {out_path}")
+    print("Files:")
+    print("  - checkpoint.json (resumable progress)")
+    print("  - pipeline_results.json (all results)")
+    if not checkpoint.was_interrupted and results:
+        print("  - benchmark_analysis.json (analysis)")
+        print("  - *.png (visualizations)")
+    print("=" * 70)
+    
+    return analysis if not checkpoint.was_interrupted and results else None, results
+
 
 # =============================================================================
 # CLI Entry Point

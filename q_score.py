@@ -898,7 +898,7 @@ class QScoreCalculator:
         if not frequencies:
             return QScoreResult(0.0, ref_pop, detected_qis, {},
                 f"Detected {len(detected_qis)} QI(s) but could not lookup frequencies.",
-                text, self._mask(text, detected_qis))
+                text, text)
 
         joint_prob = 1.0
         for f in frequencies.values():
@@ -907,8 +907,10 @@ class QScoreCalculator:
         expected_k = ref_pop * joint_prob
         if expected_k >= self.k_threshold:
             q_score = 0.0
+            masked_text = text
         else:
             q_score = min(1.0, 1.0 - (expected_k / self.k_threshold))
+            masked_text = self._mask(text, detected_qis)
 
         return QScoreResult(
             q_score=q_score,
@@ -917,7 +919,7 @@ class QScoreCalculator:
             frequencies=frequencies,
             explanation=self._explain(detected_qis, frequencies, expected_k),
             original_text=text,
-            masked_text=self._mask(text, detected_qis),
+            masked_text=masked_text,
         )
 
     def _get_frequency(self, qi: QuasiIdentifier) -> Optional[QIFrequency]:
