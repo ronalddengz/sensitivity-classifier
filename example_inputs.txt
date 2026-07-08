@@ -950,3 +950,4264 @@ I'm a high school teacher in a small town in rural Alabama (population 2,800). I
 
 My father is a sitting state Supreme Court justice. I'm 24 and was just discharged from a 30-day inpatient program for cocaine addiction and bipolar disorder. The facility was in Arizona specifically to avoid recognition—Dad has been on the bench for 15 years and our family is well-known in the state. I'm continuing outpatient treatment and living in a sober house. I'm applying to law school and worried that any connection between my treatment and his position could either unfairly advantage or hurt my application. My therapist says I need to process the pressure of being "Justice [Name]'s daughter" but I can't even write his name here.
 ---
+I'll generate 900 diverse test cases with varying levels of PII, QI, and narrative identifiers. These will cover a wide spectrum of sensitivity levels and scenarios.
+
+```yaml
+# =============================================================================
+# BATCH 1: HIGH PII - CRITICAL (Cases 1-75)
+# =============================================================================
+
+---
+# name: High PII - Complete Patient Demographics 001
+# expected_critical: true
+
+Patient Registration Form
+Name: Michael Andrew Patterson
+DOB: 07/23/1982
+SSN: 234-56-7891
+Address: 1847 Willow Creek Lane, Apartment 4B, Sacramento, CA 95814
+Phone: (916) 555-3847
+Email: m.patterson82@gmail.com
+Emergency Contact: Linda Patterson (wife) - (916) 555-9182
+Insurance: Anthem Blue Cross, Member ID: ANT784512369
+PCP: Dr. Sarah Mitchell
+
+---
+# name: High PII - Complete Patient Demographics 002
+# expected_critical: true
+
+New Patient Intake:
+Full Name: Jennifer Lynn Morrison-Walsh
+Date of Birth: 11/15/1975
+Social Security: 345-67-8912
+Home Address: 2934 Magnolia Boulevard, Denver, CO 80205
+Mobile: (303) 555-6721
+Work: (303) 555-8900 ext 442
+Email: jlmorrison@outlook.com
+Spouse: Thomas Walsh, (303) 555-6722
+Insurance: UnitedHealthcare #UHC-445566778
+Employer: Colorado State University
+
+---
+# name: High PII - Complete Patient Demographics 003
+# expected_critical: true
+
+Patient: Robert James Chen
+DOB: 03/08/1968
+SSN: 456-78-9123
+MRN: MRN-2024-78456
+Address: 567 Harbor View Drive, Seattle, WA 98101
+Phone: (206) 555-4523
+Email: rjchen68@yahoo.com
+Insurance: Premera Blue Cross, Policy #PBC-998877665
+Group #: GRP-MSFT-2024
+Emergency Contact: Michelle Chen (daughter) - (206) 555-4524
+
+---
+# name: High PII - Complete Patient Demographics 004
+# expected_critical: true
+
+Registration Information:
+Name: Amanda Rose Fitzgerald
+Birth Date: 09/30/1990
+Social Security Number: 567-89-1234
+Street Address: 4521 Oak Park Avenue, Unit 12, Chicago, IL 60615
+Primary Phone: (312) 555-7834
+Alternate Phone: (312) 555-7835
+Email Address: afitzgerald90@icloud.com
+Health Plan: Cigna PPO, Member #CIG-112233445
+Employer ID: Northwestern Memorial Hospital
+
+---
+# name: High PII - Complete Patient Demographics 005
+# expected_critical: true
+
+Patient Information Sheet
+Legal Name: David William Thompson Jr.
+Date of Birth: 05/17/1979
+SSN: 678-91-2345
+Residence: 8923 Riverside Parkway, Houston, TX 77001
+Contact: (713) 555-2198
+Work Phone: (713) 555-2200
+Personal Email: dwthompson@gmail.com
+Carrier: Aetna, ID# AET-556677889
+Group: Shell Oil Company
+
+---
+# name: High PII - Complete Patient Demographics 006
+# expected_critical: true
+
+Patient: Sophia Maria Gonzalez-Rivera
+DOB: 12/04/1985
+SSN: 789-12-3456
+MRN: SGR-2024-11234
+Address: 3456 Palm Beach Road, Miami, FL 33101
+Cell: (305) 555-8876
+Email: sophiagr85@hotmail.com
+Insurance: Florida Blue, Member ID: FB-443322110
+Emergency: Carlos Rivera (husband) (305) 555-8877
+PCP: Dr. Elena Martinez, NPI: 1234567890
+
+---
+# name: High PII - Complete Patient Demographics 007
+# expected_critical: true
+
+New Patient Form:
+Full Legal Name: Christopher Allen Brooks
+Date of Birth: 08/22/1972
+Social Security #: 891-23-4567
+Physical Address: 6789 Mountain View Court, Phoenix, AZ 85001
+Home Phone: (602) 555-3345
+Cell Phone: (602) 555-3346
+Email: cabrooks72@gmail.com
+Insurance Provider: Blue Cross Blue Shield of Arizona
+Member Number: BCBS-778899001
+Employer: Arizona State Government
+
+---
+# name: High PII - Complete Patient Demographics 008
+# expected_critical: true
+
+Patient Record:
+Name: Elizabeth Anne Murphy-O'Brien
+DOB: 02/14/1988
+SSN: 912-34-5678
+Address: 2345 Beacon Street, Apt 8C, Boston, MA 02108
+Primary: (617) 555-9912
+Secondary: (617) 555-9913
+Email: emurphy.obrien@gmail.com
+Plan: Harvard Pilgrim Health Care, ID: HPHC-665544332
+Emergency: Patrick O'Brien (husband) - (617) 555-9914
+
+---
+# name: High PII - Complete Patient Demographics 009
+# expected_critical: true
+
+Intake Form - Patient Data:
+Full Name: Marcus Anthony Williams
+Birth Date: 06/11/1995
+SSN: 123-45-6788
+Current Address: 9012 Peachtree Street NE, Atlanta, GA 30301
+Mobile Number: (404) 555-7123
+Email Contact: mawilliams95@outlook.com
+Health Insurance: Kaiser Permanente Georgia
+Member ID: KP-889977665
+Group Number: Coca-Cola Company - GRP-4455
+
+---
+# name: High PII - Complete Patient Demographics 010
+# expected_critical: true
+
+Patient: Kimberly Sue Anderson-Clark
+DOB: 04/25/1980
+SSN: 234-56-7899
+MRN: KAC-20240125
+Address: 5678 Lake Shore Drive, Minneapolis, MN 55401
+Phone: (612) 555-4456
+Work: (612) 555-4457
+Email: ksanderson.clark@yahoo.com
+Coverage: HealthPartners, Member #HP-334455667
+Emergency Contact: Steven Clark (spouse) - (612) 555-4458
+
+---
+# name: High PII - Lab Results with Identifiers 011
+# expected_critical: true
+
+LABORATORY REPORT - CONFIDENTIAL
+Facility: LabCorp Location #7823
+Report Date: 02/15/2025
+
+Patient: WILSON, JAMES EDWARD
+DOB: 10/12/1970
+MRN: LC-2025-445566
+SSN: 345-67-8900
+Accession: 25-0215-7823-0456
+
+Ordering Provider: Dr. Katherine Lewis
+NPI: 2345678901
+Fax: (555) 234-5678
+
+RESULTS:
+PSA: 8.7 ng/mL (H) - Reference: 0-4.0
+Free PSA: 12% - Reference: >25%
+
+Recommend urology referral for elevated PSA.
+
+---
+# name: High PII - Lab Results with Identifiers 012
+# expected_critical: true
+
+Quest Diagnostics - Patient Results
+Test Date: 01/28/2025
+
+Patient Name: MARTINEZ, ELENA SOFIA
+Date of Birth: 07/19/1983
+Patient ID: QD-99887766
+SSN: 456-78-9011
+Phone: (555) 345-6789
+
+Physician: Dr. Michael Torres
+Practice: Valley Internal Medicine
+NPI: 3456789012
+
+Complete Blood Count:
+WBC: 2.8 K/uL (L) - Reference: 4.5-11.0
+Hgb: 9.2 g/dL (L) - Reference: 12.0-16.0
+Platelets: 89 K/uL (L) - Reference: 150-400
+
+Critical values reported to physician at 09:45 AM.
+
+---
+# name: High PII - Lab Results with Identifiers 013
+# expected_critical: true
+
+PATHOLOGY REPORT
+Specimen #: PATH-2025-001234
+Collection Date: 02/01/2025
+
+Patient: NGUYEN, DAVID MINH
+DOB: 03/28/1965
+MRN: DMN-78945612
+SSN: 567-89-0122
+
+Specimen: Colon biopsy, sigmoid
+Clinical History: Routine colonoscopy, polyp found at 25cm
+
+DIAGNOSIS: Adenocarcinoma, moderately differentiated
+Margins: Cannot be assessed on biopsy specimen
+Recommend: Surgical oncology consultation
+
+Pathologist: Dr. Rebecca Stone, MD
+Electronically signed: 02/03/2025 14:32
+
+---
+# name: High PII - Lab Results with Identifiers 014
+# expected_critical: true
+
+Cytology Report
+Patient: BROWN, SARAH MICHELLE
+DOB: 11/05/1992
+SSN: 678-90-1233
+MRN: SMB-2024-5678
+Phone: (555) 456-7890
+
+Specimen: Cervical Pap smear
+Collection Date: 01/15/2025
+
+Results: HSIL (High-grade squamous intraepithelial lesion)
+HPV Testing: Positive for HPV 16
+
+Recommendation: Colposcopy within 4 weeks
+Report sent to: Dr. Jennifer Adams, OB/GYN
+Office: (555) 456-7891
+
+---
+# name: High PII - Lab Results with Identifiers 015
+# expected_critical: true
+
+Genetic Testing Results - CONFIDENTIAL
+Laboratory: Invitae Corporation
+Report ID: INV-2025-789456
+
+Patient: COHEN, RACHEL ELIZABETH
+DOB: 08/14/1978
+Address: 234 Oak Lane, Bethesda, MD 20814
+Phone: (301) 555-8899
+SSN: 789-01-2344
+
+Panel: Hereditary Cancer Panel (47 genes)
+
+POSITIVE FINDINGS:
+BRCA2: Pathogenic variant c.5946delT (p.Ser1982fs)
+
+Risk Assessment:
+- Breast cancer lifetime risk: 45-85%
+- Ovarian cancer lifetime risk: 11-27%
+
+Genetic counseling recommended.
+Results released to: Dr. Susan Park, Medical Oncology
+
+---
+# name: High PII - Prescription Record 016
+# expected_critical: true
+
+PRESCRIPTION
+Rx #: 2025-0128-7845
+Date Written: 01/28/2025
+
+Patient: Thomas Richard Davis
+DOB: 09/22/1975
+Address: 4567 Elm Street, Portland, OR 97201
+Phone: (503) 555-2233
+SSN: 890-12-3455
+
+Medication: OxyContin 40mg ER tablets
+Quantity: 60 (sixty)
+Sig: Take one tablet by mouth every 12 hours
+Refills: None - Schedule II
+
+Prescriber: Dr. William Foster
+DEA: BF1234567
+NPI: 4567890123
+Phone: (503) 555-2234
+
+Pharmacy: Walgreens #4521
+Filled by: J. Kim, RPh
+
+---
+# name: High PII - Prescription Record 017
+# expected_critical: true
+
+E-Prescription Confirmation
+Rx Number: EPR-2025-112233
+
+Patient Information:
+Name: Angela Marie Peterson
+DOB: 04/17/1988
+SSN: 901-23-4566
+Address: 7890 Cedar Avenue, San Diego, CA 92101
+Contact: (619) 555-4455
+
+Medications:
+1. Adderall XR 25mg - Qty: 30 - 1 cap QAM
+2. Klonopin 0.5mg - Qty: 60 - 1 tab BID PRN
+3. Ambien 10mg - Qty: 30 - 1 tab QHS
+
+Prescriber: Dr. Emily Chen, MD
+DEA: AC9876543
+Practice: Pacific Psychiatry Associates
+NPI: 5678901234
+
+---
+# name: High PII - Prescription Record 018
+# expected_critical: true
+
+Pharmacy Fill Record
+CVS Pharmacy #8934
+123 Main Street, Anytown, USA
+
+Patient: RODRIGUEZ, MARIA CARMEN
+DOB: 12/30/1960
+Phone: (555) 567-8901
+Insurance: Medicare Part D, ID: 1AB2CD3EF45
+
+Rx Filled: 02/10/2025
+Drug: Insulin Glargine (Lantus) 100 units/mL
+NDC: 00088-2220-33
+Quantity: 5 pens (15mL total)
+Days Supply: 30
+Patient Pay: $35.00
+
+Prescriber: Dr. John Smith, Endocrinology
+DEA: BS2345678
+Sig: Inject 45 units subcutaneously at bedtime
+
+---
+# name: High PII - Insurance Claim 019
+# expected_critical: true
+
+HEALTH INSURANCE CLAIM FORM
+
+Patient Information:
+Name: JENNIFER ANN THOMPSON
+Address: 2345 Maple Drive, Apt 6, Nashville, TN 37201
+DOB: 06/08/1982
+SSN: 012-34-5677
+Phone: (615) 555-6677
+
+Insurance Information:
+Carrier: BlueCross BlueShield of Tennessee
+Policy #: BCBSTN-998877665
+Group #: Vanderbilt University - VU2024
+Member ID: JAT-445566778
+
+Claim Details:
+Date of Service: 01/25/2025
+Place: Vanderbilt University Medical Center
+Diagnosis: F32.1 - Major Depressive Disorder, moderate
+Procedure: 90837 - Psychotherapy, 60 minutes
+Provider: Dr. Lisa Monroe, LCSW
+NPI: 6789012345
+Charges: $225.00
+
+---
+# name: High PII - Insurance Claim 020
+# expected_critical: true
+
+ELECTRONIC CLAIM SUBMISSION
+
+Subscriber: WILLIAM JAMES HARRISON
+Subscriber ID: WJH-778899001
+Group Number: Boeing Company - BA-2024
+Policy Effective: 01/01/2024
+
+Patient: Same as Subscriber
+DOB: 03/15/1970
+SSN: 123-45-6799
+Address: 8901 Aviation Way, Everett, WA 98201
+Phone: (425) 555-8899
+
+Service Details:
+Facility: Swedish Medical Center
+Date: 02/05/2025
+Admission Type: Inpatient
+DRG: 470 - Major Joint Replacement
+Principal Dx: M16.11 - Primary osteoarthritis, right hip
+Procedure: Total hip arthroplasty
+Surgeon: Dr. Mark Stevens, NPI: 7890123456
+Total Charges: $67,450.00
+
+---
+# name: High PII - Insurance Claim 021
+# expected_critical: true
+
+Claim Form - Dental Services
+
+Policyholder: PATRICIA LYNN BAKER
+Member ID: PLB-556677889
+Group: State of California Employees
+SSN: 234-56-7800
+DOB: 11/22/1978
+Address: 3456 Capitol Avenue, Sacramento, CA 95814
+Phone: (916) 555-3344
+
+Dependent Patient: EMMA GRACE BAKER
+Relationship: Daughter
+DOB: 05/14/2015
+SSN: 234-56-7801
+
+Provider: Dr. Robert Kim, DDS
+NPI: 8901234567
+Office: Golden State Dental
+Date: 02/08/2025
+
+Services:
+D0150 - Comprehensive oral evaluation
+D1120 - Prophylaxis - child
+D1206 - Topical fluoride
+Total: $185.00
+
+---
+# name: High PII - Workers Comp Claim 022
+# expected_critical: true
+
+WORKERS' COMPENSATION FIRST REPORT OF INJURY
+
+Employer Information:
+Company: Pacific Construction LLC
+FEIN: 94-1234567
+Address: 5678 Industrial Blvd, Oakland, CA 94601
+Contact: HR Department (510) 555-7788
+
+Employee Information:
+Name: MIGUEL ANGEL FERNANDEZ
+SSN: 345-67-8911
+DOB: 07/25/1985
+Address: 2345 International Blvd, Oakland, CA 94606
+Phone: (510) 555-2345
+Job Title: Ironworker
+Hire Date: 03/15/2019
+Hourly Wage: $45.00
+
+Injury Details:
+Date: 02/03/2025
+Time: 10:30 AM
+Location: 789 Construction Site, San Francisco
+Description: Fall from scaffolding, approximately 15 feet
+Witnesses: John Smith (Foreman), Pedro Garcia (Coworker)
+
+Medical Treatment:
+Facility: Highland Hospital ER
+Diagnosis: L1 compression fracture, left ankle fracture
+Physician: Dr. Karen White
+Status: Hospitalized, surgery scheduled
+
+---
+# name: High PII - Workers Comp Claim 023
+# expected_critical: true
+
+EMPLOYER'S REPORT OF OCCUPATIONAL INJURY
+
+Carrier: Hartford Insurance
+Claim #: WC-2025-123456
+Policy #: 45-WC-789012
+
+Employer: Mercy General Hospital
+Tax ID: 56-7890123
+
+Injured Employee:
+Name: SUSAN MARIE PHILLIPS
+SSN: 456-78-9022
+DOB: 02/18/1980
+Address: 1234 Nurse Lane, Sacramento, CA 95816
+Phone: (916) 555-9988
+Position: Registered Nurse, ICU
+Employment Date: 06/01/2015
+Salary: $95,000/year
+
+Incident:
+Date/Time: 01/30/2025, 3:15 AM
+Location: ICU, Room 412
+Nature: Needlestick injury while administering medication
+Body Part: Right index finger
+Witness: Charge Nurse Jennifer Adams
+
+Treatment: ER evaluation, baseline bloodwork, PEP initiated
+Source Patient: HIV positive (known status)
+Employee Health follow-up scheduled
+
+---
+# name: High PII - Military/VA Record 024
+# expected_critical: true
+
+DEPARTMENT OF VETERANS AFFAIRS
+Patient Health Record
+
+Veteran: JOHNSON, MARK ALLEN
+SSN: 567-89-0133
+VA ID: 987654321V
+DOB: 04/12/1968
+Branch: US Army
+Service Dates: 1986-2010
+Rank at Discharge: Sergeant First Class (E-7)
+Discharge Type: Honorable
+
+Address: 4567 Veterans Way, San Antonio, TX 78201
+Phone: (210) 555-4567
+Email: majohnson68@va.gov
+
+Current Medications:
+- Sertraline 100mg daily (PTSD)
+- Prazosin 5mg QHS (nightmares)
+- Gabapentin 300mg TID (neuropathy)
+- Lisinopril 20mg daily (HTN)
+
+Next Appointment: 02/20/2025
+Provider: Dr. Sandra Martinez, Psychiatry
+Facility: Audie Murphy VA Medical Center
+
+---
+# name: High PII - Military/VA Record 025
+# expected_critical: true
+
+VA COMPENSATION & PENSION EXAMINATION
+
+Veteran: WILLIAMS, ROBERT LEE
+Last 4 SSN: 0144
+Full SSN: 678-90-0144
+VA File #: C-12345678
+DOB: 09/30/1975
+
+Military Service:
+Branch: US Marine Corps
+Dates: 1994-2014
+MOS: 0311 Infantry
+Deployments: Iraq (2003, 2005), Afghanistan (2010, 2012)
+
+Current Address: 7890 Liberty Street, Jacksonville, NC 28540
+Phone: (910) 555-7890
+
+Claimed Conditions:
+1. PTSD - Currently rated 70%
+2. TBI - Currently rated 40%
+3. Lumbar spine DDD - Currently rated 20%
+4. Bilateral knee condition - Not yet rated
+
+Examination Purpose: Increase for PTSD, Initial for knees
+Examiner: Dr. Patricia Anderson, C&P
+Facility: Fayetteville VA Medical Center
+
+---
+# name: High PII - Pediatric Record 026
+# expected_critical: true
+
+PEDIATRIC PATIENT REGISTRATION
+
+Child Information:
+Name: LUCAS WILLIAM MARTINEZ
+DOB: 08/14/2019
+SSN: 789-01-2355
+Gender: Male
+
+Address: 3456 Playground Drive, Austin, TX 78701
+School: Sunshine Montessori, Pre-K
+
+Parent/Guardian 1:
+Name: MARIA ELENA MARTINEZ
+Relationship: Mother
+SSN: 789-01-2354
+DOB: 05/22/1990
+Phone: (512) 555-3456
+Email: memartinez90@gmail.com
+Employer: Dell Technologies
+
+Parent/Guardian 2:
+Name: CARLOS ANTONIO MARTINEZ
+Relationship: Father
+SSN: 789-01-2356
+DOB: 11/08/1988
+Phone: (512) 555-3457
+Employer: Austin Fire Department
+
+Insurance: Blue Cross Blue Shield TX
+Policy #: BCBSTX-445566778
+Subscriber: Maria Elena Martinez
+
+---
+# name: High PII - Pediatric Record 027
+# expected_critical: true
+
+Immunization Record
+Texas Department of State Health Services
+
+Patient: ANDERSON, OLIVIA GRACE
+DOB: 03/22/2020
+SSN: 890-12-3466
+Birth Certificate #: TX-2020-789456
+
+Parents:
+Mother: JENNIFER ANDERSON, SSN: 890-12-3465
+Father: MICHAEL ANDERSON, SSN: 890-12-3467
+
+Address: 5678 Family Lane, Dallas, TX 75201
+Phone: (214) 555-5678
+
+Immunization History:
+- DTaP: 05/22/2020, 07/22/2020, 09/22/2020, 03/22/2021
+- IPV: 05/22/2020, 07/22/2020, 09/22/2020, 03/22/2021
+- Hib: 05/22/2020, 07/22/2020, 09/22/2020
+- PCV13: 05/22/2020, 07/22/2020, 09/22/2020, 03/22/2021
+- MMR: 03/22/2021
+- Varicella: 03/22/2021
+- Hepatitis A: 03/22/2021, 09/22/2021
+
+Provider: Dr. Sarah Kim, Pediatrics
+NPI: 9012345678
+Practice: Dallas Children's Medical Group
+
+---
+# name: High PII - Mental Health Record 028
+# expected_critical: true
+
+PSYCHIATRIC EVALUATION - CONFIDENTIAL
+
+Patient: THOMPSON, DAVID MICHAEL
+DOB: 10/15/1985
+SSN: 901-23-4577
+MRN: PSY-2025-001234
+Address: 2345 Serenity Lane, Portland, OR 97201
+Phone: (503) 555-2345
+Emergency Contact: Sarah Thompson (wife) - (503) 555-2346
+
+Date of Evaluation: 02/01/2025
+Evaluator: Dr. Elizabeth Chen, MD, Psychiatry
+NPI: 0123456789
+
+Chief Complaint: "I've been having thoughts of suicide for the past two weeks"
+
+History of Present Illness:
+35-year-old married male, software engineer at Intel, presenting with 2-week history of worsening depression following job layoff notice. Reports passive suicidal ideation with vague plan (pills), no intent. Previous suicide attempt in 2015 (overdose). Currently drinking 6-8 beers daily.
+
+Diagnoses:
+1. Major Depressive Disorder, severe, recurrent (F33.2)
+2. Alcohol Use Disorder, moderate (F10.20)
+3. Suicidal ideation (R45.851)
+
+Plan: Voluntary psychiatric admission for stabilization
+
+---
+# name: High PII - Mental Health Record 029
+# expected_critical: true
+
+SUBSTANCE ABUSE TREATMENT INTAKE
+
+Facility: New Beginnings Recovery Center
+Admit Date: 01/25/2025
+
+Patient Information:
+Name: MELISSA ANN ROBERTS
+DOB: 06/30/1992
+SSN: 012-34-5688
+Address: 7890 Recovery Road (home: 1234 Main St, Boise, ID 83701)
+Phone: (208) 555-7890
+Email: maroberts92@yahoo.com
+
+Emergency Contact: Patricia Roberts (mother) - (208) 555-7891
+
+Insurance: Idaho Medicaid
+Member ID: 123456789A
+
+Substances of Abuse:
+- Heroin (IV) - 2 grams/day
+- Methamphetamine - 1 gram/day
+- Alcohol - 1 pint vodka/day
+
+Last Use: 01/24/2025
+Previous Treatment: 3 prior rehab admissions (2018, 2020, 2022)
+
+Legal History: 2 DUIs, 1 possession charge (pending)
+
+Diagnoses:
+1. Opioid Use Disorder, severe (F11.20)
+2. Stimulant Use Disorder, severe (F15.20)
+3. Alcohol Use Disorder, moderate (F10.20)
+
+Treatment Plan: 30-day residential, MAT with Suboxone
+
+---
+# name: High PII - Mental Health Record 030
+# expected_critical: true
+
+INVOLUNTARY PSYCHIATRIC HOLD - FORM 5150
+
+County: Los Angeles
+Date/Time: 02/10/2025, 22:45
+
+Patient: GARCIA, ANTONIO LUIS
+DOB: 08/05/1978
+SSN: 123-45-6700
+Address: Homeless (last known: 456 Skid Row, Los Angeles, CA 90013)
+
+Person Initiating Hold: Officer J. Martinez, Badge #4567, LAPD
+Location of Detention: Corner of 5th and San Pedro
+
+Reason for Hold:
+☒ Danger to self
+☒ Danger to others
+☐ Gravely disabled
+
+Description of Behavior:
+Patient found standing in traffic on 5th Street, yelling about government surveillance. When approached, patient became combative, stating he would "end it all" and that "others would pay." Patient has visible self-inflicted lacerations on forearms.
+
+Transported to: LAC+USC Medical Center Psychiatric ER
+Receiving Physician: Dr. Michael Wong
+Admit Time: 23:30
+
+Patient Rights Advisement: Given at 23:45 by Patient Advocate
+
+---
+# name: High PII - HIV/AIDS Record 031
+# expected_critical: true
+
+HIV CARE COORDINATION NOTES
+
+Patient: [HIGHLY CONFIDENTIAL]
+Name: JOHNSON, KEVIN MICHAEL
+DOB: 12/20/1988
+SSN: 234-56-7811
+MRN: HIV-2024-001234
+Phone: (404) 555-1234
+Address: 5678 Peachtree Street, Atlanta, GA 30301
+
+Diagnosis Date: 03/15/2020
+Mode of Transmission: MSM
+
+Current Status:
+CD4 Count: 650 cells/mm³ (02/01/2025)
+Viral Load: Undetectable (<20 copies/mL)
+On ART since: 04/01/2020
+
+Current Regimen: Biktarvy 1 tab daily
+
+Partner Notification:
+- Partner 1: Notified 03/20/2020
+- Partner 2: Unable to locate
+- Current partner aware of status: Yes
+
+Insurance: Anthem Georgia, ID: AG-556677889
+Ryan White Enrollment: Yes, Part B
+
+Case Manager: Lisa Williams, MSW
+Phone: (404) 555-1235
+Next Appointment: 05/01/2025
+
+---
+# name: High PII - HIV/AIDS Record 032
+# expected_critical: true
+
+PrEP CLINICAL FOLLOW-UP
+
+Patient: WILLIAMS, MARCUS JAMES
+DOB: 05/14/1995
+SSN: 345-67-8922
+Address: 789 Castro Street, Apt 3, San Francisco, CA 94114
+Phone: (415) 555-7890
+Email: mjwilliams95@gmail.com
+
+Insurance: Kaiser Permanente, MRN: KP-12345678
+
+Visit Date: 02/05/2025
+Visit Type: Quarterly PrEP follow-up
+
+Current Medication: Descovy (TAF/FTC) daily
+
+Lab Results (02/05/2025):
+- HIV Ag/Ab: Non-reactive
+- Creatinine: 0.9 mg/dL
+- Hepatitis B: Immune
+- RPR: Non-reactive
+- Rectal GC/CT: Negative
+- Pharyngeal GC: Positive → Treated with Ceftriaxone 500mg IM
+
+Risk Assessment:
+Reports 8 partners in past 3 months, inconsistent condom use
+Substance use: Occasional methamphetamine (party and play)
+
+Counseling provided on:
+- Adherence (missed 3 doses last month)
+- STI prevention
+- Substance use harm reduction
+
+Provider: Dr. Sarah Chen, MD
+NPI: 1234509876
+
+---
+# name: High PII - Reproductive Health 033
+# expected_critical: true
+
+OB/GYN VISIT SUMMARY
+
+Patient: MARTINEZ, ISABELLA ROSE
+DOB: 09/18/1994
+SSN: 456-78-9033
+MRN: OBG-2025-5678
+Address: 3456 Garden Way, Phoenix, AZ 85001
+Phone: (602) 555-3456
+Email: isamartinez94@gmail.com
+
+Insurance: Cigna, Member ID: CIG-778899001
+
+Visit Date: 02/08/2025
+Visit Type: Pregnancy Confirmation
+
+LMP: 12/15/2024
+EDC: 09/21/2025
+Gestational Age: 8 weeks, 0 days
+
+Ultrasound: Single intrauterine pregnancy, cardiac activity present
+Fetal HR: 165 bpm
+
+Patient Concerns:
+- Unplanned pregnancy
+- Partner unaware
+- Requesting information on all options
+
+Patient counseled on: continuation, adoption, termination
+Patient requests time to consider options
+Follow-up scheduled: 02/15/2025
+
+Provider: Dr. Jennifer Adams, OB/GYN
+NPI: 2345610987
+
+---
+# name: High PII - Reproductive Health 034
+# expected_critical: true
+
+FERTILITY CLINIC RECORDS
+
+Patient: CHEN, LISA MARIE
+DOB: 03/25/1985
+SSN: 567-89-0144
+Partner: CHEN, DAVID JAMES
+Partner DOB: 07/12/1983
+Partner SSN: 567-89-0145
+
+Address: 8901 Fertility Lane, Palo Alto, CA 94301
+Phone: (650) 555-8901
+Email: lisachen85@stanford.edu
+
+Insurance: Stanford Employee Health, ID: SEH-445566
+
+Diagnosis: Secondary infertility, unexplained
+Previous Pregnancy: 1 (2018, spontaneous loss at 12 weeks)
+Trying to Conceive: 24 months
+
+Treatment History:
+- Clomid cycles x 3: Unsuccessful
+- IUI x 2: Unsuccessful
+- Currently: IVF Cycle #1
+
+Cycle Details:
+Stim Start: 01/28/2025
+Retrieval: 02/08/2025 - 12 oocytes retrieved
+Fertilization: 8 embryos
+Day 5 Blast: 4 embryos, PGT-A testing sent
+
+Financial: Self-pay for IVF ($18,500)
+Balance due: $5,000
+
+Provider: Dr. Rebecca Stone, REI
+Clinic: Pacific Fertility Center
+
+---
+# name: High PII - Reproductive Health 035
+# expected_critical: true
+
+ABORTION SERVICES - CONFIDENTIAL
+
+Clinic: Women's Health Center
+Visit Date: 02/10/2025
+
+Patient Information:
+Name: [Name withheld for safety - see sealed record]
+Code Name for Scheduling: "ROSE"
+DOB: 11/30/2000
+Last 4 SSN: 0155
+Full SSN (sealed): 678-90-0155
+Phone (burner): (555) 123-4567
+Alternate Contact: Sister - "LILY" - (555) 123-4568
+
+Address: [Withheld - domestic violence concerns documented]
+
+Medical Information:
+LMP: 01/01/2025
+Gestational Age: 5 weeks, 6 days
+Ultrasound: Confirmed IUP
+
+Procedure: Medication abortion
+Mifepristone: Administered in office
+Misoprostol: Dispensed for home use
+
+Safety Planning:
+- Partner is not aware
+- Documented IPV history
+- Social work consult completed
+- Safe house information provided
+
+Follow-up: Telehealth in 1 week
+Emergency contact provided
+
+Financial: Covered by NAF assistance fund
+
+---
+# name: High PII - Genetic/Hereditary 036
+# expected_critical: true
+
+GENETIC COUNSELING SUMMARY
+
+Patient: GOLDSTEIN, REBECCA SARAH
+DOB: 04/08/1988
+SSN: 789-01-2366
+MRN: GEN-2025-7890
+Address: 1234 Heritage Lane, Pikesville, MD 21208
+Phone: (410) 555-1234
+Email: rsgoldstein@gmail.com
+
+Insurance: CareFirst BCBS, ID: CF-998877665
+
+Referral Reason: Ashkenazi Jewish carrier screening (preconception)
+
+Family History:
+- Maternal grandmother: Breast cancer, age 52
+- Paternal uncle: Tay-Sachs carrier
+
+Testing Performed: Expanded carrier panel (283 conditions)
+
+Results:
+POSITIVE CARRIER STATUS:
+1. Tay-Sachs disease - 1 pathogenic variant detected
+2. Familial dysautonomia - 1 pathogenic variant detected
+3. Gaucher disease - 1 pathogenic variant detected
+
+Recommendations:
+- Partner testing essential before conception
+- If partner positive for same conditions, discuss options:
+  - PGT-M with IVF
+  - Prenatal diagnosis
+  - Donor gametes
+
+Partner: COHEN, DANIEL AARON
+Partner DOB: 01/15/1986
+Partner testing scheduled: 02/20/2025
+
+Counselor: Sarah Levine, MS, CGC
+Supervising Physician: Dr. Michael Berg
+
+---
+# name: High PII - Genetic/Hereditary 037
+# expected_critical: true
+
+HUNTINGTON'S DISEASE PREDICTIVE TESTING
+
+HIGHLY CONFIDENTIAL - RESTRICTED ACCESS
+
+Patient: MORRISON, JAMES PATRICK
+DOB: 08/22/1990
+SSN: 890-12-3477
+Address: 5678 Oak Street, Cleveland, OH 44101
+Phone: (216) 555-5678
+Email: jpmorrison90@outlook.com
+
+Family History:
+Father: Diagnosed HD age 42, deceased age 55
+Paternal grandmother: Diagnosed HD age 45, deceased age 58
+Risk: 50% prior to testing
+
+Pre-Test Counseling:
+Sessions completed: 3
+Psychological evaluation: Dr. Karen White - Cleared for testing
+Support person identified: Wife, Sarah Morrison
+
+Test Date: 01/15/2025
+
+RESULT: POSITIVE
+CAG Repeat: 42 (Normal: <36, HD: ≥40)
+Estimated Age of Onset: 40-50 years
+
+Post-Test Counseling:
+Session 1: 01/22/2025 - Initial result disclosure
+Session 2: 01/29/2025 - Coping, planning
+Session 3: 02/05/2025 - Insurance, legal planning
+Ongoing support scheduled
+
+Referrals:
+- HD Clinic at Cleveland Clinic
+- Estate planning attorney
+- Long-term care insurance (before symptoms)
+
+Genetic Counselor: Michelle Adams, MS, CGC
+Neurologist: Dr. Robert Chen
+
+---
+# name: High PII - Transplant Record 038
+# expected_critical: true
+
+ORGAN TRANSPLANT EVALUATION
+
+UNOS ID: UNOS-2025-123456
+
+Candidate Information:
+Name: WILLIAMS, PATRICIA ANNE
+DOB: 05/30/1965
+SSN: 901-23-4588
+Blood Type: O Positive
+Address: 2345 Transplant Way, Pittsburgh, PA 15201
+Phone: (412) 555-2345
+
+Insurance: Medicare + Medigap
+Medicare ID: 1EG4-TE5-MK73
+Medigap Policy: AARP-998877665
+
+Organ Needed: Kidney
+Listing Date: 11/15/2024
+Status: Active
+EPTS Score: 45%
+CPRA: 85%
+
+Diagnosis: ESRD secondary to diabetic nephropathy
+Dialysis: Hemodialysis since 08/01/2023
+Access: Left AV fistula
+
+Living Donor Evaluated:
+Name: WILLIAMS, ROBERT (son)
+DOB: 02/14/1990
+SSN: 901-23-4589
+Relationship: Son
+Blood Type: O Positive
+Status: Compatible, pending final testing
+
+Transplant Center: UPMC
+Coordinator: Lisa Chen, RN
+Phone: (412) 555-2346
+
+---
+# name: High PII - Transplant Record 039
+# expected_critical: true
+
+BONE MARROW DONOR MATCH NOTIFICATION
+
+Be The Match Registry
+Donor ID: BTM-2025-789456
+
+Donor Information:
+Name: CHEN, MICHAEL DAVID
+DOB: 10/12/1992
+SSN: 012-34-5699
+Address: 6789 Donor Drive, San Jose, CA 95101
+Phone: (408) 555-6789
+Email: mdchen92@gmail.com
+
+HLA Typing: A*02:01, A*24:02; B*35:01, B*44:02; C*04:01, C*05:01; DRB1*07:01, DRB1*11:01
+
+Match Notification:
+Patient ID: P-2025-445566
+Match Type: 10/10 HLA match (unrelated)
+Patient Diagnosis: Acute Myeloid Leukemia
+Urgency: High
+
+Donor Status:
+- Confirmatory typing: Complete
+- Physical: Scheduled 02/15/2025
+- Infectious disease testing: Pending
+
+Donation Type Requested: PBSC
+Target Collection Date: March 2025
+
+Coordinator: Jennifer Martinez
+Phone: (612) 555-7890
+
+---
+# name: High PII - Cancer Registry 040
+# expected_critical: true
+
+STATE CANCER REGISTRY REPORT
+
+Reporting Facility: Memorial Cancer Center
+Facility ID: MCC-12345
+
+Patient Demographics:
+Name: JOHNSON, MARY ELIZABETH
+DOB: 07/14/1958
+SSN: 123-45-6701
+Race: White
+Ethnicity: Non-Hispanic
+Address: 4567 Cancer Care Lane, Tampa, FL 33601
+Phone: (813) 555-4567
+
+Diagnosis Information:
+Date of Diagnosis: 01/10/2025
+Primary Site: Breast (C50.9)
+Histology: Invasive ductal carcinoma (8500/3)
+Behavior: Malignant, primary
+Grade: 2 (Moderately differentiated)
+Stage: IIB (T2N1M0)
+ER: Positive (95%)
+PR: Positive (80%)
+HER2: Negative
+
+Treatment:
+Surgery: Lumpectomy 01/25/2025
+Radiation: Planned
+Chemotherapy: AC-T planned
+Hormone Therapy: Planned
+
+Follow-up: Every 3 months x 2 years
+
+Reporting Physician: Dr. Sarah Kim, Oncology
+NPI: 3456721098
+
+---
+# name: High PII - STI Records 041
+# expected_critical: true
+
+SEXUALLY TRANSMITTED INFECTION REPORT
+
+Confidential Morbidity Report
+State Health Department Case #: STI-2025-789456
+
+Patient Information:
+Name: SMITH, JASON MICHAEL
+DOB: 03/28/1998
+SSN: 234-56-7812
+Address: 8901 College Avenue, Apt 12, Austin, TX 78701
+Phone: (512) 555-8901
+Email: jsmith98@university.edu
+Occupation: Graduate Student
+
+Disease Reported: Syphilis, Primary
+Date of Diagnosis: 02/05/2025
+Lab: RPR Reactive 1:64, TP-PA Positive
+
+Risk Factors:
+- MSM: Yes
+- HIV Status: Negative (tested today)
+- Number of partners (3 months): 6
+- Anonymous partners: Yes (dating apps)
+
+Treatment: Penicillin G Benzathine 2.4 million units IM x 1
+Treatment Date: 02/05/2025
+
+Partner Services:
+- Partner 1: Notified, tested, treated
+- Partner 2: Contact info provided (512) 555-8902
+- Partners 3-6: Anonymous, unable to notify
+
+Provider: Dr. Amanda Chen
+Clinic: University Health Services
+Fax: (512) 555-8903
+
+---
+# name: High PII - Occupational Health 042
+# expected_critical: true
+
+OCCUPATIONAL HEALTH SURVEILLANCE RECORD
+
+Employer: ChemCorp Industries
+OSHA Establishment ID: 1234567
+
+Employee Information:
+Name: RODRIGUEZ, CARLOS MIGUEL
+SSN: 345-67-8923
+DOB: 09/15/1975
+Address: 2345 Industrial Way, Newark, NJ 07101
+Phone: (973) 555-2345
+Job Title: Chemical Process Operator
+Department: Production - Line 3
+Hire Date: 05/01/2010
+
+Exposure History:
+- Benzene: 15 years
+- Toluene: 15 years
+- Formaldehyde: 10 years
+
+Medical Surveillance (Annual):
+Date: 02/01/2025
+
+Results:
+CBC: WBC 3.2 (L), Hgb 10.8 (L), Plt 95 (L)
+LFTs: AST 78 (H), ALT 92 (H)
+Pulmonary Function: FEV1 65% predicted (decreased from 78% in 2024)
+
+Assessment: Abnormal hematologic and liver findings
+Possible benzene toxicity
+
+Recommendations:
+1. Remove from benzene exposure immediately
+2. Hematology referral
+3. Hepatology referral
+4. Repeat labs in 2 weeks
+
+Work Restrictions: No benzene exposure until cleared
+
+Occupational Medicine Physician: Dr. Patricia Williams
+NPI: 4567832109
+
+---
+# name: High PII - Immigration Medical 043
+# expected_critical: true
+
+IMMIGRATION MEDICAL EXAMINATION
+USCIS Form I-693
+
+Civil Surgeon: Dr. Robert Kim, MD
+Civil Surgeon ID: CS-123456
+Address: 1234 Medical Plaza, Los Angeles, CA 90001
+Phone: (213) 555-1234
+
+Applicant Information:
+Name: PATEL, ANIKA SHARMA
+DOB: 12/05/1990
+Country of Birth: India
+A-Number: A-123456789
+Passport #: J1234567 (India)
+Address: 5678 Visa Way, Apt 4, Los Angeles, CA 90001
+Phone: (213) 555-5678
+
+Examination Date: 02/10/2025
+
+Vaccination Review:
+☒ MMR - Complete
+☒ Tdap - Complete
+☒ Varicella - Complete
+☒ Hepatitis B - Complete
+☒ COVID-19 - Complete
+☐ Influenza - Administered today
+
+TB Screening:
+IGRA Test: Positive
+Chest X-ray: No active disease
+Diagnosis: Latent TB Infection
+
+Required: Complete LTBI treatment before visa approval
+Treatment Plan: Rifampin x 4 months
+
+Mental Health Screening: No Class A conditions
+Substance Abuse: No Class A conditions
+
+Civil Surgeon Signature: [Signed]
+Date: 02/10/2025
+
+---
+# name: High PII - Disability Evaluation 044
+# expected_critical: true
+
+SOCIAL SECURITY DISABILITY EVALUATION
+
+SSA Office: Tampa, FL
+Claim #: 123-45-6789-D
+
+Claimant Information:
+Name: THOMPSON, RICHARD ALLEN
+SSN: 123-45-6789
+DOB: 11/22/1970
+Address: 3456 Disability Lane, Tampa, FL 33601
+Phone: (813) 555-3456
+
+Representative: Jane Smith, Esq.
+Law Firm: Disability Advocates LLC
+Phone: (813) 555-3457
+
+Alleged Onset Date: 06/15/2023
+Date Last Insured: 12/31/2028
+
+Alleged Impairments:
+1. Degenerative disc disease, lumbar spine
+2. Major depressive disorder
+3. Chronic pain syndrome
+4. Obesity
+
+Work History (Past 15 years):
+- Warehouse worker (2010-2023)
+- Forklift operator (2005-2010)
+
+Consultative Examination:
+Date: 02/05/2025
+Examiner: Dr. Michael Chen, Internal Medicine
+NPI: 5678943210
+
+Findings:
+- Limited ROM lumbar spine
+- Positive straight leg raise bilateral
+- Depressed affect
+- BMI 42
+
+Functional Capacity:
+- Lift/carry: 10 lbs occasionally
+- Stand/walk: 2 hours total
+- Sit: 4 hours total
+
+Opinion: Unable to perform past work; limited to sedentary work with restrictions
+
+---
+# name: High PII - Life Insurance Medical 045
+# expected_critical: true
+
+LIFE INSURANCE PARAMEDICAL EXAMINATION
+
+Insurance Company: MetLife
+Policy Application #: ML-2025-123456
+
+Proposed Insured:
+Name: GARCIA, MARIA ISABEL
+DOB: 04/18/1980
+SSN: 234-56-7813
+Address: 6789 Insurance Ave, Miami, FL 33101
+Phone: (305) 555-6789
+Email: migarcia80@gmail.com
+
+Face Amount Applied For: $1,000,000
+Beneficiary: Jose Garcia (husband)
+
+Examination Date: 02/08/2025
+Examiner: ExamOne Services
+
+Measurements:
+Height: 5'4"
+Weight: 185 lbs
+BMI: 31.7
+Blood Pressure: 142/88
+Pulse: 78
+
+Laboratory Results:
+Glucose: 118 mg/dL
+Total Cholesterol: 245 mg/dL
+HDL: 42 mg/dL
+LDL: 168 mg/dL
+Triglycerides: 175 mg/dL
+HbA1c: 6.2%
+Cotinine: Negative
+HIV: Negative
+Hepatitis: Negative
+
+Medical History Disclosed:
+- Hypertension: Yes, on lisinopril
+- Prediabetes: Yes, diet controlled
+- Family history: Father MI age 55
+
+Underwriting Recommendation: Standard Plus with Table 2 rating
+
+---
+# name: High PII - Research Subject 046
+# expected_critical: true
+
+CLINICAL TRIAL ENROLLMENT
+
+Study: Phase III Trial of Novel Diabetes Medication
+Protocol #: DM-2024-0456
+Sponsor: Pharma Corp Inc.
+Site: University Medical Center
+Site #: 1234
+
+Subject Information:
+Subject ID: DM-0456-001
+Name: ANDERSON, PATRICIA SUE
+DOB: 07/30/1965
+SSN: 345-67-8934
+Address: 4567 Research Blvd, Baltimore, MD 21201
+Phone: (410) 555-4567
+Email: psanderson@email.com
+
+Eligibility:
+- Age 18-75: Yes (59 years)
+- Type 2 DM ≥ 1 year: Yes (diagnosed 2018)
+- HbA1c 7.5-10.5%: Yes (8.2%)
+- eGFR ≥ 45: Yes (72)
+- No insulin use: Yes
+
+Randomization:
+Date: 02/01/2025
+Arm: Treatment (Active drug)
+Blinding: Double-blind
+
+Study Drug: XYZ-123 10mg daily
+Dispensed: 90-day supply
+
+Informed Consent: Signed 02/01/2025
+HIPAA Authorization: Signed 02/01/2025
+
+PI: Dr. Jennifer Lee
+Coordinator: Sarah Martinez, RN
+Phone: (410) 555-4568
+
+---
+# name: High PII - Medical Legal Report 047
+# expected_critical: true
+
+INDEPENDENT MEDICAL EXAMINATION REPORT
+
+Case: WILLIAMS v. ABC TRUCKING COMPANY
+Case Number: 2024-CV-12345
+Court: Superior Court, Los Angeles County
+
+Claimant:
+Name: WILLIAMS, JAMES ROBERT
+DOB: 03/12/1975
+SSN: 456-78-9045
+Address: 7890 Litigation Lane, Los Angeles, CA 90001
+Phone: (213) 555-7890
+
+Date of Injury: 08/15/2023
+Date of IME: 02/05/2025
+
+Examining Physician: Dr. Michael Torres, MD, FAAOS
+Orthopedic Surgery
+License: CA-A123456
+NPI: 6789054321
+
+Requesting Attorney: Defense Counsel
+Law Firm: BigLaw Defense LLP
+
+History of Injury:
+MVA - claimant rear-ended by commercial truck
+Alleged injuries: Cervical/lumbar disc herniations
+
+Records Reviewed: 2,500 pages
+
+Physical Examination Findings:
+[Detailed examination documented]
+
+Diagnoses:
+1. Cervical disc bulge C5-6 (pre-existing, not aggravated)
+2. Lumbar strain, resolved
+3. Symptom magnification noted
+
+Opinions:
+1. MMI reached 02/15/2024
+2. No permanent impairment from accident
+3. Pre-existing degenerative condition
+4. Capable of returning to work without restrictions
+
+---
+# name: High PII - Foster Care Medical 048
+# expected_critical: true
+
+FOSTER CARE HEALTH PASSPORT
+
+State: California
+Case #: FC-2025-123456
+
+Child Information:
+Name: DOE, JANE (Legal name sealed)
+Alias: SMITH, ASHLEY MARIE
+DOB: 09/14/2015
+SSN: 567-89-0156
+Birth Certificate: Sealed
+
+Current Placement:
+Foster Parents: John and Mary Williams
+Address: 1234 Foster Care Lane, Sacramento, CA 95814
+Phone: (916) 555-1234
+Placement Date: 01/15/2025
+
+Biological Parents:
+Mother: DOE, JENNIFER (rights terminated)
+Father: Unknown
+
+Medical History:
+- Prenatal drug exposure (methamphetamine)
+- Developmental delays
+- Reactive Attachment Disorder
+- PTSD from prior abuse
+
+Medications:
+- None current
+
+Immunizations: Up to date
+Dental: Overdue - schedule ASAP
+Vision: Glasses needed, referral sent
+
+Trauma History: [Documented in sealed section]
+- Physical abuse (prior placement)
+- Witness to DV
+- Multiple placement disruptions
+
+Therapist: Dr. Sarah Chen, LCSW
+Therapy Schedule: Weekly
+
+Caseworker: Maria Rodriguez
+Phone: (916) 555-1235
+
+---
+# name: High PII - School Health Record 049
+# expected_critical: true
+
+SCHOOL HEALTH RECORD
+CONFIDENTIAL - FERPA PROTECTED
+
+School District: Anytown Unified School District
+School: Washington Elementary
+School Year: 2024-2025
+
+Student Information:
+Name: MARTINEZ, SOPHIA ELENA
+DOB: 05/22/2016
+Student ID: 2024-123456
+Grade: 3rd
+Teacher: Mrs. Johnson, Room 12
+
+Address: 2345 School Street, Anytown, CA 90001
+Parent/Guardian: Maria Martinez (mother)
+Contact: (555) 234-5678
+Emergency: Carlos Martinez (father) (555) 234-5679
+
+Health Conditions:
+- Type 1 Diabetes (diagnosed 2020)
+- Requires blood glucose monitoring
+- Insulin pump user (Omnipod)
+- 504 Plan in place
+
+Medications at School:
+- Insulin (via pump, self-administered with supervision)
+- Glucagon emergency kit (nurse's office)
+
+Allergies:
+- Peanuts - SEVERE (EpiPen on file)
+- Latex
+
+Health Office Visits (2024-2025):
+09/15/24: Low blood sugar, juice given
+10/22/24: Fall on playground, ice pack
+01/14/25: Stomach ache, parent called
+
+Emergency Contacts:
+1. Maria Martinez (mother) - (555) 234-5678
+2. Carlos Martinez (father) - (555) 234-5679
+3. Elena Garcia (grandmother) - (555) 234-5680
+
+School Nurse: Jennifer Adams, RN
+Phone: (555) 234-5600 ext. 123
+
+---
+# name: High PII - Nursing Home Admission 050
+# expected_critical: true
+
+SKILLED NURSING FACILITY ADMISSION
+
+Facility: Sunny Acres Nursing Home
+Admit Date: 02/01/2025
+Admit From: Memorial Hospital (post-hip surgery)
+
+Resident Information:
+Name: JOHNSON, DOROTHY MAE
+DOB: 03/15/1940
+SSN: 678-90-0167
+Medicare ID: 1EG4-TE5-MK74
+Medicaid ID: CA-123456789
+
+Prior Address: 3456 Senior Lane, Fresno, CA 93701
+Room Assignment: 204-A
+
+Responsible Party:
+Name: JOHNSON, ROBERT (son)
+Relationship: Son
+Address: 7890 Family Drive, Fresno, CA 93702
+Phone: (559) 555-7890
+POA: Healthcare and Financial
+
+Diagnoses:
+1. S/P right hip ORIF (02/01/2025)
+2. Alzheimer's dementia, moderate
+3. Hypertension
+4. Osteoporosis
+5. Urinary incontinence
+
+Code Status: DNR/DNI (POLST on file)
+
+Medications:
+- Donepezil 10mg daily
+- Memantine 10mg BID
+- Lisinopril 10mg daily
+- Calcium/Vitamin D daily
+- Oxycodone 5mg q6h PRN pain
+
+Care Plan:
+- PT/OT daily
+- Weight bearing as tolerated
+- Fall precautions
+- Wander guard
+- Assist x 2 for transfers
+
+Insurance:
+Primary: Medicare Part A
+Secondary: Medicaid (pending spend-down)
+Estimated Daily Rate: $385
+
+---
+# name: High PII - Home Health Orders 051
+# expected_critical: true
+
+HOME HEALTH CERTIFICATION & PLAN OF CARE
+
+Agency: Visiting Nurses Association
+Medicare Provider #: 12-3456
+
+Patient Information:
+Name: CHEN, WILLIAM JAMES
+DOB: 08/22/1945
+SSN: 789-01-2378
+Medicare HIC: 1EG4-TE5-MK75
+Address: 4567 Home Care Lane, Portland, OR 97201
+Phone: (503) 555-4567
+
+Primary Caregiver: CHEN, NANCY (wife)
+Phone: (503) 555-4568
+
+Certifying Physician: Dr. Sarah Lee
+NPI: 7890165432
+
+Certification Period: 02/01/2025 - 04/01/2025
+
+Homebound Status:
+Patient requires assistance to leave home due to:
+- Oxygen dependency
+- Severe dyspnea on exertion
+- Requires wheelchair for distances
+
+Primary Diagnosis: COPD with acute exacerbation (J44.1)
+Secondary: CHF, A-fib, Type 2 DM
+
+Skilled Services Ordered:
+☒ Skilled Nursing - 3x/week
+☒ Physical Therapy - 2x/week
+☒ Occupational Therapy - 1x/week
+☐ Speech Therapy
+☒ Home Health Aide - 5x/week
+
+Medications:
+- Oxygen 2L NC continuous
+- Spiriva 18mcg daily
+- Symbicort 160/4.5 BID
+- Lasix 40mg daily
+- Metoprolol 50mg BID
+- Metformin 500mg BID
+- Eliquis 5mg BID
+
+Goals:
+1. Improve ambulation to 150 feet
+2. SpO2 > 92% on room air with activity
+3. Independent with ADLs
+
+---
+# name: High PII - Hospice Enrollment 052
+# expected_critical: true
+
+HOSPICE ELECTION/CERTIFICATION
+
+Hospice: Comfort Care Hospice
+Medicare Provider #: 12-7890
+
+Patient Information:
+Name: WILLIAMS, MARGARET ANN
+DOB: 12/10/1938
+SSN: 890-12-3489
+Medicare HIC: 1EG4-TE5-MK76
+Address: 5678 Peaceful Way, San Diego, CA 92101
+Phone: (619) 555-5678
+
+Primary Caregiver/POA:
+Name: WILLIAMS, THOMAS (son)
+Phone: (619) 555-5679
+Relationship: Son, Healthcare POA
+
+Attending Physician: Dr. Michael Brown
+NPI: 8901276543
+
+Hospice Medical Director: Dr. Patricia Chen
+NPI: 9012387654
+
+Election Date: 02/05/2025
+Benefit Period: Initial 90 days
+
+Terminal Diagnosis: Metastatic pancreatic cancer
+Prognosis: 6 months or less if disease runs normal course
+
+Certifying Statement:
+Patient has metastatic pancreatic adenocarcinoma with liver metastases. Patient is declining chemotherapy. Functional status declining, now bed-bound majority of day. Weight loss >10% in past month. Meeting all hospice eligibility criteria.
+
+Code Status: DNR/DNI/Comfort Care Only
+
+Medications for Comfort:
+- Morphine 10mg/5mL concentrate PRN pain
+- Ativan 0.5mg SL PRN anxiety
+- Haldol 0.5mg PRN agitation
+- Scopolamine patch PRN secretions
+
+Level of Care: Routine Home Care
+Location: Private residence
+
+Family Meeting: Completed 02/05/2025
+Goals of Care: Comfort, dignity, family support
+
+---
+# name: High PII - International Patient 053
+# expected_critical: true
+
+INTERNATIONAL PATIENT REGISTRATION
+
+Facility: Cleveland Clinic International
+Registration Date: 02/10/2025
+
+Patient Information:
+Name: AL-RASHID, MOHAMMED AHMED
+Passport: A12345678 (Saudi Arabia)
+DOB: 05/15/1965
+Visa: B1/B2 Tourist
+US Address: Intercontinental Hotel, Cleveland, OH
+Phone (US): (216) 555-1234
+Phone (Home): +966-11-555-1234
+Email: m.alrashid@email.sa
+
+Home Address: 
+1234 King Fahd Road
+Riyadh, Saudi Arabia 12345
+
+Accompanying Family:
+Wife: Fatima Al-Rashid, Passport: A12345679
+Son: Ahmed Al-Rashid, Passport: A12345680
+
+Medical Condition: Coronary artery disease, requires CABG
+Referring Physician: Dr. Abdullah Hassan, King Faisal Hospital
+
+Insurance/Payment:
+☐ Insurance
+☒ Self-Pay
+Estimated Cost: $150,000 USD
+Deposit Received: $75,000 USD
+Wire Transfer: Bank of America, Acct ending 4567
+
+Interpreter Required: Arabic
+Dietary Requirements: Halal
+
+Case Manager: Jennifer Smith
+Direct: (216) 555-1235
+Email: international@clevelandclinic.org
+
+---
+# name: High PII - Correctional Health 054
+# expected_critical: true
+
+INMATE MEDICAL RECORD
+
+Facility: State Correctional Institution - Phoenix
+CDCR #: AB-12345
+
+Inmate Information:
+Name: RODRIGUEZ, CARLOS ANTONIO
+DOB: 07/22/1985
+SSN: 901-23-4590
+Booking Date: 03/15/2020
+Projected Release: 03/15/2030
+Offense: Armed robbery
+Security Level: Medium
+
+Housing: Block C, Cell 45
+
+Medical History:
+- HIV positive (diagnosed 2018)
+- Hepatitis C (treated, cured 2022)
+- Major Depressive Disorder
+- History of suicide attempt (2019)
+
+Current Medications:
+- Biktarvy 1 tab daily
+- Sertraline 100mg daily
+- Trazodone 100mg QHS
+
+Mental Health:
+CCCMS Level: 3C (Enhanced Outpatient)
+Psychiatrist: Dr. Sarah Kim
+Last Eval: 01/15/2025
+Suicide Risk: Low-Moderate
+
+Labs (02/01/2025):
+CD4: 550 cells/mm³
+Viral Load: Undetectable
+
+Chronic Care Appointments:
+- HIV Clinic: Monthly
+- Mental Health: Every 2 weeks
+- Dental: Overdue
+
+Restrictions:
+- Single cell (MH)
+- Work clearance: Limited duty
+
+Medical Staff: Dr. John Williams, CMO
+Facility: (555) 123-4567
+
+---
+# name: High PII - Tribal Health Record 055
+# expected_critical: true
+
+INDIAN HEALTH SERVICE PATIENT RECORD
+
+Facility: Pine Ridge Service Unit
+Patient ID: IHS-2024-123456
+
+Patient Information:
+Name: RUNNING HORSE, MARY ANNE
+DOB: 09/30/1970
+Tribal ID: 123-456-789
+Tribe: Oglala Lakota
+SSN: 012-34-5601
+Address: 1234 Reservation Road, Pine Ridge, SD 57770
+Phone: (605) 555-1234
+
+Indian Health Coverage:
+☒ Indian Health Service
+☒ Medicaid (SD)
+☐ Private Insurance
+
+Contract Health Eligibility: Yes
+CHEF Approval: Required for off-reservation care
+
+Medical Conditions:
+1. Type 2 Diabetes - 15 years
+2. Diabetic nephropathy - Stage 3b CKD
+3. Hypertension
+4. Obesity (BMI 38)
+
+Current Medications:
+- Metformin 1000mg BID
+- Glipizide 10mg BID
+- Lisinopril 40mg daily
+- Amlodipine 10mg daily
+- Atorvastatin 40mg daily
+
+Recent Labs (01/15/2025):
+HbA1c: 9.2%
+Creatinine: 2.1
+eGFR: 35
+Urine albumin: 450 mg/g
+
+Referral Needed:
+Nephrology - Rapid City (CHEF approval pending)
+
+Special Populations: Special Diabetes Program for Indians
+
+PCP: Dr. Angela Whitehorse
+Community Health Rep: John Black Elk
+Phone: (605) 555-1235
+
+---
+# name: High PII - Medical Malpractice Record 056
+# expected_critical: true
+
+MEDICAL MALPRACTICE INCIDENT REPORT
+
+CONFIDENTIAL - ATTORNEY WORK PRODUCT
+PREPARED AT DIRECTION OF LEGAL COUNSEL
+
+Facility: Memorial Hospital
+Incident Date: 01/15/2025
+Report Date: 01/16/2025
+
+Patient Information:
+Name: JOHNSON, PATRICIA ANN
+DOB: 06/08/1960
+MRN: MH-2025-123456
+SSN: 123-45-6702
+
+Incident Description:
+Patient underwent laparoscopic cholecystectomy on 01/15/2025. During procedure, common bile duct was inadvertently transected. Patient required open conversion and complex biliary reconstruction. Patient remains hospitalized in ICU with sepsis.
+
+Attending Surgeon: Dr. Michael Roberts
+Medical License: CA-A123456
+NPI: 1234567890
+Insurance: NORCAL Mutual, Policy #NM-123456
+
+Witnesses:
+1. Dr. Sarah Chen, Anesthesiologist
+2. Jennifer Smith, RN, Circulator
+3. Maria Garcia, CST, Scrub
+
+Immediate Actions:
+- Patient/family notified of complication
+- General surgery consultation obtained
+- Risk Management notified
+- Quality review initiated
+
+Attorney Handling: Defense Counsel retained
+Law Firm: Medical Defense Associates
+Contact: John Smith, Esq. (555) 123-4567
+
+Potential Damages:
+- Extended hospitalization
+- Additional surgeries likely
+- Possible permanent injury
+
+Reserve Estimate: $1,500,000
+
+---
+# name: High PII - Student Health Record 057
+# expected_critical: true
+
+UNIVERSITY HEALTH SERVICES
+CONFIDENTIAL STUDENT MEDICAL RECORD
+
+University: State University
+Student ID: 123456789
+Academic Year: 2024-2025
+
+Student Information:
+Name: CHEN, JENNIFER LYNN
+DOB: 08/15/2003
+SSN: 234-56-7814
+Local Address: 456 Dorm Hall, Room 312, College Town, ST 12345
+Permanent: 789 Home Street, Hometown, ST 54321
+Phone: (555) 234-5678
+Email: jchen@state.edu
+
+Emergency Contact:
+Name: William Chen (father)
+Phone: (555) 234-5679
+
+Insurance: Student Health Plan
+Member ID: SHP-123456
+
+Immunization Compliance:
+☒ MMR (2 doses)
+☒ Meningococcal (ACWY + B)
+☒ Hepatitis B series
+☒ Tdap
+☒ COVID-19 (primary + booster)
+
+Medical Conditions:
+1. Generalized Anxiety Disorder
+2. ADHD
+3. Seasonal allergies
+
+Medications:
+- Lexapro 10mg daily
+- Adderall XR 20mg daily
+- Allegra PRN
+
+Disability Accommodations: ODS registered
+- Extended test time (1.5x)
+- Private testing room
+- Breaks during exams
+
+Counseling Services:
+Active client since 09/01/2024
+Therapist: Dr. Sarah Martinez, PsyD
+Frequency: Bi-weekly
+
+Psychiatrist: Dr. Michael Lee, MD
+Last visit: 01/25/2025
+
+---
+# name: High PII - Employee Health Record 058
+# expected_critical: true
+
+EMPLOYEE HEALTH RECORD
+CONFIDENTIAL - RESTRICTED ACCESS
+
+Company: Tech Corporation Inc.
+Employee ID: EMP-123456
+
+Employee Information:
+Name: MARTINEZ, DAVID ANDREW
+DOB: 04/22/1985
+SSN: 345-67-8925
+Address: 1234 Employee Lane, San Jose, CA 95101
+Phone: (408) 555-1234
+Email: dmartinez@techcorp.com
+
+Department: Engineering
+Position: Senior Software Engineer
+Hire Date: 06/15/2018
+Manager: Jennifer Smith
+
+Pre-Employment Physical: 06/01/2018 - Cleared
+
+Occupational Health History:
+- Drug Screen (pre-employment): Negative
+- Drug Screen (random 2022): Negative
+- Drug Screen (random 2024): Negative
+
+Workers' Compensation Claims:
+1. 03/15/2021 - Carpal tunnel syndrome
+   Status: Closed, RTW without restrictions
+   
+FMLA Usage:
+- 2023: 4 weeks (birth of child)
+- 2024: 2 weeks (personal medical - undisclosed)
+
+ADA Accommodation Request (Active):
+Date: 01/15/2025
+Condition: Major Depressive Disorder
+Requested: Flexible schedule, remote work 2 days/week
+Healthcare Provider: Dr. Sarah Chen, Psychiatry
+Status: Under review
+
+Fitness for Duty:
+Current: Full duty, no restrictions
+
+Employee Health Provider: Dr. Michael Torres
+Occupational Medicine
+
+---
+# name: High PII - Corporate Email Thread 059
+# expected_critical: true
+
+From: jennifer.smith@hospital.org
+To: insurance.claims@bcbs.com
+CC: billing@hospital.org
+Subject: Prior Authorization Request - URGENT
+
+Dear Claims Department,
+
+Requesting urgent prior authorization for the following patient:
+
+Patient: JOHNSON, MICHAEL ALAN
+DOB: 07/15/1972
+Member ID: BCBS-445566778
+SSN (for verification): 456-78-9036
+Group: ABC Corporation - GRP-2024
+
+Diagnosis: Metastatic colorectal cancer (C18.9, C78.7)
+Requested Service: Keytruda (pembrolizumab) 200mg IV q3weeks
+
+Clinical Justification:
+Patient has MSI-high metastatic colorectal cancer. Failed first-line FOLFOX. Keytruda is FDA-approved and NCCN-recommended for this indication.
+
+Supporting Documents Attached:
+- Pathology report showing MSI-H status
+- CT scan showing liver metastases
+- Prior treatment records
+
+Please process urgently - patient's first infusion scheduled for 02/15/2025.
+
+Contact me at (555) 123-4567 or fax to (555) 123-4568.
+
+Thank you,
+Jennifer Smith, RN, OCN
+Oncology Prior Authorization Coordinator
+Memorial Cancer Center
+
+---
+# name: High PII - Referral Letter 060
+# expected_critical: true
+
+CONSULTATION REFERRAL
+
+Date: 02/10/2025
+
+To: Dr. Sarah Chen, Rheumatology
+     University Medical Center
+     Fax: (555) 234-5678
+
+From: Dr. Michael Brown, Internal Medicine
+      Primary Care Associates
+      Phone: (555) 234-5600
+
+RE: WILSON, PATRICIA MARIE
+    DOB: 09/22/1975
+    SSN: 567-89-0147
+    Phone: (555) 345-6789
+    Insurance: Aetna PPO, ID: AET-778899001
+
+Dear Dr. Chen,
+
+I am referring Ms. Wilson for evaluation of suspected inflammatory arthritis.
+
+History:
+42-year-old female presenting with 4-month history of bilateral hand and wrist pain with morning stiffness lasting >2 hours. She also reports fatigue and low-grade fevers.
+
+Physical Exam:
+- Synovitis MCP joints 2-4 bilaterally
+- Tenderness both wrists
+- No nodules
+
+Labs:
+- RF: 156 IU/mL (H)
+- Anti-CCP: 245 U/mL (H)
+- CRP: 3.2 mg/dL (H)
+- ESR: 48 mm/hr (H)
+
+Imaging:
+Hand X-rays show early erosive changes MCP joints.
+
+Impression: Likely seropositive rheumatoid arthritis
+
+Please evaluate and advise on treatment. Patient is very anxious about starting DMARDs.
+
+Thank you for seeing this patient urgently.
+
+Sincerely,
+Dr. Michael Brown
+
+---
+# name: High PII - Discharge Summary 061
+# expected_critical: true
+
+HOSPITAL DISCHARGE SUMMARY
+
+Facility: Memorial Hospital
+Admission: 02/01/2025
+Discharge: 02/08/2025
+
+Patient: GARCIA, ANTONIO MIGUEL
+DOB: 11/30/1958
+MRN: MH-2025-789012
+SSN: 678-90-0158
+Address: 2345 Recovery Road, Phoenix, AZ 85001
+Phone: (602) 555-2345
+
+Insurance: Medicare + AARP Supplemental
+Medicare ID: 1EG4-TE5-MK77
+
+Attending: Dr. Jennifer Williams, Hospitalist
+NPI: 0123498765
+
+Admitting Diagnosis: Acute STEMI, inferior wall
+
+Hospital Course:
+66-year-old male presented via EMS with chest pain and ST elevations in II, III, aVF. Taken emergently to cath lab where 100% RCA occlusion was found and stented with DES. Post-PCI course complicated by:
+- Cardiogenic shock requiring IABP x 48 hours
+- Acute kidney injury (Cr peaked 2.8, now 1.4)
+- New-onset atrial fibrillation, rate controlled
+
+Discharge Diagnoses:
+1. STEMI, RCA, s/p DES
+2. Cardiogenic shock, resolved
+3. AKI, resolving
+4. New-onset atrial fibrillation
+5. Type 2 diabetes
+6. Hypertension
+
+Discharge Medications:
+1. Aspirin 81mg daily
+2. Plavix 75mg daily (minimum 12 months)
+3. Metoprolol succinate 50mg daily
+4. Lisinopril 5mg daily
+5. Atorvastatin 80mg daily
+6. Eliquis 5mg BID
+7. Metformin 500mg BID (hold if Cr >1.5)
+
+Discharge Instructions:
+- Cardiac rehab referral
+- Follow-up Cardiology 1 week
+- No driving x 2 weeks
+- No heavy lifting x 6 weeks
+
+---
+# name: High PII - Operative Report 062
+# expected_critical: true
+
+OPERATIVE REPORT
+
+Facility: University Medical Center
+Date of Surgery: 02/10/2025
+
+Patient: THOMPSON, SARAH ELIZABETH
+DOB: 03/15/1980
+MRN: UMC-2025-345678
+SSN: 789-01-2369
+
+Surgeon: Dr. Michael Chen, MD, FACS
+NPI: 1234509876
+Assistant: Dr. Jennifer Smith, MD (Resident)
+
+Anesthesia: General endotracheal
+Anesthesiologist: Dr. Robert Lee, MD
+NPI: 2345610987
+
+Preoperative Diagnosis: Left breast carcinoma
+
+Postoperative Diagnosis: Same
+
+Procedure: Left total mastectomy with sentinel lymph node biopsy
+
+Specimens:
+1. Left breast - to pathology
+2. Left sentinel lymph nodes x 3 - to pathology
+
+Findings:
+2.5 cm mass in upper outer quadrant. Three sentinel nodes identified and removed, appeared grossly negative. No chest wall involvement.
+
+EBL: 75 mL
+Fluids: 1500 mL LR
+Complications: None
+Disposition: PACU in stable condition
+
+Pathology Pending
+
+Plan:
+- Pain management
+- JP drain care
+- Oncology follow-up for adjuvant therapy planning
+
+Dictated by: Dr. Michael Chen
+Transcribed: 02/10/2025 16:45
+
+---
+# name: High PII - Psychiatric Admission 063
+# expected_critical: true
+
+PSYCHIATRIC ADMISSION NOTE
+
+CONFIDENTIAL - 42 CFR PART 2 PROTECTED
+
+Facility: Behavioral Health Hospital
+Date: 02/10/2025
+Time: 22:30
+
+Patient: MARTINEZ, JENNIFER LYNN
+DOB: 06/14/1995
+MRN: BHH-2025-001234
+SSN: 890-12-3470
+Address: 3456 Crisis Lane, Denver, CO 80201
+Phone: (303) 555-3456
+
+Emergency Contact:
+Maria Martinez (mother) - (303) 555-3457
+
+Admission Type: Voluntary
+Legal Status: Voluntary (signed at 22:15)
+
+Source: ER referral following suicide attempt
+
+Chief Complaint: "I tried to kill myself"
+
+History of Present Illness:
+29-year-old female with history of Bipolar I disorder and Borderline personality disorder, brought to ER by roommate after ingesting 30 tablets of Seroquel 200mg in suicide attempt 4 hours ago. Patient called roommate after ingestion stating she "wanted to die." Medically cleared in ER (charcoal given, asymptomatic).
+
+Patient reports worsening depression over past 2 weeks since breakup with girlfriend. Stopped taking lithium 3 weeks ago. Endorses hopelessness, worthlessness, passive SI progressing to active SI with plan.
+
+Psychiatric History:
+- Bipolar I disorder - diagnosed age 19
+- BPD features
+- 4 prior psychiatric hospitalizations (2018, 2020, 2022, 2023)
+- 2 prior suicide attempts (2020 overdose, 2022 cutting)
+
+Substance Use:
+- Alcohol: 1-2 drinks/day, more when depressed
+- Cannabis: Daily
+- Cocaine: Occasional
+
+Diagnoses:
+1. Bipolar I disorder, current episode depressed, severe with suicidal behavior (F31.5)
+2. Borderline personality disorder (F60.3)
+3. Alcohol use disorder, moderate (F10.20)
+
+Plan:
+- Admit to locked unit
+- Restart lithium 600mg BID
+- Continue Seroquel 200mg QHS
+- 1:1 observation x 24 hours
+- DBT group when stable
+
+Attending: Dr. Sarah Lee, Psychiatry
+NPI: 3456721098
+
+---
+# name: High PII - Emergency Contact Record 064
+# expected_critical: true
+
+EMERGENCY DEPARTMENT RECORD
+
+Facility: City Hospital ER
+Date: 02/10/2025
+Arrival: 19:45 via EMS
+
+Patient: WILLIAMS, ROBERT JAMES
+DOB: 08/22/1982
+MRN: CH-2025-567890
+SSN: 901-23-4581
+
+Address: 4567 Emergency Way, Chicago, IL 60601
+Phone: (312) 555-4567
+
+Emergency Contacts:
+1. WILLIAMS, SARAH (wife) - (312) 555-4568
+2. WILLIAMS, MARY (mother) - (312) 555-4569
+
+Insurance: BCBS Illinois, Member ID: BCBSIL-998877665
+
+Chief Complaint: Motor vehicle collision
+
+EMS Report:
+42-year-old male, restrained driver, T-bone collision at intersection. Airbags deployed. + LOC at scene. GCS 14 on arrival.
+
+Vitals: BP 142/88, HR 98, RR 18, SpO2 98% RA, Temp 98.6
+
+Examination:
+- Alert, oriented x 3
+- Abrasion forehead
+- Cervical spine tenderness
+- Chest wall tenderness left
+- Abdomen soft
+
+Workup:
+- CT head: No acute findings
+- CT c-spine: No fracture
+- CT chest/abd/pelvis: 3 left rib fractures, no solid organ injury
+- Chest X-ray: Left rib fractures, no PTX
+
+Diagnosis:
+1. Left rib fractures (3)
+2. Closed head injury, mild
+3. Cervical strain
+
+Disposition: Discharge to home
+Pain management: Norco 5/325 #20
+Follow-up: PCP in 3-5 days
+
+Attending: Dr. Michael Brown, EM
+NPI: 4567832109
+
+---
+# name: High PII - Pharmacy Benefits 065
+# expected_critical: true
+
+PHARMACY BENEFIT MANAGER
+PRIOR AUTHORIZATION REQUEST
+
+PBM: Express Scripts
+PA Reference: PA-2025-123456
+
+Member Information:
+Name: JOHNSON, PATRICIA ANN
+DOB: 04/18/1970
+Member ID: ES-445566778899
+Group: ABC Corporation
+SSN: 012-34-5692
+
+Pharmacy:
+CVS #4521
+NPI: 1234567890
+Phone: (555) 123-4567
+Fax: (555) 123-4568
+
+Prescriber:
+Dr. Sarah Chen, MD
+NPI: 2345678901
+Phone: (555) 234-5678
+
+Medication Requested:
+Drug: Humira (adalimumab) 40mg/0.4mL
+Quantity: 2 pens
+Days Supply: 28
+Directions: Inject 40mg subcutaneously every 2 weeks
+
+Diagnosis: Rheumatoid arthritis (M05.79)
+
+Clinical Information:
+- Duration of RA: 3 years
+- Prior medications tried:
+  1. Methotrexate 25mg weekly x 6 months - inadequate response
+  2. Sulfasalazine - GI intolerance
+  3. Leflunomide - elevated LFTs
+- Current DAS28 score: 5.2 (high disease activity)
+- Patient meets ACR criteria for biologic therapy
+
+Determination: APPROVED
+Authorization #: AUTH-2025-789456
+Valid: 02/10/2025 - 02/10/2026
+
+---
+# name: High PII - Dental Records 066
+# expected_critical: true
+
+DENTAL PATIENT RECORD
+
+Practice: Family Dental Care
+Patient ID: FDC-2025-1234
+
+Patient Information:
+Name: CHEN, MICHAEL DAVID
+DOB: 07/30/1985
+SSN: 123-45-6703
+Address: 5678 Dental Drive, San Francisco, CA 94101
+Phone: (415) 555-5678
+Email: mdchen85@gmail.com
+
+Insurance:
+Primary: Delta Dental PPO
+Member ID: DD-778899001
+Subscriber: Self
+Employer: Tech Company Inc.
+
+Medical History:
+- Hypertension (controlled with lisinopril)
+- Penicillin allergy (hives)
+- No bleeding disorders
+
+Current Medications:
+- Lisinopril 10mg daily
+- Multivitamin
+
+Dental History:
+Last Exam: 08/15/2024
+Last Cleaning: 08/15/2024
+Last X-rays: 08/15/2024 (BWX)
+
+Today's Visit: 02/10/2025
+Chief Complaint: Tooth pain, lower right
+
+Examination Findings:
+- #30: Large carious lesion, periapical abscess
+- Periodontal: Generalized moderate bone loss
+- Oral cancer screening: Negative
+
+Treatment Plan:
+1. #30: Root canal therapy or extraction
+2. Antibiotic: Clindamycin 300mg QID x 7 days (PCN allergy)
+3. Referral to endodontist if RCT chosen
+
+Fees Quoted: RCT #30 = $1,200 (patient portion ~$400)
+
+Dentist: Dr. Sarah Kim, DDS
+License: CA-12345
+NPI: 5678901234
+
+---
+# name: High PII - Vision/Optical 067
+# expected_critical: true
+
+OPTOMETRY PATIENT RECORD
+
+Practice: Clear Vision Eye Care
+Patient #: CV-2025-5678
+
+Patient Information:
+Name: RODRIGUEZ, MARIA ELENA
+DOB: 11/15/1978
+SSN: 234-56-7815
+Address: 6789 Vision Lane, Los Angeles, CA 90001
+Phone: (213) 555-6789
+Email: merodriguez78@yahoo.com
+
+Vision Insurance: VSP
+Member ID: VSP-445566778
+Employer: School District
+
+Medical Insurance: Anthem CA
+Member ID: ANT-889900112
+
+Medical History:
+- Type 2 Diabetes x 10 years
+- Hypertension
+- High cholesterol
+
+Current Medications:
+- Metformin 1000mg BID
+- Lisinopril 20mg daily
+- Atorvastatin 20mg daily
+
+Eye History:
+- Diabetic retinopathy, mild NPDR (last noted 2024)
+- Cataracts, mild OU
+
+Today's Examination: 02/10/2025
+
+Visual Acuity:
+OD: 20/30 (corrected 20/25)
+OS: 20/40 (corrected 20/25)
+
+Refraction:
+OD: -2.50 -0.75 x 180
+OS: -2.75 -1.00 x 175
+Add: +2.00
+
+Dilated Fundus Exam:
+OD: Moderate NPDR, scattered microaneurysms, few dot hemorrhages
+OS: Moderate NPDR, similar findings
+
+Assessment:
+1. Diabetic retinopathy, moderate NPDR OU (progression from mild)
+2. Cataracts, mild OU
+3. Myopic astigmatism OU
+
+Plan:
+- Retinal specialist referral for consideration of treatment
+- Return 3 months or sooner if vision changes
+- New glasses prescription provided
+
+Optometrist: Dr. Jennifer Lee, OD
+License: CA-OD12345
+NPI: 6789012345
+
+---
+# name: High PII - Chiropractic Record 068
+# expected_critical: true
+
+CHIROPRACTIC PATIENT RECORD
+
+Practice: Spine Health Chiropractic
+Patient ID: SHC-2025-9012
+
+Patient Information:
+Name: THOMPSON, DAVID MICHAEL
+DOB: 05/22/1975
+SSN: 345-67-8926
+Address: 7890 Spine Street, Denver, CO 80201
+Phone: (303) 555-7890
+Email: dmthompson75@gmail.com
+
+Insurance: BCBS Colorado
+Member ID: BCBS-CO-112233445
+Authorization: AUTH-2025-5678 (12 visits approved)
+
+Occupation: Office worker, prolonged sitting
+
+Chief Complaint: Low back pain x 6 weeks
+
+History:
+Lower back pain began after helping friend move furniture. Pain radiates to left buttock. Worse with sitting, better with walking. No bowel/bladder dysfunction. No leg weakness.
+
+Prior Treatment:
+- PCP visit: Prescribed NSAIDs, muscle relaxant
+- PT evaluation: Recommended continued therapy
+
+Physical Examination:
+- Gait: Antalgic
+- ROM lumbar: Flexion limited, extension limited
+- Palpation: Paravertebral muscle spasm L4-S1
+- SLR: Negative bilateral
+- Neurological: Intact
+
+X-ray Findings (taken today):
+- Mild degenerative changes L4-5, L5-S1
+- Slight lumbar levoscoliosis
+- No fracture or instability
+
+Diagnosis:
+1. Lumbar segmental dysfunction (M99.03)
+2. Lumbar strain (S39.012A)
+3. Degenerative disc disease (M51.36)
+
+Treatment Plan:
+- Chiropractic adjustments 2x/week x 4 weeks
+- Therapeutic exercises
+- Ergonomic recommendations
+- Re-evaluate in 4 weeks
+
+Chiropractor: Dr. Robert Chen, DC
+License: CO-DC12345
+NPI: 7890123456
+
+---
+# name: High PII - Physical Therapy 069
+# expected_critical: true
+
+PHYSICAL THERAPY EVALUATION
+
+Facility: Active Recovery Physical Therapy
+Date: 02/10/2025
+
+Patient: WILLIAMS, JENNIFER ANN
+DOB: 09/18/1968
+MRN: ARPT-2025-3456
+SSN: 456-78-9037
+Address: 8901 Therapy Lane, Seattle, WA 98101
+Phone: (206) 555-8901
+
+Insurance: Premera Blue Cross
+Member ID: PBC-667788990
+Auth #: AUTH-2025-9012 (24 visits)
+
+Referring Physician: Dr. Sarah Martinez, Orthopedics
+NPI: 8901234567
+
+Diagnosis: Status post right total knee arthroplasty (02/01/2025)
+
+History:
+56-year-old female, 9 days post right TKA for severe OA. Surgery performed by Dr. Martinez at University Hospital. Uncomplicated post-op course. Discharged home on POD #2 with home PT. Now transitioning to outpatient PT.
+
+Current Status:
+- Pain: 5/10 with activity
+- Medications: Norco 5/325 PRN (using 2-3/day), Aspirin 325mg BID
+- Ambulation: Walker, WBAT right LE
+- Stairs: 1 flight with rail, step-to pattern
+
+Examination:
+- ROM right knee: 5-85 degrees (goal: 0-120)
+- Strength: 3/5 quads, 3+/5 hams
+- Gait: Antalgic, shortened stance right
+- Incision: Well-approximated, no infection signs
+
+Goals (6 weeks):
+1. ROM 0-120 degrees
+2. Independent ambulation without device
+3. Independent stairs reciprocal pattern
+4. Return to driving
+
+Plan:
+- PT 3x/week x 6 weeks
+- ROM exercises, strengthening, gait training, stair training
+
+Physical Therapist: Michael Brown, PT, DPT
+License: WA-PT12345
+NPI: 9012345678
+
+---
+# name: High PII - Speech Therapy 070
+# expected_critical: true
+
+SPEECH-LANGUAGE PATHOLOGY EVALUATION
+
+Facility: Communication Health Services
+Date: 02/10/2025
+
+Patient: GARCIA, ANTONIO JOSE
+DOB: 03/25/1955
+MRN: CHS-2025-7890
+SSN: 567-89-0148
+Address: 9012 Speech Lane, Miami, FL 33101
+Phone: (305) 555-9012
+
+Caregiver: Maria Garcia (wife)
+Phone: (305) 555-9013
+
+Insurance: Medicare Part B
+Medicare ID: 1EG4-TE5-MK78
+
+Referring Physician: Dr. Jennifer Lee, Neurology
+NPI: 0123456789
+Diagnosis: CVA with aphasia
+
+Medical History:
+69-year-old male, 3 weeks post left MCA CVA. Hospitalized x 10 days, acute rehab x 7 days. Now home with home health. Referred for outpatient speech therapy for aphasia and dysphagia.
+
+Pre-morbid Status:
+- Native Spanish speaker, fluent English
+- Retired accountant
+- Independent with all ADLs
+
+Current Communication:
+- Expressive language: Non-fluent, limited to single words
+- Receptive language: Moderately impaired
+- Reading: Severely impaired
+- Writing: Unable to write name
+
+Dysphagia:
+- Current diet: Mechanical soft, thin liquids
+- Modified barium swallow (01/30/2025): Mild pharyngeal delay, no aspiration
+- Recommendations: Chin tuck with liquids
+
+Assessment:
+- WAB-R AQ: 35.6 (Broca's aphasia)
+- ASHA NOMS Swallowing: Level 5
+
+Goals (12 weeks):
+1. Verbal expression of 2-3 word phrases
+2. Follow 2-step commands
+3. Safe swallowing regular diet
+
+Plan:
+- Speech therapy 2x/week x 12 weeks
+- Aphasia treatment, swallowing therapy
+- Caregiver training
+
+SLP: Dr. Sarah Kim, CCC-SLP
+License: FL-SLP12345
+NPI: 1234567891
+
+---
+# name: High PII - Occupational Therapy 071
+# expected_critical: true
+
+OCCUPATIONAL THERAPY EVALUATION
+
+Facility: Independent Living Rehab
+Date: 02/10/2025
+
+Patient: CHEN, MARGARET LEE
+DOB: 12/08/1942
+MRN: ILR-2025-2345
+SSN: 678-90-0159
+Address: 1234 Independence Way, Portland, OR 97201
+Phone: (503) 555-1234
+
+Caregiver: David Chen (son)
+Phone: (503) 555-1235
+
+Insurance: Medicare A (home health benefit)
+Medicare ID: 1EG4-TE5-MK79
+
+Referring Physician: Dr. Michael Torres, Geriatrics
+NPI: 2345678901
+
+Diagnosis: S/P right hip ORIF, dementia
+
+Medical History:
+82-year-old female with moderate Alzheimer's dementia, fell at home 2 weeks ago, sustaining right intertrochanteric hip fracture. ORIF 01/28/2025. Hospital x 5 days, SNF x 7 days for rehab. Discharged home 02/08/2025 with home health services.
+
+Home Environment:
+- Lives with son and daughter-in-law
+- Single story home, 1 step entry with rail
+- Grab bars in bathroom (installed)
+- Hospital bed in living room (temporary)
+
+Prior Level of Function:
+- Supervision for IADLs due to dementia
+- Independent ADLs with cueing
+- Ambulated with rolling walker
+
+Current Functional Status:
+- Bed mobility: Moderate assist
+- Transfers: Moderate assist
+- Toileting: Maximum assist
+- Bathing: Maximum assist, sponge bath only
+- Dressing: Maximum assist
+- Cognition: Oriented x1 (name only), follows 1-step commands
+
+Goals (4 weeks):
+1. Bed mobility with supervision
+2. Transfers with contact guard
+3. Toilet with minimal assist
+4. Sponge bath with minimal assist
+
+Plan:
+- OT 3x/week x 4 weeks (home health)
+- ADL training, transfer training, caregiver education
+- DME assessment
+
+OT: Jennifer Martinez, OTR/L
+License: OR-OT12345
+NPI: 3456789012
+
+---
+# name: High PII - Audiology Record 072
+# expected_critical: true
+
+AUDIOLOGY EVALUATION
+
+Facility: Hearing Health Center
+Date: 02/10/2025
+
+Patient: WILLIAMS, JAMES EDWARD
+DOB: 06/30/1950
+MRN: HHC-2025-6789
+SSN: 789-01-2370
+Address: 2345 Hearing Lane, Phoenix, AZ 85001
+Phone: (602) 555-2345
+
+Insurance: Medicare + AARP Hearing Benefits
+Medicare ID: 1EG4-TE5-MK80
+
+Referring Physician: Dr. Sarah Chen, ENT
+NPI: 4567890123
+
+Chief Complaint: Difficulty hearing in noisy environments
+
+History:
+74-year-old male with progressive hearing loss x 10 years. Worked in construction for 35 years (noise exposure). Tinnitus bilateral. No vertigo. No prior hearing aids.
+
+Otoscopic Examination:
+AD: TM intact, cerumen impaction (removed)
+AS: TM intact, clear
+
+Pure Tone Audiometry:
+         250   500   1K    2K    4K    8K
+AD:      25    30    45    60    75    80  dB
+AS:      30    35    50    65    70    85  dB
+
+Speech Audiometry:
+AD: SRT 45 dB, WRS 76% @ 85 dB
+AS: SRT 50 dB, WRS 72% @ 90 dB
+
+Tympanometry: Type A bilateral
+
+Diagnosis:
+1. Bilateral sensorineural hearing loss, moderate to severe
+2. Tinnitus bilateral
+3. Noise-induced hearing loss (occupational)
+
+Recommendations:
+1. Hearing aids recommended - behind-the-ear style
+2. Hearing aid trial scheduled
+3. Tinnitus management discussed
+
+Hearing Aid Evaluation:
+Date scheduled: 02/17/2025
+Estimated cost: $4,500/pair
+AARP benefit: $1,000 credit
+
+Audiologist: Dr. Michael Brown, AuD, CCC-A
+License: AZ-AUD12345
+NPI: 5678901234
+
+---
+# name: High PII - Podiatry Record 073
+# expected_critical: true
+
+PODIATRY PATIENT RECORD
+
+Practice: Foot & Ankle Specialists
+Date: 02/10/2025
+
+Patient: MARTINEZ, ROSA MARIA
+DOB: 04/12/1960
+MRN: FAS-2025-4567
+SSN: 890-12-3481
+Address: 3456 Foot Care Drive, San Antonio, TX 78201
+Phone: (210) 555-3456
+
+Insurance: Medicare + Medicaid (dual eligible)
+Medicare ID: 1EG4-TE5-MK81
+Medicaid ID: TX-987654321
+
+Medical History:
+- Type 2 Diabetes x 20 years (poorly controlled, A1c 9.8%)
+- Peripheral neuropathy
+- Peripheral vascular disease
+- Hypertension
+- CKD Stage 3
+
+Medications:
+- Insulin glargine 40 units QHS
+- Insulin lispro sliding scale
+- Gabapentin 300mg TID
+- Lisinopril 40mg daily
+- Aspirin 81mg daily
+
+Chief Complaint: Non-healing wound left foot x 2 months
+
+Examination:
+- Left foot: 2cm x 1.5cm ulcer plantar 1st metatarsal head
+- Wound bed: 50% granulation, 50% slough
+- Moderate drainage, no odor
+- Surrounding erythema 1cm
+- Pedal pulses: Doppler signals bilateral
+- Sensation: Absent to monofilament bilateral
+
+Vascular Studies (01/25/2025):
+- ABI: Right 0.65, Left 0.58 (moderate PAD)
+- TBI: Right 0.45, Left 0.40
+
+X-ray Left Foot: No osteomyelitis, no foreign body
+
+Diagnosis:
+1. Diabetic foot ulcer, left (E11.621)
+2. Peripheral vascular disease (I73.9)
+3. Diabetic neuropathy (E11.42)
+
+Treatment Plan:
+1. Wound debridement (performed today)
+2. Offloading with total contact cast
+3. Weekly wound care visits
+4. Vascular surgery referral for revascularization evaluation
+5. Tight glucose control essential
+
+Podiatrist: Dr. Jennifer Lee, DPM
+License: TX-POD12345
+NPI: 6789012345
+
+---
+# name: High PII - Wound Care Record 074
+# expected_critical: true
+
+WOUND CARE CENTER VISIT
+
+Facility: Advanced Wound Healing Center
+Date: 02/10/2025
+
+Patient: JOHNSON, WILLIAM THOMAS
+DOB: 08/18/1945
+MRN: AWHC-2025-8901
+SSN: 901-23-4592
+Address: 4567 Healing Way, Tampa, FL 33601
+Phone: (813) 555-4567
+
+Insurance: Medicare Part B
+Medicare ID: 1EG4-TE5-MK82
+
+Attending: Dr. Sarah Martinez, MD, CWS
+NPI: 7890123456
+
+Diagnosis: Venous stasis ulcer, left medial malleolus
+
+Wound History:
+79-year-old male with chronic venous insufficiency and recurrent venous ulcers. Current wound present x 4 months. Prior wound in same location healed 2023 after 6 months of care.
+
+Comorbidities:
+- CHF (EF 35%)
+- A-fib on Eliquis
+- Obesity (BMI 38)
+- CKD Stage 3
+
+Today's Assessment (Visit #8):
+Wound Location: Left medial malleolus
+Wound Size: 4cm x 3cm x 0.3cm (improved from 5cm x 4cm x 0.5cm initial)
+Wound Bed: 80% granulation, 20% slough
+Drainage: Moderate serous
+Periwound: Hemosiderin staining, no cellulitis
+Pain: 4/10
+
+Treatment Performed:
+1. Wound cleansing with saline
+2. Enzymatic debridement with collagenase
+3. Calcium alginate dressing applied
+4. 4-layer compression wrap applied
+
+Progress:
+- 40% wound size reduction in 8 weeks
+- Trajectory suggests healing in 10-12 additional weeks
+
+Plan:
+- Continue weekly visits
+- Maintain compression therapy
+- Leg elevation
+- Nutrition optimization
+
+Next Visit: 02/17/2025
+
+---
+# name: High PII - Sleep Study Record 075
+# expected_critical: true
+
+POLYSOMNOGRAPHY REPORT
+
+Sleep Center: RestWell Sleep Disorders Center
+Study Date: 02/08/2025
+
+Patient: CHEN, DAVID ANDREW
+DOB: 10/25/1975
+MRN: RW-2025-2345
+SSN: 012-34-5603
+Address: 5678 Sleep Lane, San Diego, CA 92101
+Phone: (619) 555-5678
+
+Insurance: Cigna
+Member ID: CIG-556677889
+Prior Auth: PA-2025-8901
+
+Referring Physician: Dr. Michael Brown, Internal Medicine
+NPI: 8901234567
+
+Indication: Excessive daytime sleepiness, witnessed apneas, loud snoring
+
+Clinical History:
+49-year-old male, BMI 34, HTN, presenting with loud snoring, witnessed apneas, and EDS (ESS 16/24). Neck circumference 18 inches. Mallampati 4.
+
+Study Results:
+Total Recording Time: 420 min
+Total Sleep Time: 352 min
+Sleep Efficiency: 83.8%
+Sleep Latency: 12 min
+REM Latency: 98 min
+
+Respiratory Events:
+AHI: 58.2/hour (severe)
+RDI: 62.4/hour
+Obstructive Apneas: 245
+Hypopneas: 96
+Central Apneas: 4
+Lowest SpO2: 71%
+Time SpO2 <90%: 45 min
+
+Sleep Architecture:
+N1: 15%
+N2: 65%
+N3: 8%
+REM: 12%
+
+Cardiac: Normal sinus rhythm, occasional PVCs
+
+Diagnosis:
+1. Severe obstructive sleep apnea (G47.33)
+2. Nocturnal hypoxemia
+
+Recommendations:
+1. CPAP titration study
+2. Weight loss counseling
+3. Positional therapy as adjunct
+4. Avoid alcohol/sedatives before bed
+
+Sleep Physician: Dr. Jennifer Lee, MD
+Board Certified Sleep Medicine
+NPI: 9012345678
+
+# =============================================================================
+# BATCH 2: HIGH SENSITIVITY - NARRATIVE/CONTEXTUAL RISK (Cases 76-150)
+# =============================================================================
+
+---
+# name: Narrative Risk - Sole Survivor of Accident 076
+# expected_critical: true
+
+I'm the only person who survived the charter bus crash on Highway 101 near Santa Barbara on December 15th, 2024. Forty-two people died, including my wife and two children. The bus went over a cliff during the rainstorm. I was thrown clear somehow. I've been in intensive psychiatric care at UCLA since then, being treated for severe PTSD and survivor's guilt. I've had three suicide attempts since the accident. The media keeps trying to contact me for the one-year anniversary, but my therapist says I'm not ready. I'm 45 years old and I used to be a high school principal in Ventura.
+
+---
+# name: Narrative Risk - Rare Profession + Small Community 077
+# expected_critical: true
+
+As one of only three female commercial crab fishers in Alaska, I'm pretty recognizable in our small fishing community of Dutch Harbor (population 4,500). Last season I was diagnosed with stage 3 breast cancer after finding a lump during a fishing trip. I had to fly to Anchorage for treatment—a mastectomy, chemo, the works. Everyone in town noticed when I stopped fishing. I haven't told my crew about the cancer; I said it was a "female issue." I'm 38 and I've been fishing since I was 16. The local paper wanted to do a story about female fishers, and I'm terrified they'll connect the dots.
+
+---
+# name: Narrative Risk - Unique Event at Known Location 078
+# expected_critical: true
+
+I was the employee who had the seizure during the Apple product launch at the Steve Jobs Theater on September 12th, 2024. It was broadcast live to millions of people. I'm a software engineer who was presenting a new feature when I collapsed on stage. The video went viral. I've since been diagnosed with a brain tumor and am undergoing treatment at Stanford. I'm 32 years old. Apple has been supportive, but I'm worried about my career if people know about my medical condition. My neurologist and I are keeping everything very private.
+
+---
+# name: Narrative Risk - Only Professional in Role 079
+# expected_critical: true
+
+I'm the only Black female orthopedic surgeon in the state of Wyoming. I practice in Cheyenne at the regional medical center. Three months ago, I was diagnosed with multiple sclerosis after experiencing vision problems and numbness during a surgery. I had to excuse myself mid-procedure. My colleagues noticed. I'm terrified this will end my surgical career. I've been traveling to Denver for treatment to maintain privacy, but the drive is getting harder as my symptoms progress. I'm 42 and this is everything I've worked for.
+
+---
+# name: Narrative Risk - Public Figure Family Member 080
+# expected_critical: true
+
+My father is a sitting U.S. Senator from our state. I'm 28 and I've been struggling with opioid addiction for five years. I've been in and out of rehab four times. Last month I overdosed and was revived by Narcan at a house in Georgetown. Someone called TMZ. I'm now in a private treatment facility in Arizona, registered under my mother's maiden name. My therapist says my addiction is partly trauma from growing up in the political spotlight. Dad's up for reelection and the campaign wants to keep this quiet. I hate that my illness is a political liability.
+
+---
+# name: Narrative Risk - Small Religious Community 081
+# expected_critical: true
+
+I'm the rebbetzin (rabbi's wife) at the only Orthodox synagogue in Savannah, Georgia. Our congregation is about 150 families, and everyone knows everyone. I was recently diagnosed with bipolar disorder after a manic episode where I spent $30,000 on items for the synagogue without telling anyone. My husband (the rabbi) had to explain the situation to the board. I'm now on lithium and seeing a psychiatrist in Atlanta to maintain some privacy. I'm 45 and I'm terrified this will affect my husband's position. The whisper network in our community is powerful.
+
+---
+# name: Narrative Risk - Unique Genetic Condition 082
+# expected_critical: true
+
+I have one of only 200 documented cases of Fibrodysplasia Ossificans Progressiva (FOP) in the United States. I'm a 26-year-old woman living in Portland, Maine. My condition causes my muscles and connective tissue to gradually turn into bone. I was featured in a medical documentary three years ago, which I now regret. I've since developed severe depression and am struggling with suicidal thoughts as my mobility decreases. I can't get mental health treatment without people recognizing me from the film. I feel trapped in both my body and my notoriety.
+
+---
+# name: Narrative Risk - Workplace Violence Survivor 083
+# expected_critical: true
+
+I'm one of three survivors of the mass shooting at our accounting firm in Louisville on March 8, 2023. Eight of my colleagues were killed. I was shot twice and played dead. Since then, I've been diagnosed with PTSD and haven't been able to return to work. I'm a 56-year-old CPA. The other two survivors and I are connected through a victims' support group, but each of us wants privacy. The anniversary brings media attention every year. I've started drinking heavily to cope and my wife found me unconscious last week. I'm checking into treatment tomorrow but I don't want to be recognized.
+
+---
+# name: Narrative Risk - Elite Athlete with Hidden Condition 084
+# expected_critical: true
+
+I'm a professional soccer player for a Major League Soccer team. I was diagnosed with Type 1 diabetes at age 23, right after being drafted. I've managed to hide it from the public for four years now. Only the team medical staff knows. I check my blood sugar in private areas and inject insulin in bathroom stalls. I'm terrified that if this becomes public, it will affect my endorsement deals and how opponents view me. The team doctor at our training facility in Los Angeles monitors me closely. I'm 27 and at the peak of my career, but living with this secret is exhausting.
+
+---
+# name: Narrative Risk - Whistleblower in Small Industry 085
+# expected_critical: true
+
+I was the quality control manager who reported the contaminated infant formula at our manufacturing plant in Ohio. My report led to a recall affecting 2 million units. The company retaliated by firing me for "unrelated" reasons. I've since developed severe anxiety and depression. I'm in a lawsuit against the company, but also in therapy for trauma. The formula industry is small—maybe 20 executives nationwide—and I'm now blacklisted. I'm a 48-year-old single mother of two. I drive to Cincinnati for mental health treatment because everyone in our small town knows what happened.
+
+---
+# name: Narrative Risk - Rare Disease in Tiny Town 086
+# expected_critical: true
+
+My 6-year-old daughter has progeria, which ages her body rapidly. She's one of about 130 children worldwide with this condition. We live in a town of 600 people in rural Nebraska. Everyone knows about her condition—there's no hiding it. But what I haven't shared is that I've been suicidal since her diagnosis three years ago. I'm her sole caregiver since her father left. The nearest mental health professional is 90 miles away. I've been stockpiling her unused medications. The school counselor noticed I've been "withdrawn" and recommended I "talk to someone." I'm 34 and I feel like I'm dying watching her die.
+
+---
+# name: Narrative Risk - Specific Event with Media Coverage 087
+# expected_critical: true
+
+I was the nurse who was attacked by a patient in the psychiatric ward of Memorial Hospital on January 5th, 2025. The patient, who was experiencing a psychotic episode, stabbed me seven times with a smuggled object before security subdued him. The incident made national news because it sparked a debate about psychiatric unit safety. I'm a 29-year-old RN. I needed emergency surgery and have been recovering at home. I've developed PTSD and can't sleep without medication. Hospital administration has been pressuring me not to speak publicly. My surgeon says I might not regain full use of my left hand.
+
+---
+# name: Narrative Risk - Transgender in Conservative Industry 088
+# expected_critical: true
+
+I'm a transgender woman working as a petroleum engineer in West Texas. I began my transition two years ago and am one of only a handful of openly trans people in the oil and gas industry in the Permian Basin. I work for a mid-sized company of about 200 employees. Last month, someone scratched slurs into my truck in the company parking lot. Since then, I've been having panic attacks and started seeing a therapist in Midland. I'm 35 and I've been in this industry for 12 years. I love my work but I'm considering leaving because I don't feel safe. HR has been unhelpful.
+
+---
+# name: Narrative Risk - Only Specialist in Region 089
+# expected_critical: true
+
+As the only pediatric oncologist within 200 miles, I serve a rural population in Montana. I'm based in Billings but travel to smaller clinics. Last year, I was diagnosed with pancreatic cancer myself. The irony isn't lost on me. I'm 58 and have been treating children with cancer for 25 years. I've been traveling to Seattle for my own treatment to maintain privacy from my patients' families. But I'm getting sicker and will need to take medical leave soon. There's no one to replace me. My patients' parents consider me family. I don't know how to tell them I'm dying.
+
+---
+# name: Narrative Risk - School Incident with Identifiable Details 090
+# expected_critical: true
+
+I'm a 3rd grade teacher at Lincoln Elementary School in Cedar Rapids, Iowa. On October 15th, 2024, I had a complete mental breakdown in front of my students. I began crying uncontrollably and couldn't stop. The principal had to come remove me from the classroom. I was taken to the hospital and diagnosed with severe depression. The 24 students in my class all witnessed this. Their parents have been talking. I've been on medical leave since then. I'm 31 and this was my dream job. I'm terrified to go back because everyone knows. My psychiatrist has me on three medications now.
+
+---
+# name: Narrative Risk - Temporal + Geographic Specificity 091
+# expected_critical: true
+
+On February 14th, 2025 at approximately 3:30 PM, I collapsed in the food court of Mall of America in Minneapolis. I had a cardiac arrest and was revived by an off-duty paramedic who happened to be nearby. The whole thing was captured on security cameras and several bystanders filmed it. Someone posted it on TikTok and it got 2 million views. I'm a 42-year-old woman with no prior heart problems. I'm now at Abbott Northwestern Hospital, and doctors discovered I have a rare heart condition. My employer (I work in PR) doesn't know about my medical situation, and I'm worried the viral video will out me.
+
+---
+# name: Narrative Risk - Small Academic Department 092
+# expected_critical: true
+
+I'm an associate professor of medieval history at a small liberal arts college in Vermont. There are only four of us in the history department. I was recently diagnosed with early-onset Alzheimer's disease at age 52. I've been having trouble remembering lecture material and student names. My department chair noticed my "cognitive changes" during a faculty meeting. I'm terrified of losing my job, my identity, my mind. I've been driving to Boston to see specialists so no one on campus finds out. But my symptoms are progressing faster than expected. I don't know how much longer I can hide this.
+
+---
+# name: Narrative Risk - Unique Family Situation 093
+# expected_critical: true
+
+We're the family that adopted nine children from the same sibling group in foster care in 2018. The adoption made national news and we were on a morning show. We live in suburban Columbus, Ohio. What wasn't publicized is that three of our children have severe reactive attachment disorder and one has been diagnosed with fetal alcohol syndrome. I (the mother, age 45) have been hospitalized twice for exhaustion and depression. My husband and I are in marriage counseling because the stress is destroying us. CPS did a home visit last month after an anonymous tip. We feel like we're drowning but can't ask for help publicly because we're supposed to be an inspiring story.
+
+---
+# name: Narrative Risk - Police Officer Mental Health 094
+# expected_critical: true
+
+I've been a patrol officer with the Chicago Police Department for 15 years. I'm 42 years old. After responding to my fourth child death scene last year, I finally broke down. I've been diagnosed with PTSD and clinical depression. I've been having nightmares, flashbacks, and thoughts of suicide. I own multiple firearms. The department's EAP referred me to a therapist, but I'm terrified that seeking help will cost me my career or my gun. The stigma in law enforcement is real. I've been driving to a therapist in Milwaukee instead of using anyone in Chicago. My wife doesn't know how bad it is.
+
+---
+# name: Narrative Risk - Clergy Sexual Abuse Victim 095
+# expected_critical: true
+
+I was sexually abused by Father Michael [surname redacted] at St. Mary's Catholic Church in our small Pennsylvania town from 1995 to 1998, when I was 12-15 years old. I'm one of five known victims. When I came forward in 2019, the diocese initially covered it up. I'm now 42 and have been in therapy for PTSD and major depression. I attempted suicide in 2021. The priest was eventually removed but never criminally charged. I still live in the same town of 8,000 people. His family still attends the church. People whisper when they see me. I can't escape my past here, but I can't afford to move.
+
+---
+# name: Narrative Risk - Celebrity Healthcare Worker 096
+# expected_critical: true
+
+I'm the ICU nurse who treated [redacted celebrity name] during their highly publicized hospitalization last month. I was assigned to their care for three shifts. A tabloid somehow got information about their condition and treatment, and now there's an investigation. I didn't leak anything, but I'm under suspicion. The stress has triggered my previously controlled anxiety disorder, and I've started having panic attacks at work. I'm 34, and I've been a nurse for 10 years. I'm being questioned by hospital legal, and I've hired my own attorney. My psychiatrist has increased my medication. I feel like my career is over even though I did nothing wrong.
+
+---
+# name: Narrative Risk - Fertility Struggles in Religious Community 097
+# expected_critical: true
+
+I'm a 36-year-old woman in a conservative evangelical Christian community in suburban Dallas. We've been married for 8 years and have been struggling with infertility. Our church teaches that children are a blessing and something is wrong if you can't conceive. We've secretly been doing IVF, which some members consider immoral. My husband and I drive to Houston for treatments to avoid being seen. The emotional toll has put me in therapy for depression and anxiety. I had a miscarriage last month and couldn't tell anyone at church why I was grieving. The isolation is unbearable.
+
+---
+# name: Narrative Risk - HIV Diagnosis in Conservative Area 098
+# expected_critical: true
+
+I'm a 28-year-old gay man living in rural Mississippi. I was diagnosed with HIV six months ago. I haven't told anyone except my doctor, who is 50 miles away in Jackson. I have to pick up my medications at a pharmacy there too, because the pharmacist in my town goes to my parents' church. I'm on Biktarvy and my viral load is undetectable, but the stigma in my community would be devastating. My parents don't know I'm gay. I've been having suicidal thoughts since the diagnosis. The nearest LGBT-friendly therapist is 2 hours away. I feel completely alone.
+
+---
+# name: Narrative Risk - Teacher Substance Abuse 099
+# expected_critical: true
+
+I'm a high school chemistry teacher who has been secretly struggling with an alcohol addiction for three years. Last week, a student smelled alcohol on my breath during second period. The principal called me in, and I lied and said it was mouthwash. But they're requiring me to take a drug test tomorrow. I've been drinking vodka every morning before school because I can't face my students sober anymore. I'm 47 years old, divorced, and teaching is all I have. I called in sick today and am sitting in my apartment trying to figure out what to do. I've never felt more ashamed.
+
+---
+# name: Narrative Risk - Rare Autoimmune in Medical Professional 100
+# expected_critical: true
+
+I'm a cardiac surgeon at a major academic medical center. I've been diagnosed with myasthenia gravis, a neuromuscular disease that causes muscle weakness. My symptoms started in my eyes and face but have progressed to affect my arms. Operating is becoming difficult. I'm 51 and at the peak of my career. I've told only the department chair, who has been covering for me. I'm traveling to Johns Hopkins for treatment to avoid my own colleagues. If the hospital administration finds out, I'll be put on leave. My malpractice insurance company will want to know. My patients deserve a surgeon with steady hands, and I'm losing mine.
+
+---
+# name: Narrative Risk - Domestic Violence Victim at Small Employer 101
+# expected_critical: true
+
+I work as the office manager at a small law firm with 8 employees in Boise, Idaho. My husband has been physically abusing me for two years. Last week he broke my arm, and I told everyone at work I fell down the stairs. But the firm's only paralegal saw my husband grab me aggressively in the parking lot. I'm terrified she'll say something. I'm 34 and financially dependent on my job. My husband monitors my phone and knows where I am at all times. I've been secretly meeting with a domestic violence counselor at a shelter downtown. If he finds out, I don't know what he'll do.
+
+---
+# name: Narrative Risk - Small Town Pharmacist 102
+# expected_critical: true
+
+I'm the only pharmacist in a town of 2,000 people in rural Iowa. I fill everyone's prescriptions, which means I know everyone's medical secrets—who's on antidepressants, who has HIV, who gets opioids. What no one knows is that I've been diverting controlled substances for my own use for the past year. I'm addicted to hydrocodone. I started after a back injury and couldn't stop. The state board would revoke my license if they found out. There would be no pharmacy in this town. I'm 52 and have been here for 20 years. I need help but I don't know how to get it without destroying everything.
+
+---
+# name: Narrative Risk - Immigration Status + Medical Need 103
+# expected_critical: true
+
+I'm a 32-year-old undocumented immigrant from Guatemala living in Phoenix. I work in construction under a false Social Security number. Last month I was diagnosed with leukemia. I need chemotherapy to survive, but I'm terrified that accessing healthcare will expose my immigration status and result in deportation. I have a 7-year-old daughter who is a U.S. citizen. A social worker at the free clinic has been helping me navigate the system, but I had to give her my real name and address. I'm scared every day that ICE will come. I'm dying, but I'm more afraid of leaving my daughter alone.
+
+---
+# name: Narrative Risk - College Athlete Sexual Assault 104
+# expected_critical: true
+
+I'm a Division I women's volleyball player at a major university. I was raped by three football players at a party six months ago. I reported it to the Title IX office, but the investigation has been slow and one of the players is still on the team. My name is supposed to be confidential, but it's a small athletic department and people talk. I've been seeing a campus therapist for PTSD, but I don't feel comfortable being specific because other athletes use the same counseling center. I'm 20 years old. My performance has suffered and I might lose my scholarship. I feel like the school cares more about football than about me.
+
+---
+# name: Narrative Risk - Fire Department Suicide Cluster 105
+# expected_critical: true
+
+I'm a firefighter with the Phoenix Fire Department. In the past two years, four of my colleagues from our battalion have died by suicide. I responded to the scene when one of them shot himself in the apparatus bay. Since then, I've been having suicidal thoughts myself. I'm 38, married with two kids. The department has brought in counselors, but there's still a stigma about seeking help. I've been secretly meeting with a VA therapist (I'm also a veteran) in Scottsdale to avoid the department's mental health providers. My wife doesn't know how dark my thoughts have gotten. I keep my service weapon at the station now because I don't trust myself.
+
+---
+# name: Narrative Risk - Medical Examiner's Burden 106
+# expected_critical: true
+
+I'm the chief medical examiner for a rural county in New Mexico. Population about 45,000. I'm the only forensic pathologist, which means I perform autopsies on everyone who dies unexpectedly—including my neighbors, former classmates, and in one case, my goddaughter. Last year I autopsied 342 bodies, including 28 children. I've developed severe depression and have been drinking heavily. I'm 46 and divorced; the job destroyed my marriage. I drive to Albuquerque to see a psychiatrist because I can't see anyone locally—I've probably autopsied someone they knew. I had a panic attack during an autopsy last month and had to step away. My assistant noticed.
+
+---
+# name: Narrative Risk - Only LGBTQ Teacher in District 107
+# expected_critical: true
+
+I'm the only openly gay teacher in our rural school district in eastern Tennessee. I teach 8th grade English. Since coming out last year, I've faced harassment from some parents, including someone slashing my tires and leaving notes on my car. The stress has triggered a major depressive episode. I'm on medical leave right now, which has caused more speculation in this small community. The school board has been "neutral" but I can tell some members want me gone. I'm 35 and I've been teaching here for 10 years. My therapist is in Knoxville, 90 miles away. I don't know if I can come back.
+
+---
+# name: Narrative Risk - Military Sexual Trauma 108
+# expected_critical: true
+
+I'm a female Army veteran who was sexually assaulted by my commanding officer while deployed to Afghanistan in 2018. I reported it and nothing happened except my career was derailed. I received a medical discharge for PTSD in 2020. I'm now 32 and live in Colorado Springs near Fort Carson. I'm in treatment at the VA for PTSD, depression, and alcohol use disorder. My assailant is now a Lieutenant Colonel, still serving. I filed a complaint with the DoD IG last year and was interviewed for a military justice reform documentary, though I used only my first name. I'm terrified he'll find out where I live. I sleep with a knife under my pillow.
+
+---
+# name: Narrative Risk - Prison Rape Survivor 109
+# expected_critical: true
+
+I spent three years in a state prison in Georgia for drug charges. I was raped repeatedly by other inmates and once by a guard. I reported it and was put in solitary confinement "for my protection." I was released in 2023 and I'm now 34, living in Atlanta, trying to rebuild my life. I'm in therapy for complex PTSD and working as a line cook. My employer doesn't know about my history. I had to disclose my conviction but not the trauma. I've been having nightmares and flashbacks, especially around other men. I've started using drugs again to cope. My therapist wants me to go to inpatient treatment, but I can't afford to lose my job.
+
+---
+# name: Narrative Risk - Rural Hospital Closure 110
+# expected_critical: true
+
+I'm the only psychiatrist serving a five-county region in rural Kansas after our hospital's psychiatric unit closed last year. I now do telehealth from my home office, but I'm the sole mental health prescriber for about 80,000 people. The burnout is crushing. I've been having panic attacks and my own psychiatrist (whom I see via telehealth in Kansas City) has diagnosed me with burnout disorder and depression. I'm 54 and have been practicing for 25 years. Last month, a patient I was treating died by suicide. I reviewed every decision I made, wondering if I missed something. I've started taking Klonopin to get through my days, and I'm worried I'm developing dependence.
+
+---
+# name: Narrative Risk - First Responder Family Tragedy 111
+# expected_critical: true
+
+My husband was a paramedic who died by suicide last year. He shot himself in our garage while our 8-year-old daughter was in the house. She found him. I'm now a 36-year-old widow and single mother trying to hold everything together while dealing with my own trauma and my daughter's PTSD. We live in a suburb of Cincinnati and everyone in the first responder community knows what happened. My daughter is in trauma therapy, but she's been regressing—wetting the bed, refusing to go in the garage. I've been prescribed antidepressants and sleeping pills, but I'm barely functioning. My in-laws blame me for not seeing the signs. I feel completely alone.
+
+---
+# name: High Sensitivity - Medical Student Disability 112
+# expected_critical: true
+
+Disability services accommodation request for third-year medical student at small osteopathic program. Student disclosed ADHD diagnosis during psychiatry clerkship after struggling with documentation requirements. The only student in their class requesting extended time for shelf exams. Faculty advisor noted concerns about "fitness for practice" in internal email. Student's father is a prominent surgeon at the affiliated teaching hospital. The culture of perfectionism in medicine is suffocating, and this student's visible struggle has made them identifiable among the cohort of only 42 students.
+
+---
+# name: High Sensitivity - Rare Cancer Survivor Public Speaker 113
+# expected_critical: true
+
+Patient is a childhood cancer survivor who beat stage IV neuroblastoma in 1987, one of the first successful cases using experimental immunotherapy at this institution. Now in their 40s, they frequently speak at hospital fundraisers and were featured in a documentary about pediatric cancer treatment advances. Recent imaging shows a suspicious mass requiring biopsy. Patient expressed extreme anxiety about confidentiality given their public role as a "success story" and fear of media attention if recurrence is confirmed.
+
+---
+# name: High Sensitivity - Clergy Abuse Investigation 114
+# expected_critical: true
+
+Psychiatric evaluation for adult patient presenting with complex PTSD. Patient disclosed childhood sexual abuse by a Catholic priest in a small rural parish during the 1990s. The priest was later transferred and is now deceased. Patient is considering joining an ongoing investigation but fears identification as the only altar server of that age during the priest's tenure. Patient's brother is currently a deacon in the same diocese.
+
+---
+# name: High Sensitivity - Tech Whistleblower Mental Health 115
+# expected_critical: true
+
+Urgent psychiatric referral for software engineer experiencing severe anxiety and paranoid ideation. Patient recently filed an SEC complaint regarding their employer's falsified safety data for autonomous vehicle software. Patient reports being followed and having their personal devices compromised. They are the only engineer on their team who refused to sign the falsified certification. Employer is a major autonomous vehicle company headquartered in the Bay Area.
+
+---
+# name: High Sensitivity - Olympic Hopeful Injury 116
+# expected_critical: true
+
+MRI results for collegiate gymnast on track for Olympic trials. Complete ACL tear with meniscus involvement requiring surgical reconstruction. Recovery timeline extends past selection window. Patient is one of only three American women currently training the Produnova vault. Coach and federation officials are pressuring for information about return-to-sport timeline. Patient's parents have hired a sports agent anticipating endorsement deals.
+
+---
+# name: High Sensitivity - Transgender Military Pilot 117
+# expected_critical: true
+
+Endocrinology consult for active duty military pilot seeking to begin hormone therapy. Patient has kept gender identity private due to concerns about career impact despite policy changes. Currently one of only four female F-35 pilots in their squadron. Patient's call sign and deployment history would make them easily identifiable within the close-knit fighter pilot community. Requesting records be kept separate from flight surgeon documentation.
+
+---
+# name: High Sensitivity - Adopted Child DNA Discovery 118
+# expected_critical: true
+
+Genetic counseling notes for 16-year-old patient whose consumer DNA test revealed unexpected paternity. Adoptive parents were unaware of true biological father's identity. Biological father appears to be a married state legislator based on DNA relative matches. The biological mother, who participated in an open adoption, had concealed this information. Patient experiencing acute distress and suicidal ideation. Adoption occurred in a state with sealed records laws.
+
+---
+# name: High Sensitivity - Underground Railroad Historical Site Worker 119
+# expected_critical: true
+
+Occupational health screening for employee at historic site in small Ohio town. Worker is the only Black employee and direct descendant of enslaved people who used this route. Recently diagnosed with occupational asthma from dust exposure during restoration work. Worker fears filing workers comp claim will identify them as the descendant given extensive local media coverage of the site's history and their family's connection to it.
+
+---
+# name: High Sensitivity - Deaf Community Leader Cochlear Implant 120
+# expected_critical: true
+
+ENT consultation for prominent Deaf educator considering cochlear implant. Patient is president of state Association of the Deaf and has publicly opposed implants, particularly for children, as a threat to Deaf culture. Progressive hearing loss in remaining ear is affecting their work. Patient requires absolute confidentiality as this decision could affect their leadership position and be seen as "betrayal" by their community.
+
+---
+# name: High Sensitivity - Police Officer PTSD Shooting Incident 121
+# expected_critical: true
+
+Mandatory fitness-for-duty psychological evaluation following officer-involved shooting. Officer was involved in the highly publicized incident at Riverside Mall last month where a hostage was accidentally killed. Only two officers fired weapons during the incident. Officer presents with severe PTSD, intrusive thoughts, and survivor's guilt. Body camera footage was released publicly. Officer is being defended by the union while facing calls for prosecution.
+
+---
+# name: High Sensitivity - Reality TV Contestant Eating Disorder 122
+# expected_critical: true
+
+Inpatient eating disorder admission for patient who appeared on a popular weight loss competition show two seasons ago. Patient's dramatic weight loss was celebrated on national television. Post-show weight regain led to severe bulimia. Patient's "before and after" photos remain heavily circulated on social media. Only three contestants from that season live in this metropolitan area.
+
+---
+# name: High Sensitivity - Indigenous Language Last Speaker 123
+# expected_critical: true
+
+Neurology referral for elderly patient experiencing progressive aphasia. Patient is the last fluent speaker of a critically endangered Indigenous language and has been working with university linguists on documentation. Speech therapy urgently needed but diagnosis disclosure would devastate ongoing preservation efforts. Patient lives on a small reservation where health information spreads quickly through community networks.
+
+---
+# name: High Sensitivity - Surrogate Mother Pregnancy Complications 124
+# expected_critical: true
+
+High-risk OB notes for gestational carrier pregnant with twins for celebrity couple via anonymous egg donor. Severe preeclampsia developing at 28 weeks. Intended parents are a same-sex male couple who are household names. Surrogacy agreement included strict confidentiality provisions. Patient lives in small town where her pregnancy is visible but intended parents' identity unknown to community.
+
+---
+# name: High Sensitivity - Amish Community Member Cancer Treatment 125
+# expected_critical: true
+
+Oncology consult for patient from Old Order Amish community seeking chemotherapy without community knowledge. Pancreatic cancer stage III. Patient's community typically relies on alternative treatments and communal support. Patient fears being shunned for choosing "English medicine" but has young children and wants to maximize survival. Only community member currently hospitalized in the county.
+
+---
+# name: High Sensitivity - Anonymous Sperm Donor Medical Issue 126
+# expected_critical: true
+
+Urology referral for patient who was a prolific sperm donor in the 1980s-90s through local fertility clinic. Genetic testing reveals BRCA2 mutation. Patient estimates having fathered 50+ offspring during era of anonymous donation. Registry matches suggest multiple affected offspring already. Patient's identity protected by old confidentiality agreements but faces ethical pressure to disclose for offspring health screening.
+
+---
+# name: High Sensitivity - Wrongfully Convicted Exoneree PTSD 127
+# expected_critical: true
+
+Psychiatric evaluation for patient recently exonerated after 18 years of wrongful imprisonment for a murder conviction. DNA evidence cleared patient last year in highly publicized case. Patient experiences severe institutionalization effects and agoraphobia. The only person exonerated from this state's death row in the past decade. Ongoing civil litigation against the county and individual detectives.
+
+---
+# name: High Sensitivity - Congressional Staffer STI Testing 128
+# expected_critical: true
+
+Sexual health clinic notes for patient employed as senior staffer to a U.S. Senator. Patient requesting HIV and syphilis testing following unprotected encounter at recent conference. Previous positive HSV-2 diagnosis. Patient extremely concerned about confidentiality given political nature of work and employer's public positions on abstinence education. Patient is one of only two staffers who traveled to the specific conference.
+
+---
+# name: High Sensitivity - Cult Survivor Deprogramming 129
+# expected_critical: true
+
+Psychiatric intake for patient recently escaped from isolated religious compound after 12 years. Patient was a minor when parents joined the group. Compound is subject of ongoing federal investigation for labor trafficking. Patient is one of only four young adults to leave in the past year and the only one from their "family unit." Experiencing severe adjustment disorder and religious trauma.
+
+---
+# name: High Sensitivity - Professional Chef Taste Disorder 130
+# expected_critical: true
+
+ENT consultation for patient experiencing ageusia and dysosmia following COVID-19 infection. Patient is the executive chef and owner of the only Michelin-starred restaurant in the city. Persistent taste dysfunction for 8 months threatens livelihood and reputation. Patient has not disclosed condition to restaurant staff or investors. Media coverage of the restaurant makes patient's identity locally prominent.
+
+---
+# name: High Sensitivity - Veterinarian Livestock Zoonotic Exposure 131
+# expected_critical: true
+
+Infectious disease consult for large animal veterinarian exposed to brucellosis at a single dairy farm operation. Patient is the only vet serving this agricultural region. Farm identity must remain confidential per USDA investigation guidelines, but patient's treatment would effectively identify the source farm. Farm is multi-generational family operation; disclosure would devastate family and local agricultural economy.
+
+---
+# name: High Sensitivity - School Shooting Survivor Anniversary 132
+# expected_critical: true
+
+Urgent psychiatric referral for patient experiencing acute PTSD symptoms as the 10th anniversary of their high school shooting approaches. Patient was the only survivor pulled from under their deceased teacher's body. Media has been contacting survivors; patient's name was in original news coverage. Anticipatory anxiety about anniversary events and requests for interviews causing decompensation.
+
+---
+# name: High Sensitivity - Maternal Death Review Patient 133
+# expected_critical: true
+
+Maternal mortality review committee case file. Patient died from amniotic fluid embolism during scheduled cesarean section at rural hospital. Only maternal death at this facility in five years. Patient was a well-known school nurse in the community. Her surviving infant is being raised by grandparents. State review process requires detailed case analysis but community size makes anonymization impossible.
+
+---
+# name: High Sensitivity - Professional Athlete HIV Positive 134
+# expected_critical: true
+
+HIV management records for professional basketball player diagnosed 18 months ago through routine physical. Viral load undetectable on current regimen. Player has not disclosed status to team management or league. League policy allows confidential management but recent trade discussions require physical examination. Player is the highest-paid point guard in the league and any medical disclosure would have significant contractual implications.
+
+---
+# name: High Sensitivity - Child Actor Substance Treatment 135
+# expected_critical: true
+
+Adolescent substance abuse treatment admission for 17-year-old patient who starred in popular streaming series as a child. Parents managing admission while maintaining production schedule fiction. Opioid use disorder developed following on-set injury. Patient is currently a series regular on show filming in this city. Tabloid reporters have been seen outside treatment facility entrance.
+
+---
+# name: High Sensitivity - Conjoined Twin Separation 136
+# expected_critical: true
+
+Surgical planning notes for separation of 9-month-old conjoined twins. Complex thoracopagus configuration with shared cardiac structures. Only conjoined twin pair currently under care in the North American pediatric surgery network. Family has declined all media contact. Social worker notes that extended family has already sold photos to tabloids. Ethics committee involvement regarding separation prognosis differential between twins.
+
+---
+# name: High Sensitivity - Judge Addiction Treatment 137
+# expected_critical: true
+
+Physician health program documentation for state appellate court judge seeking treatment for benzodiazepine dependence. Condition developed following spouse's cancer death. Judge presides over drug court in addition to appellate duties. Mandatory reporting requirements for impaired professionals in tension with rehabilitation goals. Judge is up for retention election in 14 months.
+
+---
+# name: High Sensitivity - Airplane Crash Sole Survivor 138
+# expected_critical: true
+
+Trauma surgery and burn unit records for sole survivor of regional airline crash that killed 47 passengers. Patient sustained 40% body surface area burns and bilateral lower extremity amputations. Extensive media coverage with patient's survival called "miraculous." Patient's family has been approached by film producers. NTSB investigation ongoing with patient as sole witness to cockpit events.
+
+---
+# name: High Sensitivity - Fertility Fraud Discovery 139
+# expected_critical: true
+
+Genetic counseling documentation for patient who discovered through consumer DNA testing that their deceased father, a retired fertility specialist, used his own sperm to inseminate patients. Patient has matched with 34 half-siblings so far. Father's medical practice was the only fertility clinic in a three-county rural area during the 1970s-80s. Patient experiencing severe psychological distress and considering whether to publicize findings.
+
+---
+# name: High Sensitivity - Refugee Torture Survivor 140
+# expected_critical: true
+
+Physical therapy and psychiatric notes for patient granted asylum after torture in country of origin. Patient was a journalist critical of the regime. Evidence of systematic torture documented for asylum case. Patient now experiences severe pain syndrome and PTSD. Diaspora community in this city is small and includes suspected informants. Patient's published work under pen name makes true identity particularly sensitive.
+
+---
+# name: High Sensitivity - Celebrity Surrogate Stillbirth 141
+# expected_critical: true
+
+Bereavement services notes following stillbirth at 38 weeks. Patient was gestational carrier for internationally famous couple. Cause of death under investigation. Patient experiencing severe grief compounded by complex contractual obligations and NDA provisions. Intended parents have not yet made public announcement. Hospital staff aware of celebrity connection creating confidentiality concerns.
+
+---
+# name: High Sensitivity - Miracle Cure Claimant Terminal Illness 142
+# expected_critical: true
+
+Oncology notes for patient who publicly claimed faith healing cured their stage IV lung cancer after refusing chemotherapy. Patient appeared on religious television programming and speaking circuit. Recent imaging reveals disease progression. Patient's "testimony" has influenced others to refuse treatment. Patient now quietly seeking conventional care while maintaining public miracle narrative.
+
+---
+# name: High Sensitivity - Mass Shooter Family Member 143
+# expected_critical: true
+
+Psychiatric treatment for parent of perpetrator of mass casualty event that occurred two years ago. Patient experiences complex grief, social isolation, and death threats. Only surviving parent of the shooter. Patient relocated to this state for anonymity but was recently recognized at workplace. Treatment focuses on trauma, guilt, and ongoing harassment from victims' advocacy groups who have publicized patient's location.
+
+---
+# name: High Sensitivity - Polygamous Marriage Immigration Fraud 144
+# expected_critical: true
+
+OB-GYN records for patient in plural marriage seeking prenatal care for fourth pregnancy. Patient is the "spiritual wife" (not legally married) to a man legally married to another woman. Immigration status of patient depends on separate visa that would be jeopardized by knowledge of living arrangement. Patient's fundamentalist religious community is subject of documentary film crew interest. Only patient at this practice from this specific community.
+
+---
+# name: High Sensitivity - Witness Protection Medical Transfer 145
+# expected_critical: true
+
+Medical record transfer documentation for patient relocated under federal witness protection following testimony against organized crime network. Previous medical records sanitized of identifying information but contain extensive cardiac treatment history. New identity established but patient now requires specialized cardiac care. Limited number of providers with required subspecialty creates identification risk.
+
+---
+# name: High Sensitivity - Viral Social Media Patient 146
+# expected_critical: true
+
+Emergency department follow-up for patient whose medical crisis became viral video after bystander filmed their seizure and filmed emergency response. Video accumulated 40 million views with patient's face visible throughout. Patient's epilepsy diagnosis was not previously public knowledge. Patient lost employment after video revealed condition. Now experiencing severe depression and seeking legal options against video poster.
+
+---
+# name: High Sensitivity - Unabomber-Style Case Psychiatric Records 147
+# expected_critical: true
+
+Forensic psychiatric evaluation for patient held under civil commitment following arrest for mailing hazardous materials to corporate executives. Patient held PhD from elite university before becoming reclusive. Manifesto posted online prior to arrest details anti-technology philosophy. Patient's brother provided tip to law enforcement. National media coverage of case and cabin search. Competency to stand trial under evaluation.
+
+---
+# name: High Sensitivity - IVF Mix-up Discovery 148
+# expected_critical: true
+
+Genetic counseling notes following discovery that 5-year-old patient is not genetically related to either parent due to apparent IVF laboratory error. Parents pursued testing after child's blood type was incompatible with both parents'. Fertility clinic closed following physician's death. Only one other patient from the same cycle window has been identified. Legal discovery ongoing.
+
+---
+# name: High Sensitivity - Deep Cover Agent Medical Emergency 149
+# expected_critical: true
+
+Emergency surgery notes for patient brought in by federal agents following abdominal gunshot wound. Patient carried no identification. Agents provided limited medical history and prohibited photography. Patient used alias throughout hospitalization. Surgical team noted inconsistencies in provided history. Post-operative recovery in private room with 24-hour agency presence. Records flagged for restricted access.
+
+---
+# name: High Sensitivity - Pandemic Cruise Ship Outbreak 150
+# expected_critical: true
+
+Infectious disease documentation for patient who was index case for COVID-19 outbreak on cruise ship early in the pandemic. Patient was publicly identified after passenger list was leaked. 14 deaths on the vessel were attributed to the outbreak. Patient receives ongoing death threats and has been subject of wrongful death lawsuit despite being a victim themselves. Severe survivor guilt and agoraphobia.
+
+---
+# name: Medium Sensitivity - Routine Cardiology Referral 151
+# expected_critical: false
+
+Patient referred for evaluation of occasional palpitations. Symptoms occur approximately once weekly, lasting 30-60 seconds, not associated with exertion or syncope. No family history of sudden cardiac death. Caffeine intake is 3-4 cups of coffee daily. Recommending 48-hour Holter monitor and basic metabolic panel. If monitoring unrevealing, no further workup indicated.
+
+---
+# name: Medium Sensitivity - Annual Physical Documentation 152
+# expected_critical: false
+
+35-year-old patient presents for annual wellness examination. No acute complaints. Immunizations up to date. Blood pressure 118/76, BMI 24.2. Last lipid panel 2 years ago was within normal limits. Patient exercises 3-4 times weekly, non-smoker, occasional alcohol use. Family history notable for hypertension in father diagnosed at age 62. Order routine screening labs, schedule follow-up in one year.
+
+---
+# name: Medium Sensitivity - Sinus Infection Treatment 153
+# expected_critical: false
+
+Patient presents with 10 days of nasal congestion, purulent discharge, and facial pressure. Symptoms initially improved then worsened over the past 3 days. Temperature 99.8°F in office. No history of chronic sinusitis or allergies. Assessment: Acute bacterial rhinosinusitis. Plan: Amoxicillin-clavulanate 875mg BID for 10 days, nasal saline irrigation, follow-up if not improving in 72 hours.
+
+---
+# name: Medium Sensitivity - Diabetes Management Visit 154
+# expected_critical: false
+
+Routine diabetes follow-up. Patient reports good adherence to metformin 1000mg BID. Blood glucose logs show fasting values 110-140 range. HbA1c today 7.2%, down from 7.8% three months ago. No hypoglycemic episodes. Foot exam normal, monofilament sensation intact. Continue current regimen, repeat A1c in 3 months, annual ophthalmology exam due, nephropathy screening labs ordered.
+
+---
+# name: Medium Sensitivity - Orthopedic Knee Pain 155
+# expected_critical: false
+
+48-year-old patient with gradual onset right knee pain over 6 months, worse with stairs and prolonged walking. No acute injury. Examination shows mild crepitus with range of motion, no effusion, stable ligaments, negative McMurray. X-ray demonstrates mild medial compartment narrowing consistent with early osteoarthritis. Recommend physical therapy, weight management, trial of topical diclofenac, activity modification.
+
+---
+# name: Medium Sensitivity - Pediatric Well Child Check 156
+# expected_critical: false
+
+4-year-old presents for well child visit. Growth parameters at 50th percentile for height and weight. Development appropriate: speaks in complete sentences, can hop on one foot, draws recognizable figures. Vision and hearing screening passed. Immunizations updated today: DTaP, IPV, MMR, Varicella. Anticipatory guidance provided regarding car seat safety, screen time limits, and kindergarten readiness.
+
+---
+# name: Medium Sensitivity - Gastroenterology GERD Follow-up 157
+# expected_critical: false
+
+Follow-up for gastroesophageal reflux disease. Patient reports 80% improvement in heartburn symptoms with omeprazole 20mg daily. No dysphagia, odynophagia, weight loss, or GI bleeding. Lifestyle modifications implemented including elevation of head of bed and avoidance of late meals. Continue PPI for additional 4 weeks, then attempt step-down to H2 blocker or as-needed dosing.
+
+---
+# name: Medium Sensitivity - Allergy Consultation 158
+# expected_critical: false
+
+Patient referred for evaluation of suspected environmental allergies. Symptoms include seasonal rhinitis March through May, occasionally requiring antihistamines. No asthma, eczema history, or food allergies. Skin prick testing positive for tree pollens (birch, oak, maple) and grass. Negative to dust mites, molds, and animal danders. Recommending nasal corticosteroid spray, second-generation antihistamine PRN, consider immunotherapy if inadequate control.
+
+---
+# name: Medium Sensitivity - Hypertension Medication Adjustment 159
+# expected_critical: false
+
+Blood pressure follow-up. Current regimen: lisinopril 20mg daily. Home readings averaging 148/94 despite medication adherence. No adverse effects reported; no cough or angioedema. Renal function and potassium stable. Adding amlodipine 5mg daily for improved control. Goal BP <130/80. Patient counseled on DASH diet principles. Return in 4 weeks for BP recheck, sooner if headaches, visual changes, or chest pain.
+
+---
+# name: Medium Sensitivity - Dermatology Acne Treatment 160
+# expected_critical: false
+
+22-year-old with moderate inflammatory acne affecting face and upper back, present for 5 years. Previous treatment with benzoyl peroxide and adapalene with partial response. No nodular or cystic lesions. Not planning pregnancy. Starting doxycycline 100mg daily for 3 months combined with topical retinoid. Discussed sun protection. Will reassess response and consider alternative treatments including hormonal therapy if inadequate improvement.
+
+---
+# name: Medium Sensitivity - Physical Therapy Discharge Summary 161
+# expected_critical: false
+
+Patient completing 8-week physical therapy course for right rotator cuff tendinopathy. Initial presentation with significant pain and limited ROM. Now demonstrates full ROM without pain, 5/5 strength in all planes. Successfully returned to overhead recreational activities. Home exercise program provided with emphasis on maintenance strengthening. Discharge to self-management, may return if symptoms recur.
+
+---
+# name: Medium Sensitivity - Ophthalmology Routine Exam 162
+# expected_critical: false
+
+Comprehensive eye examination. Visual acuity 20/25 OD, 20/30 OS, corrected to 20/20 OU with current prescription. Mild myopic shift noted in left eye. Intraocular pressures 14 mmHg bilaterally. Dilated fundus examination reveals healthy optic nerves, no macular pathology, and peripheral retina intact. Updated refraction provided. Return in 12 months for routine exam. No evidence of diabetic changes; patient reports excellent glucose control.
+
+---
+# name: Medium Sensitivity - Preoperative Clearance 163
+# expected_critical: false
+
+Pre-surgical cardiac clearance for patient scheduled for total hip replacement. Functional capacity greater than 4 METs based on ability to climb two flights of stairs without symptoms. No history of cardiac disease. ECG shows normal sinus rhythm without ischemic changes. Based on revised cardiac risk index (0 points) and good functional capacity, patient is low risk for major adverse cardiac event. Cleared for surgery, no additional testing recommended.
+
+---
+# name: Medium Sensitivity - OB-GYN Annual Exam 164
+# expected_critical: false
+
+Annual gynecologic examination for 32-year-old G2P2. Last menstrual period 2 weeks ago, regular cycles. Currently using IUD for contraception, in place for 3 years, no complications. Pap smear collected; previous HPV negative. Breast exam unremarkable. Patient declines mammogram per age-appropriate guidelines. Discussing long-term contraceptive plans given completed childbearing. STI screening declined; patient in monogamous relationship.
+
+---
+# name: Medium Sensitivity - Migraine Management 165
+# expected_critical: false
+
+Patient with episodic migraines, averaging 6-8 headache days per month. Current abortive therapy with sumatriptan 100mg effective but using more than twice weekly. Aura present with approximately half of headaches. Initiating prophylactic therapy with topiramate 25mg nightly, titrating to 50mg BID. Discussed potential side effects including paresthesias, cognitive effects, and weight loss. Goal to reduce frequency by 50%.
+
+---
+# name: Medium Sensitivity - Colonoscopy Screening Results 166
+# expected_critical: false
+
+Screening colonoscopy for patient at average risk, age 52. Procedure performed under moderate sedation without complications. Bowel preparation was adequate. Cecum intubated, identified by appendiceal orifice and ileocecal valve. Two small polyps removed from sigmoid colon, 3mm and 5mm, sent for pathology. No other lesions identified. If hyperplastic, repeat colonoscopy in 10 years; if adenomatous, recommend repeat in 5-7 years based on histology.
+
+---
+# name: Medium Sensitivity - Asthma Action Plan Update 167
+# expected_critical: false
+
+Asthma follow-up for updating action plan. Patient reports well-controlled symptoms with current regimen of low-dose ICS/LABA combination inhaler daily. Peak flow consistently in green zone. No nighttime awakening, no exercise limitation, no ER visits or oral steroid courses in past year. Spirometry today shows FEV1 92% predicted with no bronchodilator response. Continue current therapy, provided updated written action plan.
+
+---
+# name: Medium Sensitivity - Post-Surgical Follow-up 168
+# expected_critical: false
+
+Two-week post-operative visit following laparoscopic cholecystectomy. Incisions well-healed, no signs of infection. Patient reports resolution of preoperative biliary colic symptoms. Tolerating regular diet without difficulty. Mild fatigue improving. Pathology confirmed chronic cholecystitis without malignancy. May resume full activities including exercise in 2 weeks. No restrictions on diet. No further follow-up needed unless new symptoms develop.
+
+---
+# name: Medium Sensitivity - Nephrology CKD Monitoring 169
+# expected_critical: false
+
+Routine monitoring for patient with CKD stage 3a secondary to hypertensive nephrosclerosis. Current eGFR 52 ml/min, stable over past 18 months. Urine albumin-to-creatinine ratio 45 mg/g, mild albuminuria. Blood pressure at goal on current regimen with ACE inhibitor. Potassium and bicarbonate within normal limits. Continue current medications, repeat labs in 6 months, annual flu vaccine recommended, avoid NSAIDs and nephrotoxins.
+
+---
+# name: Medium Sensitivity - Sleep Study Results 170
+# expected_critical: false
+
+Polysomnography interpretation for evaluation of excessive daytime sleepiness. Total sleep time 6.2 hours, sleep efficiency 78%. AHI 24/hour, predominantly obstructive apneas. Oxygen nadir 82%. No significant periodic limb movements. REM latency normal. Diagnosis: Moderate obstructive sleep apnea. Recommend CPAP titration study. Discussed weight loss, sleep position therapy, and avoidance of alcohol before bed as adjunctive measures.
+
+---
+# name: Medium Sensitivity - Rheumatology Joint Pain Evaluation 171
+# expected_critical: false
+
+New patient evaluation for polyarthralgias affecting MCPs, wrists, and knees for past 4 months. Morning stiffness lasting 60-90 minutes. Examination shows mild synovitis of MCPs bilaterally. Labs ordered: RF, anti-CCP, ANA, ESR, CRP, CBC, CMP. X-rays of hands and feet ordered. Differential includes early rheumatoid arthritis, viral arthropathy, and early connective tissue disease. Starting naproxen for symptom control, return in 2 weeks with lab results.
+
+---
+# name: Medium Sensitivity - Pulmonology Dyspnea Workup 172
+# expected_critical: false
+
+Patient referred for evaluation of progressive dyspnea on exertion over 6 months. Former smoker, 15 pack-year history, quit 10 years ago. Spirometry shows FEV1 68% predicted, FEV1/FVC ratio 62%, consistent with moderate obstruction. Significant bronchodilator response present. Chest x-ray unremarkable. Assessment: Likely COPD versus late-onset asthma given bronchodilator response. Starting combined ICS/LABA inhaler, pulmonary rehabilitation referral placed.
+
+---
+# name: Medium Sensitivity - ENT Tonsillitis Evaluation 173
+# expected_critical: false
+
+Referral for recurrent tonsillitis. Patient has experienced 5 documented episodes of streptococcal pharyngitis in the past 12 months, each requiring antibiotic treatment. Episodes characterized by severe odynophagia, fever, and missed work days. Between episodes, mild chronic sore throat and halitosis. Examination shows 3+ tonsils with cryptic debris. Recommend tonsillectomy given frequency of infections meeting Paradise criteria.
+
+---
+# name: Medium Sensitivity - Hematology Anemia Workup 174
+# expected_critical: false
+
+Patient referred for evaluation of microcytic anemia. Hemoglobin 10.2 g/dL, MCV 72 fL. Iron studies show low ferritin (8 ng/mL), low serum iron, elevated TIBC, consistent with iron deficiency. No overt bleeding source reported. Menstrual history significant for heavy periods. GI evaluation recommended given age over 50. Starting ferrous sulfate 325mg TID with vitamin C. Recheck CBC in 6 weeks. Pending GI referral for EGD/colonoscopy.
+
+---
+# name: Medium Sensitivity - Neurology Tremor Assessment 175
+# expected_critical: false
+
+Evaluation of bilateral hand tremor present for 2 years. Tremor is action-type, affects both hands equally, worse with reaching and fine motor tasks. Family history positive for similar tremor in mother and maternal uncle. No rigidity, bradykinesia, or postural instability on examination. No features of hyperthyroidism. Assessment: Essential tremor. Discussing treatment options including propranolol or primidone if functionally limiting. Patient prefers observation for now.
+
+---
+# name: Medium Sensitivity - Urology BPH Management 176
+# expected_critical: false
+
+Follow-up for benign prostatic hyperplasia. Current symptoms include nocturia 2-3 times per night, weak stream, and incomplete emptying. AUA symptom score 18 (moderate). Post-void residual 85 mL. PSA 2.1 ng/mL, stable. DRE shows smooth, enlarged prostate without nodules. Current tamsulosin 0.4mg provides partial relief. Adding finasteride 5mg daily given prostate size >30g. Discussed expected timeline for improvement and potential sexual side effects.
+
+---
+# name: Medium Sensitivity - Endocrinology Thyroid Follow-up 177
+# expected_critical: false
+
+Routine thyroid monitoring for patient with Hashimoto's thyroiditis on levothyroxine 100mcg daily. TSH today 2.4 mIU/L, within target range. Patient reports adequate energy, stable weight, and regular bowel function. No symptoms of hyper- or hypothyroidism. Continue current dose, recheck TSH annually. Reminded patient to take medication on empty stomach and separate from calcium and iron supplements by 4 hours.
+
+---
+# name: Medium Sensitivity - Sports Medicine Ankle Sprain 178
+# expected_critical: false
+
+Evaluation of lateral ankle sprain sustained during recreational basketball 5 days ago. Patient noted inversion mechanism without audible pop. Weight-bearing with pain. Examination shows tenderness and swelling over ATFL, negative squeeze test, negative Ottawa ankle rules. X-ray shows no fracture. Grade II lateral ankle sprain. Recommend RICE protocol, ankle brace, crutches as needed, and physical therapy. Anticipate return to sport in 4-6 weeks with rehabilitation.
+
+---
+# name: Medium Sensitivity - Podiatry Ingrown Toenail 179
+# expected_critical: false
+
+Patient presents with painful right great toe for 2 weeks. Examination reveals ingrown lateral nail border with granulation tissue and purulent drainage, consistent with stage 2 ingrown toenail with infection. No systemic signs, no diabetes or peripheral vascular disease. Performed partial nail avulsion with phenol matrixectomy under digital block. Wound care instructions provided. Follow-up in 2 weeks. Oral antibiotics not indicated given local treatment.
+
+---
+# name: Medium Sensitivity - Geriatric Cognitive Screening 180
+# expected_critical: false
+
+Annual Medicare wellness visit cognitive assessment. Patient is 72-year-old with complaints of occasional word-finding difficulty. MoCA score 26/30, within normal range for age and education level. No functional decline reported by patient or family. No medication changes or medical causes identified. Assessment: Age-associated memory changes, no evidence of dementia. Recommend cognitive engagement activities, return for reassessment in 12 months or sooner if decline noted.
+
+---
+# name: Medium Sensitivity - Psychiatric Medication Check 181
+# expected_critical: false
+
+Routine medication management for major depressive disorder. Patient stable on sertraline 100mg daily for 2 years. PHQ-9 score 4, indicating minimal symptoms. No suicidal ideation. Sleep and appetite stable. Patient tolerating medication well without significant side effects. Discussed importance of continued treatment given recurrent depression history. Continue current regimen, follow-up in 3 months.
+
+---
+# name: Medium Sensitivity - Pediatric Ear Infection 182
+# expected_critical: false
+
+3-year-old presents with right ear pain, tugging at ear, and low-grade fever for 2 days. No URI symptoms. Examination shows erythematous, bulging right tympanic membrane with decreased mobility on pneumatic otoscopy. Left ear clear. Throat and lungs normal. Assessment: Acute otitis media, right ear. Prescribing amoxicillin 90mg/kg/day divided BID for 10 days. Return if no improvement in 48-72 hours or if fever worsens.
+
+---
+# name: Medium Sensitivity - Vaccine Administration Documentation 183
+# expected_critical: false
+
+Patient received annual influenza vaccine (quadrivalent, 0.5 mL IM, left deltoid). Lot number recorded in vaccine registry. No adverse reaction observed during 15-minute monitoring period. Patient counseled regarding common side effects including arm soreness and low-grade fever. VIS provided. Also discussed but patient declined shingles vaccine today due to cost concerns; will reconsider when insurance coverage changes.
+
+---
+# name: Medium Sensitivity - Wound Care Follow-up 184
+# expected_critical: false
+
+Return visit for healing assessment of left lower extremity laceration sutured 10 days ago. Wound well-approximated with no signs of infection. Sutures removed today without complication. Wound edges healthy with good granulation. Scar care instructions provided including sun protection and silicone gel application if desired. No activity restrictions. Patient may resume swimming in 48 hours once epithelialization complete.
+
+---
+# name: Medium Sensitivity - Chiropractic Treatment Note 185
+# expected_critical: false
+
+Return visit for chronic lower back pain. Patient reports moderate improvement since last adjustment. Pain level decreased from 6/10 to 4/10. Range of motion improved in lumbar spine. Subluxation identified at L4-L5. Performed spinal manipulation with diversified technique. Patient tolerated treatment well. Recommended continuation of home stretching program. Follow-up in 1 week, reassess treatment plan if not progressing.
+
+---
+# name: Medium Sensitivity - Audiology Hearing Evaluation 186
+# expected_critical: false
+
+Comprehensive audiometric evaluation for reported difficulty hearing in noisy environments. Pure tone audiometry reveals mild high-frequency sensorineural hearing loss bilaterally, greater in left ear. Speech discrimination scores 92% right, 84% left. Tympanometry normal bilaterally. Pattern consistent with age-related hearing loss. Discussed hearing aid options; patient interested in trial. Scheduled hearing aid evaluation and fitting appointment.
+
+---
+# name: Medium Sensitivity - Occupational Therapy Discharge 187
+# expected_critical: false
+
+Discharge summary following 6-week outpatient OT course for right distal radius fracture. Patient achieved all functional goals. Grip strength 90% of contralateral side. Full AROM achieved. Independent in all ADLs including fine motor tasks. Returned to work in clerical position without restrictions. Home exercise program provided for continued strengthening. Discharge to self-management, may return if new limitations develop.
+
+---
+# name: Medium Sensitivity - Speech Therapy Progress Note 188
+# expected_critical: false
+
+Session 8 of 12 for articulation disorder. Child continues to make progress with /r/ sound in initial word positions. Accuracy improved to 70% in structured activities, up from 45% at initial evaluation. Working on generalization to conversational speech. Parent reports hearing improvement at home. Continue current treatment approach with increased focus on self-monitoring. Goals remain appropriate; on track for discharge within planned course.
+
+---
+# name: Medium Sensitivity - Nutritional Counseling 189
+# expected_critical: false
+
+Medical nutrition therapy session for pre-diabetes and overweight. Discussed current eating patterns and identified areas for improvement including reduced refined carbohydrate intake and increased vegetable consumption. Patient reports difficulty with meal planning given work schedule. Provided sample meal plans and quick meal ideas. Goal: 5% weight loss over 6 months and improved HbA1c at next check. Follow-up in 6 weeks.
+
+---
+# name: Medium Sensitivity - Smoking Cessation Follow-up 190
+# expected_critical: false
+
+Follow-up for tobacco cessation program. Patient has been smoke-free for 3 weeks using combination therapy with nicotine patch 21mg and nicotine gum PRN. Reporting manageable cravings and some irritability. Weight gain of 3 pounds, which patient finds frustrating. Counseled on dietary strategies and exercise. Continue current pharmacotherapy. Discussed relapse prevention strategies and identifying triggers. Great progress; follow-up in 2 weeks.
+
+---
+# name: Medium Sensitivity - Lab Results Review 191
+# expected_critical: false
+
+Telephone encounter documenting discussion of laboratory results. Annual screening labs reviewed with patient. CBC within normal limits. CMP unremarkable, kidney and liver function normal. Lipid panel: Total cholesterol 198, LDL 118, HDL 52, triglycerides 140. Mildly elevated LDL; discussed lifestyle modifications before considering statin therapy. HbA1c 5.6%, fasting glucose 102, consistent with prediabetes. Dietary counseling provided.
+
+---
+# name: Medium Sensitivity - Imaging Interpretation 192
+# expected_critical: false
+
+MRI lumbar spine interpretation: Five lumbar vertebrae with normal alignment. Mild disc desiccation at L4-5 and L5-S1 consistent with degenerative disc disease. Shallow disc bulge at L4-5 without significant canal stenosis or neural foraminal narrowing. L5-S1 demonstrates mild bilateral facet arthropathy. Conus medullaris terminates at appropriate level. No compression fracture, spondylolisthesis, or worrisome marrow signal abnormality. Impression: Mild degenerative changes without significant neural compromise.
+
+---
+# name: Medium Sensitivity - Urgent Care Visit 193
+# expected_critical: false
+
+Patient presents to urgent care with 3 days of sore throat and fatigue. No cough, nasal congestion minimal. Temperature 100.4°F. Examination reveals tonsillar exudates and tender anterior cervical lymphadenopathy. Centor score 4. Rapid strep test positive. Assessment: Group A streptococcal pharyngitis. Prescribed penicillin VK 500mg TID for 10 days. Discussed contagion period, return to work after 24 hours of antibiotics and afebrile. Contact PCP if worsening.
+
+---
+# name: Medium Sensitivity - Hospice Care Conference Note 194
+# expected_critical: false
+
+Interdisciplinary team conference for patient with end-stage heart failure. Patient has been on hospice service for 6 weeks. Current symptoms include dyspnea managed with PRN morphine, lower extremity edema, and fatigue. Patient spending most of day in bed but alert and interactive with family. Spiritual care services engaged per patient's request. No changes to plan of care. Estimated prognosis remains less than 6 months. Next conference in 2 weeks.
+
+---
+# name: Medium Sensitivity - Home Health Nursing Visit 195
+# expected_critical: false
+
+Skilled nursing visit for wound care and medication management. Patient is 2 weeks post-discharge following abdominal surgery. Incision healing well, no signs of infection, staples to be removed at surgeon's office. Reviewed medication regimen; patient demonstrates understanding. Vital signs stable. Patient ambulating in home with rolling walker. Fall risk assessment performed, home environment safe. Continue twice weekly visits, anticipate discharge from home health in 2 weeks if progress continues.
+
+---
+# name: Low Sensitivity - General Health Information Request 196
+# expected_critical: false
+
+Patient inquired about vitamin D supplementation recommendations. Discussed that most adults benefit from 1000-2000 IU daily, especially those with limited sun exposure. Advised that excessive supplementation can be harmful and to have levels checked if concerned about deficiency. Recommended choosing vitamin D3 over D2 for better absorption. No specific patient medical history discussed in this interaction.
+
+---
+# name: Low Sensitivity - Appointment Scheduling Note 197
+# expected_critical: false
+
+Patient contacted office to schedule annual physical examination. Last visit was approximately 13 months ago. No acute concerns noted by scheduling staff. Appointment scheduled for next available slot in 3 weeks. Patient requested early morning time due to work schedule. Reminded to fast for 12 hours prior for lab work.
+
+---
+# name: Low Sensitivity - Insurance Eligibility Verification 198
+# expected_critical: false
+
+Verified insurance eligibility for upcoming procedure. Coverage confirmed through employer-sponsored plan. Specialist visit copay of \$40 applies. Deductible has been met for the calendar year. Prior authorization for procedure obtained, reference number noted in system. Patient informed of out-of-pocket responsibility estimate.
+
+---
+# name: Low Sensitivity - Prescription Refill Request 199
+# expected_critical: false
+
+Patient requested refill of maintenance medication. Prescription history reviewed and confirmed medication due for refill. Supply of 90 days approved per previous protocol. Electronic prescription sent to patient's preferred pharmacy. No changes to dosage or instructions. Annual medication review will be conducted at next scheduled visit.
+
+---
+# name: Low Sensitivity - Medical Records Release Form 200
+# expected_critical: false
+
+Medical records release authorization form received from patient. Patient has authorized release of records to referring specialist. Form includes required elements: patient signature, date, specified records requested, and recipient information. Records to be transmitted via secure electronic system within 5 business days per policy.
+
+---
+# name: Low Sensitivity - General Symptom Checker Guidance 201
+# expected_critical: false
+
+Caller inquired about general symptoms of urinary tract infection after reading online. Triage nurse explained typical symptoms including frequency, urgency, burning with urination, and possible lower abdominal discomfort. Advised that diagnosis requires evaluation and possible testing. Recommended scheduling appointment if symptoms are present. No patient identification information required for general guidance call.
+
+---
+# name: Low Sensitivity - Facility Directions Request 202
+# expected_critical: false
+
+Caller requested directions to imaging center for upcoming appointment. Provided address and explained parking options in adjacent garage on level 2. Noted that validation is available at reception desk. Imaging center located on first floor, suite 101. Suggested arriving 15 minutes early to complete registration. No medical information discussed.
+
+---
+# name: Low Sensitivity - Office Hours Inquiry 203
+# expected_critical: false
+
+Caller inquired about clinic hours and weekend availability. Informed that main clinic is open Monday through Friday 8 AM to 5 PM. Urgent care satellite location is open Saturdays 9 AM to 3 PM. After-hours nurse advice line available 24/7 by calling main number. No patient-specific information discussed.
+
+---
+# name: Low Sensitivity - Website Portal Assistance 204
+# expected_critical: false
+
+Patient called for technical assistance accessing online patient portal. Verified the correct web address and confirmed patient was using supported browser. Walked through password reset process. Patient successfully logged in during call. Demonstrated how to view test results and send messages to care team. No medical information discussed during technical support.
+
+---
+# name: Low Sensitivity - Copay Collection Documentation 205
+# expected_critical: false
+
+Documentation of patient copay collection at time of service. Amount of \$25 collected by credit card per insurance plan terms. Receipt provided to patient. Copay correctly applied to today's visit. Remaining balance, if any, will be billed after insurance processing.
+
+---
+# name: Low Sensitivity - Medical Supply Reorder 206
+# expected_critical: false
+
+Patient called to reorder diabetic testing supplies. Current supply authorization verified in system. Order placed with approved vendor for 90-day supply of test strips and lancets. Will ship directly to patient's home within 5-7 business days. Patient reminded of proper storage requirements.
+
+---
+# name: Low Sensitivity - Appointment Reminder Documentation 207
+# expected_critical: false
+
+Automated appointment reminder sent to patient via preferred contact method (text message). Reminder includes date, time, and location of upcoming appointment. Patient acknowledged receipt through automated response system. No patient response indicating need to reschedule.
+
+---
+# name: Low Sensitivity - General Procedure Information 208
+# expected_critical: false
+
+Patient requested general information about colonoscopy preparation process. Provided standard prep instructions including clear liquid diet the day before, timing of prep solution consumption, and arrival time guidance. Written instructions will be mailed. Specific medical concerns to be addressed with physician at pre-procedure visit.
+
+---
+# name: Low Sensitivity - Referral Status Inquiry 209
+# expected_critical: false
+
+Patient inquired about status of referral to specialist. Confirmed referral was submitted to insurance 5 business days ago. Authorization currently pending. Estimated processing time is 7-10 business days. Will notify patient when authorization is received to schedule appointment with specialist.
+
+---
+# name: Low Sensitivity - Clinic Survey Documentation 210
+# expected_critical: false
+
+Patient satisfaction survey results received via mail. Patient rated overall experience as "very satisfied." Specific praise for staff friendliness and minimal wait time. No specific concerns noted. Survey response logged for quality improvement tracking. No clinical or identifying details included in survey submission.
+
+---
+# name: Low Sensitivity - Education Material Request 211
+# expected_critical: false
+
+Patient requested educational materials on heart-healthy diet. Provided standard American Heart Association brochures on dietary modifications for cardiovascular health. Included resources for online tools to track sodium and cholesterol intake. Materials are general education, not personalized medical advice. Recommended discussing specific dietary needs at next appointment.
+
+---
+# name: Low Sensitivity - Interpreter Service Arrangement 212
+# expected_critical: false
+
+Medical interpreter service arranged for upcoming appointment. Patient's preferred language is Spanish. In-person interpreter scheduled for 30-minute appointment slot. Interpretation service confirmation number documented. Patient advised to arrive on time to ensure full use of interpreter availability.
+
+---
+# name: Low Sensitivity - Form Request Documentation 213
+# expected_critical: false
+
+Patient requested completion of school physical form. Form received and queued for physician review. Standard form requiring basic health attestation and immunization verification. Will be completed based on most recent examination findings. Patient advised form will be ready for pickup within 3-5 business days.
+
+---
+# name: Low Sensitivity - Clinical Trial General Inquiry 214
+# expected_critical: false
+
+Caller inquired about availability of clinical trials at this facility. Provided general information about research office and how to access list of currently enrolling studies. Explained that eligibility is determined individually based on study criteria. Directed caller to clinical trials website for current study listings. No patient medical information discussed.
+
+---
+# name: Low Sensitivity - Parking Validation Request 215
+# expected_critical: false
+
+Patient requested parking validation following appointment. Validated parking ticket for 2-hour covered parking per office policy for medical appointments. Patient confirmed they parked in designated medical center garage structure. No medical information discussed during transaction.
+
+---
+# name: Low Sensitivity - Pharmacy Verification Call 216
+# expected_critical: false
+
+Received verification call from pharmacy confirming prescription was authorized by this prescriber. Confirmed prescription details match office records. Prescription is appropriate and correctly transmitted. Pharmacy will proceed with dispensing to patient.
+
+---
+# name: Low Sensitivity - Quality Metrics Documentation 217
+# expected_critical: false
+
+Monthly quality report indicates clinic achieved 87% compliance with annual wellness visit completion rates. Improvement noted from previous quarter's 82% rate. Areas for improvement include colorectal cancer screening referral completion. Action plan includes patient reminder system enhancement. Aggregate data only; no individual patient information in report.
+
+---
+# name: Low Sensitivity - Staff Meeting Documentation 218
+# expected_critical: false
+
+Clinical staff meeting notes. Topics covered: updated hand hygiene protocols, new EHR feature training scheduled for next month, reminder of HIPAA compliance requirements, and discussion of flu vaccine clinic logistics. No patient cases discussed. Meeting adjourned after 45 minutes.
+
+---
+# name: Low Sensitivity - Equipment Maintenance Log 219
+# expected_critical: false
+
+Routine maintenance completed on examination room equipment. Blood pressure cuffs calibrated and verified accurate. Otoscope and ophthalmoscope bulbs replaced. Scale certified accurate within 0.5 pound tolerance. AED battery checked and pad expiration dates verified. All equipment meets clinical standards. Next scheduled maintenance in 6 months.
+
+---
+# name: Low Sensitivity - Office Supply Order 220
+# expected_critical: false
+
+Medical supplies order placed with approved vendor. Order includes examination gloves (medium and large), tongue depressors, gauze pads, and alcohol prep pads. Estimated delivery in 3-5 business days. Total order cost within budgeted allocation. No patient information involved in procurement.
+
+---
+# name: Low Sensitivity - Fire Safety Drill Documentation 221
+# expected_critical: false
+
+Monthly fire drill conducted per safety regulations. All staff participated in evacuation procedure. Building cleared in 3 minutes 45 seconds, meeting target time. Assembly point utilized was north parking lot. Drill supervised by facilities manager. All clinical areas secured appropriately. Documentation submitted to safety committee.
+
+---
+# name: Low Sensitivity - Temperature Log - Vaccine Storage 222
+# expected_critical: false
+
+Daily vaccine refrigerator temperature log recorded. Morning temperature: 38°F. Afternoon temperature: 39°F. Both readings within acceptable range of 36-46°F. Digital logger functioning correctly. No temperature excursions to report. Monthly summary to be submitted to state immunization program.
+
+---
+# name: Low Sensitivity - Staff Training Completion 223
+# expected_critical: false
+
+Staff member completed mandatory annual HIPAA training module. Training covered privacy rule basics, patient rights, minimum necessary standard, and breach notification procedures. Passed assessment with score of 92%. Certificate of completion filed in personnel record. Next renewal due in 12 months.
+
+---
+# name: Low Sensitivity - Phone System Message 224
+# expected_critical: false
+
+After-hours phone message from patient requesting appointment callback during business hours. No clinical details left in message. Patient provided name and callback number only. Message documented for morning staff to return call and schedule appointment.
+
+---
+# name: Low Sensitivity - Facility Inspection Report 225
+# expected_critical: false
+
+State health department inspection completed. No violations cited. Minor recommendations noted: update evacuation maps to reflect recent renovation and replace worn flooring in waiting area. Overall rating: satisfactory. Certificate of compliance issued. Next inspection scheduled per routine 3-year cycle.
+
+---
+# name: Edge Case - Fictional Character Name Match 226
+# expected_critical: false
+
+Patient named Clark Kent presents for routine vision examination. Address is Smallville, Kansas. Patient works as a reporter for a metropolitan newspaper. Despite name matching famous fictional character, patient is a real individual with documented medical history at this facility. Vision correctable to 20/20 with mild myopia.
+
+---
+# name: Edge Case - Common Name Multiple Patients 227
+# expected_critical: false
+
+Note for patient John Smith, DOB appears to match multiple records in system. Verification performed using address and last four of phone number to confirm correct patient record accessed. This John Smith resides at Maple Street address, distinguishing from other patients with same name in system.
+
+---
+# name: Edge Case - Self-Reported Celebrity Connection 228
+# expected_critical: true
+
+Patient reports during social history that they are cousins with a famous musician and have been recently photographed with them at family events. Patient expressing concern about paparazzi finding out about their chronic health condition. Advised patient that all information is protected regardless of family connections. Patient's diagnosis of psoriatic arthritis documented.
+
+---
+# name: Edge Case - Healthcare Worker As Patient 229
+# expected_critical: false
+
+Patient is registered nurse employed at competing hospital system. Presenting for treatment of workplace injury to lower back. Patient expressed concern about workers compensation documentation being visible to colleagues in their own system. Reassured about information protections. Standard occupational injury documentation completed.
+
+---
+# name: Edge Case - Medical Note Contains Poetry 230
+# expected_critical: false
+
+During psychiatric assessment, patient shared original poetry expressing feelings about their depression. With patient's permission, one poem documented as clinically relevant to understanding mood state: "Gray skies, gray thoughts, gray me / The color of feeling nothing / And everything at once." Poetry analyzed in context of current major depressive episode treatment.
+
+---
+# name: Edge Case - Numerical Data Only 231
+# expected_critical: false
+
+Lab values: WBC 7.2, RBC 4.8, Hgb 14.2, Hct 42.1, Plt 245, MCV 88, MCH 29.6, MCHC 33.8, RDW 13.1. Chemistry: Na 140, K 4.1, Cl 102, CO2 24, BUN 15, Cr 0.9, Glu 98. Liver: AST 22, ALT 25, Alk Phos 68, T.Bili 0.8. All values within normal reference ranges. No patient identifiers in this data set alone.
+
+---
+# name: Edge Case - Medical Note Foreign Language 232
+# expected_critical: true
+
+Patient prefers to communicate in Mandarin Chinese. With interpreter assistance, patient reported: 胸痛三天了，活动后加重 (chest pain for three days, worse with activity). Cardiac workup initiated. Patient's daughter translating confirmed patient also has family history of heart disease. Note documented in English with key phrases in original language for accuracy.
+
+---
+# name: Edge Case - Transcription Error Correction 233
+# expected_critical: false
+
+ADDENDUM: Previous note dated yesterday contained transcription error. "Patient has NO history of diabetes" was incorrectly transcribed as "Patient has history of diabetes." This addendum corrects the record. Patient confirmed they have never been diagnosed with diabetes. Original note amended with correction notation.
+
+---
+# name: Edge Case - Test Record - Do Not Use 234
+# expected_critical: false
+
+TEST RECORD - NOT A REAL PATIENT. This record was created for EHR system testing purposes only. Name: Test Patient, DOB: 01/01/1900, MRN: TEST001. All data in this record is fictional and used for training and system verification. Record flagged in system as test account to prevent actual clinical use.
+
+---
+# name: Edge Case - Copied Text From Website 235
+# expected_critical: false
+
+Patient brought printout from WebMD about their symptoms. Article discussed general information about acid reflux including: "Heartburn is a burning sensation in the chest, just behind the breastbone. The pain often rises in the chest and may radiate to the neck, throat, or angle of the jaw." Patient's actual symptoms assessed independently and documented separately.
+
+---
+# name: Edge Case - Legal Disclaimer Boilerplate 236
+# expected_critical: false
+
+STANDARD LEGAL NOTICE: This medical record is confidential and protected under federal and state law including HIPAA. Unauthorized access, use, or disclosure is prohibited and may result in civil and criminal penalties. If you have received this information in error, please notify the medical records department immediately and destroy all copies.
+
+---
+# name: Edge Case - Patient Disputed Information 237
+# expected_critical: false
+
+Patient has submitted formal request to amend record under HIPAA. Patient disputes documented social history stating alcohol use of "2-3 drinks daily" and requests amendment to "occasional social drinking." Per policy, provider's original observation retained with patient's disagreement statement attached. Patient's written amendment request added to record.
+
+---
+# name: Edge Case - Multiple Diagnoses Acronym Heavy 238
+# expected_critical: false
+
+Assessment/Plan: 1) CHF exacerbation - increase Lasix, strict I/O, BMP daily 2) COPD - continue home nebs, add PO steroid burst 3) T2DM - SSI coverage, hold metformin given CKD progression 4) CKD stage 3b - monitor Cr, avoid nephrotoxins 5) Afib - rate controlled, continue anticoagulation, check INR 6) HTN - current regimen adequate 7) OSA - patient using CPAP nightly.
+
+---
+# name: Edge Case - Genetics Discussion No Results 239
+# expected_critical: false
+
+Genetic counseling session documented. Patient inquiring about hereditary cancer risk assessment based on family history of breast cancer in mother and maternal aunt. Discussed potential benefits and limitations of BRCA testing. Patient considering options and will return with decision. No genetic testing performed today. Education provided about inheritance patterns and risk factors.
+
+---
+# name: Edge Case - Hypothetical Clinical Scenario 240
+# expected_critical: false
+
+Medical student case discussion note: Hypothetical case presented for educational purposes. "58-year-old man presents with sudden onset chest pain and diaphoresis..." Case used for differential diagnosis teaching exercise. This is not documentation of actual patient care. For simulation and education only.
+
+---
+# name: Edge Case - Reference to Public Event 241
+# expected_critical: true
+
+Patient presents with anxiety symptoms following last month's mass shooting at the Valley Mall. Patient was in the food court when shooting began but escaped uninjured. Experiencing nightmares, hypervigilance, and avoiding crowded spaces. While not directly injured, patient's proximity to event may be identifiable through media coverage of incident. PTSD evaluation initiated.
+
+---
+# name: Edge Case - Smart Device Data Imported 242
+# expected_critical: false
+
+Patient provided access to fitness tracker data showing average 8,500 steps daily, average resting heart rate 72 bpm, and sleep averaging 6.5 hours per night with 15% deep sleep. Data covers past 30 days. Used to supplement patient-reported activity levels. Device data suggests patient is more active than previously estimated.
+
+---
+# name: Edge Case - Template Not Customized 243
+# expected_critical: false
+
+[PROVIDER NAME] saw [PATIENT NAME] on [DATE] for [CHIEF COMPLAINT]. Review of systems was [POSITIVE/NEGATIVE] for [SYMPTOMS]. Physical examination revealed [FINDINGS]. Assessment: [DIAGNOSIS]. Plan: [TREATMENT PLAN]. Follow-up in [TIMEFRAME]. ERROR: Template not properly completed - note rejected for completion before signing.
+
+---
+# name: Edge Case - Extremely Lengthy Note 244
+# expected_critical: false
+
+Comprehensive multi-specialty care conference documentation. This note consolidates input from 12 different specialists over a 3-hour conference regarding complex patient care planning. Due to note length exceeding 15,000 characters, summary section provided here with full specialist notes attached as addenda. Primary recommendations include coordinated care plan with scheduled follow-ups and designatedcare coordinator assignment.
+
+---
+# name: Edge Case - Minimal Information Present 245
+# expected_critical: false
+
+Vitals only. BP 120/78. Temp 98.6F. Pulse 76. RR 14. SpO2 99% RA.
+
+---
+# name: Edge Case - Contradictory Information 246
+# expected_critical: false
+
+QUALITY REVIEW FLAG: Chart contains contradictory information. Problem list indicates "No known drug allergies" while nursing intake note from same date documents "Penicillin - rash." Clarification needed before medication prescribing. Provider contacted to resolve discrepancy and update record accurately.
+
+---
+# name: Edge Case - Patient Self-Documented Note 247
+# expected_critical: false
+
+Patient submitted through portal pre-visit questionnaire. Patient writes: "I have been having headaches almost every day for 2 weeks. They start behind my eyes and move to the back of my head. Ibuprofen helps a little. I work at a computer all day and have been stressed about deadlines at work. I drink about 4 cups of coffee. No visual changes or nausea. My mom has migraines."
+
+---
+# name: Edge Case - AI/Algorithm Output 248
+# expected_critical: false
+
+Clinical decision support alert generated by EHR system: "Based on patient's age (52), risk factors (smoking history, hypertension, family history), calculated 10-year ASCVD risk is 12.4%. ACC/AHA guidelines suggest consideration of moderate-intensity statin therapy. Alert for provider review - not a diagnosis or treatment recommendation. Provider must exercise clinical judgment."
+
+---
+# name: Edge Case - Encrypted Content Marker 249
+# expected_critical: false
+
+[ENCRYPTED PSYCHIATRIC CONTENT - ADDITIONAL AUTHENTICATION REQUIRED]. This portion of the medical record contains sensitive mental health information subject to enhanced privacy protections under state law. Access requires explicit authorization beyond standard medical record access. Contact behavioral health department for appropriate access protocols.
+
+---
+# name: Edge Case - Research Data Hybrid Document 250
+# expected_critical: true
+
+This document contains both clinical care information and research study data. Patient enrolled in NCT00123456 (randomized study of medication X vs placebo for condition Y). Study visit 4 of 8 completed. Research-specific labs and assessments performed per protocol. Patient experiencing mild side effect of nausea. Study coordinator notified. Clinical care continues per standard practice alongside study participation.
+
+---
+# name: Edge Case - Sensitive Information Partial Redaction 251
+# expected_critical: true
+
+Release of information prepared with partial redaction per patient request. Patient authorized release of cardiology records but specifically excluded: [REDACTED - Mental health treatment notes], [REDACTED - Substance abuse treatment], and [REDACTED - HIV status]. Receiving provider notified that record is incomplete per patient direction under relevant state law provisions.
+
+---
+# name: Edge Case - Voice Transcription Errors 252
+# expected_critical: false
+
+[Note: Voice transcription contains potential errors, pending review] Patient presents with "sore us I tis" [sic - likely sinusitis] and reports "new Mona" [sic - likely pneumonia] concerns. "Percussing" [percussion] and "osculation" [sic - auscultation] performed. Dictation reviewed and corrections noted in brackets above. Final note pending provider verification.
+
+---
+# name: Edge Case - Care Plan No Diagnosis 253
+# expected_critical: false
+
+Wellness care plan for patient seeking preventive health optimization. No current diagnoses or complaints. Patient interested in longevity and disease prevention strategies. Discussed evidence-based recommendations including regular exercise (150 minutes/week moderate intensity), Mediterranean dietary pattern, stress reduction techniques, adequate sleep (7-9 hours), and age-appropriate health screenings. Personalized goals set with patient.
+
+---
+# name: Edge Case - Emergency Contact Information Only 254
+# expected_critical: false
+
+Emergency contact update form processed. Primary: Spouse, relationship verified. Secondary: Adult child, relationship verified. Both contacts have acknowledged permission to receive medical information in emergency situations. Wallet card with emergency contact information provided to patient. Form filed in demographic section of chart.
+
+---
+# name: Edge Case - Abandoned Note Recovered 255
+# expected_critical: false
+
+This note was auto-saved and recovered following system interruption. Original authoring session: 14:32. System failure: 14:47. Recovery timestamp: 15:05. Provider should review recovered content for accuracy and completeness before signing. Any information entered after 14:47 was not captured and must be re-entered.
+
+---
+# name: High PII - Full Demographics Criminal Justice 256
+# expected_critical: true
+
+Patient Name: Jerome Washington
+DOB: 04/19/1987
+SSN: 423-88-9012
+Address: 1847 Industrial Parkway, Unit B, Detroit, MI 48207
+Phone: (313) 555-0187
+Email: jwashington87@email.com
+MRN: CJH-2024-55892
+
+Intake physical for new detainee transferred from county jail. Patient incarcerated on federal drug trafficking charges, awaiting trial. Medical history includes hypertension and hepatitis C (treated, SVR achieved 2022). Current medications: lisinopril 20mg daily. Patient reports previous gunshot wound to left shoulder with retained fragments. Denies current drug use, last use methamphetamine 3 weeks prior to incarceration. Mental health screening indicates history of major depression, not currently on psychiatric medication. Patient is high-profile defendant with media coverage of arrest.
+
+---
+# name: High PII - Full Demographics Immigration Detention 257
+# expected_critical: true
+
+Patient Name: Maria Elena Gutierrez-Ramirez
+DOB: 11/03/1992
+A-Number: 098-765-432
+Country of Origin: Guatemala
+Current Location: Immigration Processing Center, Building C, Pod 7
+Phone (Emergency Contact in US): (512) 555-0934
+MRN: IPC-2024-11234
+
+35-week prenatal check for detained pregnant woman. Patient crossed border seeking asylum 6 weeks ago. Pregnancy complicated by gestational diabetes requiring insulin. Patient's two older children (ages 7 and 9) are in separate ORR custody. Patient experiencing significant anxiety and depression related to family separation. High-risk for preterm delivery given stress factors. Patient's asylum case involves documented abuse by police in home country; requests that medical records not be shared with Guatemalan authorities.
+
+---
+# name: High PII - Full Demographics Military Sexual Trauma 258
+# expected_critical: true
+
+Patient Name: Specialist Brittany Nicole Jameson, USA
+DOB: 08/14/1999
+SSN: 588-21-4456
+Service Number: 123-45-6789
+Unit: 3rd Infantry Division, Fort Stewart, GA
+Civilian Address on File: 2234 Peachtree Lane, Hinesville, GA 31313
+Phone: (912) 555-0847
+Email: b.jameson99@mail.com
+MRN: FSHC-445892
+
+Restricted report documentation for alleged sexual assault by superior officer occurring during recent deployment. Patient electing restricted reporting to protect privacy while accessing victim services. SHARP advocate present for initial examination. Forensic examination completed per protocol. Evidence kit collected and stored per restricted report procedures. Patient declining mental health referral at this time but provided crisis resources. Chain of command NOT notified per patient's restricted report election.
+
+---
+# name: High PII - Full Demographics Protective Order Case 259
+# expected_critical: true
+
+Patient Name: Sarah Elizabeth Mitchell
+Alias in System: Jane Doe 2024-0892
+DOB: 03/27/1985
+SSN: 334-67-8901
+Safe Address: [CONFIDENTIAL - Domestic Violence Shelter]
+Case Phone: (555) 0-SAFE-99 ext 4427
+Email: Protected through DV services
+MRN: DVS-2024-44829
+Protective Order Number: 2024-CV-8827, Superior Court
+
+Treatment of facial lacerations and nasal fracture following assault by estranged husband. Patient fled home state with two minor children after attempted strangulation. Current location under address confidentiality program. Photographs documented per forensic protocol. Patient's abuser is in law enforcement in another state and has made threats about finding her through medical records. Security alert placed on account. Patient's husband has history of tracking her through healthcare systems.
+
+---
+# name: High PII - Full Demographics Medical Malpractice Pending 260
+# expected_critical: true
+
+Patient Name: Thomas Richard Hernandez
+DOB: 07/12/1970
+SSN: 445-78-2234
+Address: 8923 Westbrook Drive, Scottsdale, AZ 85260
+Phone: (480) 555-1289
+Email: t.hernandez70@lawfirm.com
+Attorney: Morrison & Associates, (602) 555-8800
+MRN: SMCH-2024-78945
+
+Follow-up for ongoing complications from laparoscopic cholecystectomy performed at this facility 18 months ago. Patient's bile duct was transected during procedure, requiring reconstruction and ERCP with stent placement. Patient now with chronic biliary stricture requiring regular dilation. Patient has retained legal representation and preservation order is in effect for all medical records. Risk management notified of all documentation. Patient continues care here due to established relationship despite pending litigation.
+
+---
+# name: High PII - Full Demographics Child Custody Evaluation 261
+# expected_critical: true
+
+Patient Name: Madison Grace Thompson
+DOB: 02/18/2016 (Age 8)
+SSN: 556-89-0123
+Mother: Jennifer Thompson, 567 Oak Lane, Portland, OR 97201
+Father: Michael Thompson, 2389 Pine Street, Portland, OR 97205
+Court Case Number: 24-DR-44892
+Custody Evaluator: Dr. Patricia Wells, (503) 555-4421
+MRN: PEDS-2024-67823
+
+Court-ordered psychiatric evaluation for child in contested custody case. Both parents alleging parental alienation by other party. Child's current statements show inconsistency between parental homes. Evidence of coaching suspected. Child has been hospitalized once for anxiety symptoms during custody exchanges. School attendance has declined during custody dispute. This evaluation will be submitted to Family Court Judge Robinson for custody modification hearing scheduled December 15th. Father's new girlfriend also a controversial figure in child's statements.
+
+---
+# name: High PII - Full Demographics Clergy Candidate Assessment 262
+# expected_critical: true
+
+Patient Name: Daniel Joseph Sullivan
+DOB: 12/04/1995
+SSN: 667-90-1234
+Seminary: St. Michael's Theological Seminary
+Formation Director: Rev. Francis O'Brien
+Address: 445 Seminary Road, Room 302, Indianapolis, IN 46220
+Phone: (317) 555-6723
+Email: dsullivan@stseminary.edu
+MRN: CCPS-2024-00892
+
+Psychological fitness evaluation for ordination candidacy. Comprehensive assessment per diocesan requirements. Patient demonstrates appropriate psychosexual development. MMPI-2 results within acceptable parameters for religious life. No indicators of concerning personality pathology. Patient disclosed one episode of pornography use age 16, with no recurrence. History of depression in late adolescence, in remission without medication for 5 years. Recommend candidate as psychologically suitable for ordination. Full report to be sent directly to Bishop's office per release signed by candidate.
+
+---
+# name: High PII - Full Demographics Professional License Defense 263
+# expected_critical: true
+
+Patient Name: Dr. Amanda Christine Wong, PharmD
+DOB: 09/15/1980
+SSN: 778-01-2345
+Pharmacy License: PH-2004-5523, State of Washington
+DEA Number: FW-1234563
+Address: 1556 Harbor View Circle, Seattle, WA 98101
+Phone: (206) 555-8892
+Attorney: Washington Pharmacists Defense Fund
+MRN: PHP-2024-11234
+
+Physician Health Program assessment following pharmacy board complaint. Allegation of diversion of controlled substances from workplace. Drug testing: first specimen dilute, second specimen negative for all substances. Hair follicle testing negative for 90-day window. Polygraph examination passed regarding diversion allegations. Patient reports high stress and burnout; insomnia led to taking Z-drugs from pharmacy without prescription. Agrees to monitoring contract. Board complaint may be dismissed with successful completion of 3-year monitoring agreement.
+
+---
+# name: High PII - Full Demographics Undercover Officer 264
+# expected_critical: true
+
+Patient Name: [OPERATIONAL ALIAS: Marcus Jones]
+Actual Identity: [CLASSIFIED - DEA Task Force]
+DOB for Cover Identity: 05/22/1988
+Cover Address: 778 Martin Luther King Blvd, Apt 4, Atlanta, GA 30314
+Operational Phone: (404) 555-9901
+Agency Contact: SAC Williams, (404) 555-0001
+MRN: SECURE-2024-00001
+CLASSIFICATION: Law Enforcement Sensitive
+
+Urgent treatment for gunshot wound to right forearm sustained during undercover operation. Wound consistent with through-and-through injury from 9mm projectile. No neurovascular compromise. Patient cannot receive care at usual facility without compromising 18-month operation. All records to be maintained in segregated file. Hospital security and risk management briefed. Billing to be processed through agency direct pay arrangement. Patient's actual identity and home address must not appear in any accessible system.
+
+---
+# name: High PII - Full Demographics Protected Witness Healthcare 265
+# expected_critical: true
+
+Patient Name: Robert Allen Peters [assigned identity]
+Previous Identity: [SEALED - WITSEC file]
+DOB (assigned): 01/14/1975
+SSN (assigned): 889-12-3456
+Address: Provided by USMS
+Phone: Contact through USMS Inspector Thompson
+MRN: WITSEC-2024-classified
+US Marshals Contact: Inspector J. Thompson, (202) 555-USMS
+
+Continuity of care documentation for WITSEC participant relocated to this jurisdiction. Previous medical records cannot be transferred due to security protocols. Patient provides verbal history of: Type 2 diabetes, coronary artery disease (2 stents 2019), and hypertension. Patient's previous identity known to organized crime and multiple credible death threats documented. All healthcare communications must go through USMS contact. No records to be released without Marshals authorization. Patient's relocation is related to testimony in federal racketeering case.
+
+---
+# name: High Sensitivity - Diplomatic Immunity Patient 266
+# expected_critical: true
+
+Patient is cultural attaché at embassy of a Middle Eastern nation. Presenting for treatment of injuries sustained during an alleged altercation at a diplomatic reception. Patient invokes diplomatic immunity regarding any law enforcement cooperation. Injuries include facial contusions, broken orbital bone, and defensive wounds on hands. Patient's account of events differs significantly from witness statements obtained by hospital security. Embassy has dispatched security personnel now present in department. State Department protocol activated.
+
+---
+# name: High Sensitivity - Executive Physical CEO Tech Company 267
+# expected_critical: true
+
+Annual executive physical for C-suite executive of publicly traded technology company. Market cap of company exceeds \$50 billion. Concerning findings on today's examination require further workup: irregular cardiac rhythm on EKR, PSA elevated at 8.2 (previous 2.1), and new 2cm pulmonary nodule on chest imaging. Patient scheduled for PET scan, cardiology consultation, and urology evaluation. Patient's general counsel has contacted our office regarding SEC disclosure obligations related to CEO health status. Extensive confidentiality protocols in place given material nonpublic information implications.
+
+---
+# name: High Sensitivity - Reality TV Show Production Medical 268
+# expected_critical: true
+
+Medical clearance documentation for participant selected for upcoming survival reality competition. Production requires certification of physical and mental fitness for extreme physical challenges. Patient is among 16 cast members for nationally broadcast program. Psychiatric screening reveals history of eating disorder in remission and previous suicide attempt age 19 (patient now 32). Production company pressing for clearance but concerns documented regarding patient returning to food-restrictive environment. Patient strongly motivated to participate and minimizing history. Liability release signed but duty of care concerns remain.
+
+---
+# name: High Sensitivity - Biosafety Exposure Incident 269
+# expected_critical: true
+
+Occupational health documentation for laboratory worker exposed to pathogen during research activities. Patient is graduate researcher working with enhanced potential pandemic pathogen under BSL-3+ conditions. Breach occurred during aerosol-generating procedure. Patient is under quarantine observation per institutional biosafety protocol. Public health department notified per required
+
