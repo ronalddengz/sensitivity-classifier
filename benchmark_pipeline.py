@@ -969,6 +969,10 @@ def create_visualizations(results: List[PipelineResult], output_dir: Path):
     plt.tight_layout()
     plt.savefig(output_dir / 'correlation_heatmap.png', dpi=150, bbox_inches='tight')
     plt.close()
+
+    if any(r.expected_critical for r in results):  # Need labeled data
+        create_privacy_accuracy_visualization(results, output_dir)
+        create_score_distribution_plot(results, output_dir)
     
     print(f"Saved visualizations to {output_dir}")
 
@@ -1093,6 +1097,212 @@ def find_threshold(scores: np.ndarray, c_sensitive: np.ndarray) -> float:
     
     return float(best_threshold)
 
+def create_privacy_accuracy_visualization(results: List[PipelineResult], output_dir: Path):
+    """
+    Create accuracy vs privacy trade-off visualization.
+    
+    X-axis: Privacy (proportion of sensitive data blocked)
+    Y-axis: Accuracy (proportion of blocks that were necessary)
+    """
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from sklearn.metrics import precision_recall_curve, roc_curve, auc
+    
+    # Ground truth: expected_critical (from your labeled data)
+    # Prediction scores: c_score_risk_score (continuous) or combined scores
+    
+    y_true = np.array([r.expected_critical for r in results]).astype(int)
+    y_scores = np.array([r.c_score_risk_score for r in results])
+    
+    # Also try with combined E+Q+C scores
+    y_scores_combined = np.array([
+        0.3 * r.e_score + 0.3 * r.q_score + 0.4 * r.c_score_risk_score 
+        for r in results
+    ])
+    
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    
+    # =========================================================================
+    # Plot 1: Precision-Recall Curve
+    # =========================================================================
+    ax = axes[0, 0]
+    
+    precision, recall, thresholds = precision_recall_curve(y_true, y_scores)
+    
+    ax.plot(recall, precision, 'b-', linewidth=2, label='C-Score')
+    ax.fill_between(recall, precision, alpha=0.2)
+    
+    # Add threshold annotations
+    for thresh in [0.2, 0.3, 0.4, 0.5]:
+        idx = np.argmin(np.abs(thresholds - thresh)) if len(thresholds) > 0 else 0
+        if idx < len(precision) - 1:
+            ax.annotate(f't={thresh}', (recall[idx], precision[idx]), 
+                       fontsize=8, ha='left')
+            ax.plot(recall[idx], precision[idx], 'ro', markersize=6)
+    
+    ax.set_xlabel('Recall (Sensitive Data Blocked / All Sensitive Data)')
+    ax.set_ylabel('Precision (Necessary Blocks / All Blocks)')
+    ax.set_title('Privacy-Accuracy Trade-off\n(Precision-Recall Curve)')
+    ax.legend()
+    ax.grid(True, alpha=0.3)
+    ax.set_xlim([0, 1.05])
+    ax.set_ylim([0, 1.05])
+    
+    # =========================================================================
+    # Plot 2: Threshold Operating Characteristic
+    # =========================================================================
+    ax = axes[0, 1]
+    
+    thresholds_to_test = np.linspace(0, 1, 50)
+    
+    privacy_rates = []  # True Positive Rate (sensitive caught)
+    accuracy_rates = []  # Precision (blocks that were needed)
+    over_censor_rates = []  # False Positive Rate (unnecessary blocks)
+    
+    for thresh in thresholds_to_test:
+        y_pred = (y_scores >= thresh).astype(int)
+        
+        tp = np.sum((y_pred == 1) & (y_true == 1))
+        fp = np.sum((y_pred == 1) & (y_true == 0))
+        fn = np.sum((y_pred == 0) & (y_true == 1))
+        tn = np.sum((y_pred == 0) & (y_true == 0))
+        
+        # Privacy: What fraction of sensitive data did we catch?
+        privacy = tp / (tp + fn) if (tp + fn) > 0 else 0
+        
+        # Accuracy: What fraction of our blocks were necessary?
+        accuracy = tp / (tp + fp) if (tp + fp) > 0 else 1
+        
+        # Over-censoring: What fraction of non-sensitive was blocked?
+        over_censor = fp / (fp + tn) if (fp + tn) > 0 else 0
+        
+        privacy_rates.append(privacy)
+        accuracy_rates.append(accuracy)
+        over_censor_rates.append(over_censor)
+    
+    ax.plot(thresholds_to_test, privacy_rates, 'g-', linewidth=2, 
+            label='Privacy (Recall)')
+    ax.plot(thresholds_to_test, accuracy_rates, 'b-', linewidth=2, 
+            label='Accuracy (Precision)')
+    ax.plot(thresholds_to_test, over_censor_rates, 'r--', linewidth=2, 
+            label='Over-censoring (FPR)')
+    
+    # Mark optimal threshold (F1)
+    f1_scores = [2*p*r/(p+r) if (p+r) > 0 else 0 
+                 for p, r in zip(accuracy_rates, privacy_rates)]
+    optimal_idx = np.argmax(f1_scores)
+    ax.axvline(x=thresholds_to_test[optimal_idx], color='purple', 
+               linestyle=':', label=f'Optimal (t={thresholds_to_test[optimal_idx]:.2f})')
+    
+    ax.set_xlabel('Sensitivity Threshold')
+    ax.set_ylabel('Rate')
+    ax.set_title('Metrics vs. Threshold')
+    ax.legend(loc='center right')
+    ax.grid(True, alpha=0.3)
+    
+    # =========================================================================
+    # Plot 3: Privacy-Utility Pareto Frontier
+    # =========================================================================
+    ax = axes[1, 0]
+    
+    # Utility = 1 - over_censor_rate (how much non-sensitive data flows through)
+    utility_rates = [1 - oc for oc in over_censor_rates]
+    
+    ax.scatter(utility_rates, privacy_rates, c=thresholds_to_test, 
+               cmap='viridis', s=50, alpha=0.7)
+    ax.plot(utility_rates, privacy_rates, 'k-', alpha=0.3)
+    
+    # Highlight key thresholds
+    for thresh in [0.2, 0.3, 0.4, 0.5]:
+        idx = np.argmin(np.abs(thresholds_to_test - thresh))
+        ax.annotate(f't={thresh}', (utility_rates[idx], privacy_rates[idx]),
+                   fontsize=9, fontweight='bold',
+                   xytext=(5, 5), textcoords='offset points')
+        ax.plot(utility_rates[idx], privacy_rates[idx], 'r*', markersize=12)
+    
+    cbar = plt.colorbar(ax.collections[0], ax=ax)
+    cbar.set_label('Threshold')
+    
+    ax.set_xlabel('Utility (Non-sensitive Data Allowed Through)')
+    ax.set_ylabel('Privacy (Sensitive Data Blocked)')
+    ax.set_title('Privacy-Utility Pareto Frontier')
+    ax.grid(True, alpha=0.3)
+    
+    # Ideal point
+    ax.plot(1, 1, 'g^', markersize=15, label='Ideal (1,1)')
+    ax.legend()
+    
+    # =========================================================================
+    # Plot 4: Confusion Matrix at Current Threshold
+    # =========================================================================
+    ax = axes[1, 1]
+    
+    current_threshold = 0.3  # Your default c_score_threshold
+    y_pred = np.array([r.c_score_deemed_sensitive for r in results]).astype(int)
+    
+    from sklearn.metrics import confusion_matrix
+    cm = confusion_matrix(y_true, y_pred)
+    
+    # Normalize for display
+    cm_normalized = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+    
+    im = ax.imshow(cm_normalized, cmap='Blues', vmin=0, vmax=1)
+    
+    # Labels
+    labels = [['True Negative\n(Correct Allow)', 'False Positive\n(Over-censored)'],
+              ['False Negative\n(Privacy Leak!)', 'True Positive\n(Correct Block)']]
+    
+    for i in range(2):
+        for j in range(2):
+            color = 'white' if cm_normalized[i, j] > 0.5 else 'black'
+            ax.text(j, i, f'{labels[i][j]}\n\n{cm[i,j]}\n({cm_normalized[i,j]:.1%})',
+                   ha='center', va='center', color=color, fontsize=10)
+    
+    ax.set_xticks([0, 1])
+    ax.set_yticks([0, 1])
+    ax.set_xticklabels(['Predicted: Allow', 'Predicted: Block'])
+    ax.set_yticklabels(['Actual: Not Sensitive', 'Actual: Sensitive'])
+    ax.set_title(f'Confusion Matrix (threshold={current_threshold})')
+    
+    plt.colorbar(im, ax=ax, shrink=0.8)
+    
+    plt.tight_layout()
+    plt.savefig(output_dir / 'privacy_accuracy_tradeoff.png', dpi=150, bbox_inches='tight')
+    plt.close()
+
+def create_score_distribution_plot(results: List[PipelineResult], output_dir: Path):
+    """Show how scores distribute between sensitive and non-sensitive samples."""
+    
+    fig, axes = plt.subplots(1, 3, figsize=(15, 5))
+    
+    sensitive = [r for r in results if r.expected_critical]
+    not_sensitive = [r for r in results if not r.expected_critical]
+    
+    scores = ['e_score', 'q_score', 'c_score_risk_score']
+    titles = ['E-Score (Explicit PII)', 'Q-Score (Quasi-Identifiers)', 'C-Score (Contextual)']
+    
+    for ax, score_attr, title in zip(axes, scores, titles):
+        sens_scores = [getattr(r, score_attr) for r in sensitive]
+        not_sens_scores = [getattr(r, score_attr) for r in not_sensitive]
+        
+        # Overlapping histograms
+        ax.hist(not_sens_scores, bins=20, alpha=0.5, label='Not Sensitive', 
+                color='green', density=True)
+        ax.hist(sens_scores, bins=20, alpha=0.5, label='Sensitive', 
+                color='red', density=True)
+        
+        # Add threshold line
+        ax.axvline(x=0.3, color='black', linestyle='--', label='Threshold=0.3')
+        
+        ax.set_xlabel(title)
+        ax.set_ylabel('Density')
+        ax.set_title(f'{title} Distribution')
+        ax.legend()
+        ax.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig(output_dir / 'score_distributions.png', dpi=150, bbox_inches='tight')
+    plt.close()
 
 # =============================================================================
 # Main Benchmark Runner
