@@ -441,34 +441,31 @@ class BenchmarkPipeline:
         return self._c_detector
     
     def _mask_for_k(self, original_text: str, e_result, q_report: dict, k: float) -> Tuple[str, int]:
-        # We start with spans to mask
         spans_to_mask = []
-        
+
         # 1. E-Score entities (always mask direct PII)
         for ent in e_result.entities:
             spans_to_mask.append((ent.start, ent.end, ent.entity_type))
-            
-        # 2. Q-Score quasi-identifiers
-        # We mask them if their population count is less than 10_000_000 / k
-        threshold_pop = 10000000.0 / k
+
+        # 2. Q-Score quasi-identifiers:
+        # mask if fewer than k people in the population share this value
+        # (standard k-anonymity: anonymity-set size must be >= k)
         for qi in q_report.get("detected_quasi_identifiers", []):
             freq = qi.get("frequency")
             pop_count = freq.get("population_count") if freq else None
-            # If population count is unknown or below the threshold, mask it
-            if pop_count is None or pop_count < threshold_pop:
+            if pop_count is None or pop_count < k:
                 pos = qi.get("position", {})
                 start = pos.get("start")
                 end = pos.get("end")
                 if start is not None and end is not None:
                     spans_to_mask.append((start, end, qi.get("type")))
-                    
-        # Sort and merge/deduplicate spans
+
         sorted_spans = sorted(list(set(spans_to_mask)), key=lambda s: s[0], reverse=True)
-        
+
         masked_text = original_text
         masked_count = 0
         last_start = len(original_text) + 1
-        
+
         for start, end, qi_type in sorted_spans:
             if start is None or end is None:
                 continue
@@ -476,7 +473,7 @@ class BenchmarkPipeline:
                 masked_text = masked_text[:start] + f"[{qi_type.upper()}]" + masked_text[end:]
                 masked_count += 1
                 last_start = start
-                
+
         return masked_text, masked_count
 
     def run_sample(self, sample: BenchmarkSample) -> PipelineResult:
@@ -573,7 +570,7 @@ class BenchmarkPipeline:
         # Run multi-k analysis
         c_scores_by_k = {}
         masked_counts_by_k = {}
-        k_values = [1, 5, 20, 100, 500, 2000, 10000, 50000]
+        k_values = [10, 1000, 100000, 1000000, 10000000]
         for k_val in k_values:
             masked_t, masked_c = self._mask_for_k(original_text, e_result, q_report, k_val)
             cache_key = masked_t.strip()
@@ -714,7 +711,13 @@ class BenchmarkPipeline:
             c_score_time=c_time,
             
             # Metadata
-            processed_at=datetime.now().isoformat()
+            processed_at=datetime.now().isoformat(),
+
+            # Original and multi-k C-Score analysis
+            c_score_original_risk_score=c_score_original_risk_score,
+            c_score_original_deemed_sensitive=c_score_original_deemed_sensitive,
+            c_scores_by_k=c_scores_by_k,
+            masked_counts_by_k=masked_counts_by_k
         )
     
     def run_all(self, samples: List[BenchmarkSample], save_interval: int = 1) -> List[PipelineResult]:
@@ -1458,6 +1461,8 @@ def run_benchmark(
     if results and not checkpoint.was_interrupted:
         print("\nGenerating visualizations...")
         create_visualizations(results, out_path)
+        create_multi_k_analysis_plot(results, str(out_path / "multi_k_analysis.png"))
+        create_optimal_k_visualization(results, str(out_path / "optimal_k_analysis.png"))
         
         print("\n" + "=" * 70)
         print("ANALYSIS")
@@ -1529,6 +1534,426 @@ def run_benchmark(
     
     return analysis if not checkpoint.was_interrupted and results else None, results
 
+def create_multi_k_analysis_plot(results: List[PipelineResult], output_path: str = 'multi_k_analysis.png'):
+    """
+    Visualize how privacy (C-Score) and masking vary across k-anonymity thresholds.
+    
+    Shows:
+    1. C-Score risk vs k value (privacy improvement curve)
+    2. Masked count vs k value (cost of privacy)
+    3. Privacy-Utility Pareto frontier (C-Score reduction vs masking overhead)
+    4. Per-sample trajectories showing individual document behavior
+    """
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    # Filter results that have multi-k data
+    valid_results = [r for r in results if r.c_scores_by_k and r.masked_counts_by_k]
+    
+    if not valid_results:
+        print("No results with multi-k analysis data found")
+        return
+    
+    # Extract k values (consistent across results)
+    k_values = sorted([int(k) for k in valid_results[0].c_scores_by_k.keys()])
+    
+    # Aggregate statistics per k
+    mean_c_scores = []
+    std_c_scores = []
+    mean_masked = []
+    std_masked = []
+    mean_c_reduction = []  # Reduction from original (unmasked) C-Score
+    
+    for k in k_values:
+        k_str = str(k)
+        c_scores = [r.c_scores_by_k.get(k_str, 0) for r in valid_results]
+        masked_counts = [r.masked_counts_by_k.get(k_str, 0) for r in valid_results]
+        original_c = [r.c_score_original_risk_score for r in valid_results]
+        
+        mean_c_scores.append(np.mean(c_scores))
+        std_c_scores.append(np.std(c_scores))
+        mean_masked.append(np.mean(masked_counts))
+        std_masked.append(np.std(masked_counts))
+        
+        # Privacy gain: how much C-Score dropped from unmasked baseline
+        reductions = [orig - masked for orig, masked in zip(original_c, c_scores)]
+        mean_c_reduction.append(np.mean(reductions))
+    
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    
+    # Plot 1: C-Score vs k (log scale for k)
+    ax1 = axes[0, 0]
+    ax1.errorbar(k_values, mean_c_scores, yerr=std_c_scores, marker='o', capsize=3, color='blue')
+    ax1.axhline(y=np.mean([r.c_score_original_risk_score for r in valid_results]), 
+                color='red', linestyle='--', label='Unmasked baseline')
+    ax1.set_xscale('log')
+    ax1.set_xlabel('k-anonymity threshold')
+    ax1.set_ylabel('Mean C-Score (contextual risk)')
+    ax1.set_title('Privacy Protection vs k\n(lower C-Score = better privacy)')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    
+    # Plot 2: Masked count vs k
+    ax2 = axes[0, 1]
+    ax2.errorbar(k_values, mean_masked, yerr=std_masked, marker='s', capsize=3, color='orange')
+    ax2.set_xscale('log')
+    ax2.set_xlabel('k-anonymity threshold')
+    ax2.set_ylabel('Mean masked QI count')
+    ax2.set_title('Masking Cost vs k\n(higher = more over-censoring)')
+    ax2.grid(True, alpha=0.3)
+    
+    # Plot 3: Pareto frontier - Privacy gain vs Masking cost
+    ax3 = axes[1, 0]
+    ax3.scatter(mean_masked, mean_c_reduction, c=np.log10(k_values), cmap='viridis', s=100, zorder=5)
+    for i, k in enumerate(k_values):
+        ax3.annotate(f'k={k}', (mean_masked[i], mean_c_reduction[i]), 
+                    textcoords='offset points', xytext=(5, 5), fontsize=8)
+    ax3.set_xlabel('Mean masked count (utility cost)')
+    ax3.set_ylabel('Mean C-Score reduction (privacy gain)')
+    ax3.set_title('Privacy-Utility Pareto Frontier')
+    ax3.grid(True, alpha=0.3)
+    
+    # Plot 4: Individual sample trajectories (subsample if too many)
+    ax4 = axes[1, 1]
+    sample_results = valid_results[:min(50, len(valid_results))]  # Limit for readability
+    
+    for r in sample_results:
+        c_trajectory = [r.c_scores_by_k.get(str(k), 0) for k in k_values]
+        alpha = 0.3 if not r.c_score_original_deemed_sensitive else 0.7
+        color = 'red' if r.c_score_original_deemed_sensitive else 'blue'
+        ax4.plot(k_values, c_trajectory, alpha=alpha, color=color, linewidth=0.8)
+    
+    # Add legend
+    from matplotlib.lines import Line2D
+    legend_elements = [
+        Line2D([0], [0], color='red', alpha=0.7, label='Originally sensitive'),
+        Line2D([0], [0], color='blue', alpha=0.3, label='Originally non-sensitive')
+    ]
+    ax4.legend(handles=legend_elements)
+    ax4.set_xscale('log')
+    ax4.set_xlabel('k-anonymity threshold')
+    ax4.set_ylabel('C-Score')
+    ax4.set_title('Individual Document Trajectories')
+    ax4.grid(True, alpha=0.3)
+    
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    plt.close()
+    
+    print(f"Multi-k analysis plot saved to {output_path}")
+    
+    # Print summary statistics
+    print("\n=== Multi-k Analysis Summary ===")
+    print(f"{'k':>8} | {'Mean C-Score':>12} | {'C-Score Δ':>10} | {'Mean Masked':>12}")
+    print("-" * 50)
+    baseline_c = np.mean([r.c_score_original_risk_score for r in valid_results])
+    for i, k in enumerate(k_values):
+        delta = baseline_c - mean_c_scores[i]
+        print(f"{k:>8} | {mean_c_scores[i]:>12.3f} | {delta:>+10.3f} | {mean_masked[i]:>12.1f}")
+
+def find_optimal_k(results: List[PipelineResult], method: str = 'knee') -> dict:
+    """
+    Find optimal k-anonymity threshold based on privacy-utility tradeoff.
+    
+    Methods:
+    - 'knee': Find elbow/knee point where marginal privacy gain diminishes
+    - 'target_reduction': Find minimum k that achieves X% C-Score reduction
+    - 'max_efficiency': Maximize (privacy gain) / (masking cost)
+    - 'pareto': Return all Pareto-optimal k values
+    
+    Returns dict with optimal k and analysis details.
+    """
+    import numpy as np
+    from scipy.ndimage import gaussian_filter1d
+    
+    # Filter valid results
+    valid_results = [r for r in results if r.c_scores_by_k and r.masked_counts_by_k]
+    
+    if not valid_results:
+        return {'error': 'No valid results with multi-k data'}
+    
+    k_values = sorted([int(k) for k in valid_results[0].c_scores_by_k.keys()])
+    
+    # Compute aggregated metrics
+    baseline_c = np.mean([r.c_score_original_risk_score for r in valid_results])
+    
+    mean_c_scores = []
+    mean_masked = []
+    
+    for k in k_values:
+        k_str = str(k)
+        mean_c_scores.append(np.mean([r.c_scores_by_k.get(k_str, 0) for r in valid_results]))
+        mean_masked.append(np.mean([r.masked_counts_by_k.get(k_str, 0) for r in valid_results]))
+    
+    mean_c_scores = np.array(mean_c_scores)
+    mean_masked = np.array(mean_masked)
+    
+    # Privacy gain (reduction from baseline)
+    privacy_gain = baseline_c - mean_c_scores
+    
+    # Normalize for comparable scales
+    privacy_norm = privacy_gain / (privacy_gain.max() + 1e-9)
+    masked_norm = mean_masked / (mean_masked.max() + 1e-9)
+    
+    result = {
+        'k_values': k_values,
+        'baseline_c_score': baseline_c,
+        'mean_c_scores': mean_c_scores.tolist(),
+        'mean_masked_counts': mean_masked.tolist(),
+        'privacy_gains': privacy_gain.tolist(),
+    }
+    
+    if method == 'knee':
+        # Kneedle algorithm approximation
+        # Find point of maximum curvature in privacy-gain curve
+        
+        # Use log(k) for x-axis (more uniform spacing)
+        log_k = np.log10(k_values)
+        
+        # Normalize to [0,1] range
+        x_norm = (log_k - log_k.min()) / (log_k.max() - log_k.min())
+        y_norm = privacy_norm
+        
+        # Smooth the curve slightly
+        y_smooth = gaussian_filter1d(y_norm, sigma=0.5)
+        
+        # Calculate curvature: k = |y''| / (1 + y'^2)^(3/2)
+        dy = np.gradient(y_smooth, x_norm)
+        ddy = np.gradient(dy, x_norm)
+        curvature = np.abs(ddy) / (1 + dy**2)**1.5
+        
+        # Find knee (maximum curvature, excluding endpoints)
+        knee_idx = np.argmax(curvature[1:-1]) + 1
+        optimal_k = k_values[knee_idx]
+        
+        result['method'] = 'knee'
+        result['optimal_k'] = optimal_k
+        result['knee_index'] = knee_idx
+        result['curvature'] = curvature.tolist()
+        result['explanation'] = (
+            f"Knee point at k={optimal_k}: Beyond this, each unit of additional masking "
+            f"yields diminishing privacy improvement. "
+            f"Privacy gain: {privacy_gain[knee_idx]:.3f}, Masked count: {mean_masked[knee_idx]:.1f}"
+        )
+        
+    elif method == 'max_efficiency':
+        # Maximize privacy gain per masked item
+        # Efficiency = privacy_gain / masked_count
+        
+        efficiency = privacy_gain / (mean_masked + 1)  # +1 to avoid division by zero
+        optimal_idx = np.argmax(efficiency)
+        optimal_k = k_values[optimal_idx]
+        
+        result['method'] = 'max_efficiency'
+        result['optimal_k'] = optimal_k
+        result['efficiency_scores'] = efficiency.tolist()
+        result['explanation'] = (
+            f"Maximum efficiency at k={optimal_k}: "
+            f"Privacy gain of {privacy_gain[optimal_idx]:.3f} with only {mean_masked[optimal_idx]:.1f} masked items. "
+            f"Efficiency ratio: {efficiency[optimal_idx]:.4f}"
+        )
+        
+    elif method == 'target_reduction':
+        # Find minimum k that achieves at least 50% of maximum possible privacy gain
+        target_fraction = 0.5
+        max_gain = privacy_gain.max()
+        target_gain = target_fraction * max_gain
+        
+        # Find first k that exceeds target
+        candidates = np.where(privacy_gain >= target_gain)[0]
+        if len(candidates) > 0:
+            optimal_idx = candidates[0]  # Minimum k meeting target
+            optimal_k = k_values[optimal_idx]
+        else:
+            optimal_idx = len(k_values) - 1
+            optimal_k = k_values[-1]
+        
+        result['method'] = 'target_reduction'
+        result['target_fraction'] = target_fraction
+        result['target_gain'] = target_gain
+        result['optimal_k'] = optimal_k
+        result['explanation'] = (
+            f"Minimum k achieving {target_fraction*100:.0f}% privacy gain: k={optimal_k}. "
+            f"Achieves {privacy_gain[optimal_idx]:.3f} reduction (target was {target_gain:.3f})"
+        )
+        
+    elif method == 'pareto':
+        # Find all Pareto-optimal points (no other k dominates on both privacy AND masking)
+        pareto_indices = []
+        
+        for i in range(len(k_values)):
+            is_dominated = False
+            for j in range(len(k_values)):
+                if i == j:
+                    continue
+                # j dominates i if: j has >= privacy gain AND <= masked count (strict on at least one)
+                if (privacy_gain[j] >= privacy_gain[i] and mean_masked[j] <= mean_masked[i] and
+                    (privacy_gain[j] > privacy_gain[i] or mean_masked[j] < mean_masked[i])):
+                    is_dominated = True
+                    break
+            if not is_dominated:
+                pareto_indices.append(i)
+        
+        pareto_k_values = [k_values[i] for i in pareto_indices]
+        
+        result['method'] = 'pareto'
+        result['pareto_optimal_k_values'] = pareto_k_values
+        result['pareto_indices'] = pareto_indices
+        result['optimal_k'] = pareto_k_values[len(pareto_k_values)//2] if pareto_k_values else k_values[0]
+        result['explanation'] = (
+            f"Pareto-optimal k values: {pareto_k_values}. "
+            f"These represent the best tradeoffs - no other k is better on both privacy and utility."
+        )
+    
+    return result
+
+
+def create_optimal_k_visualization(results: List[PipelineResult], output_path: str = 'optimal_k_analysis.png'):
+    """
+    Visualize optimal k selection with all methods overlaid.
+    """
+    import matplotlib.pyplot as plt
+    import numpy as np
+    
+    valid_results = [r for r in results if r.c_scores_by_k and r.masked_counts_by_k]
+    
+    if not valid_results:
+        print("No valid results for optimal k visualization")
+        return
+    
+    # Get results from all methods
+    knee_result = find_optimal_k(valid_results, method='knee')
+    efficiency_result = find_optimal_k(valid_results, method='max_efficiency')
+    target_result = find_optimal_k(valid_results, method='target_reduction')
+    pareto_result = find_optimal_k(valid_results, method='pareto')
+    
+    k_values = knee_result['k_values']
+    privacy_gains = np.array(knee_result['privacy_gains'])
+    mean_masked = np.array(knee_result['mean_masked_counts'])
+    baseline_c = knee_result['baseline_c_score']
+    
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+    
+    # Plot 1: Privacy gain curve with knee point
+    ax1 = axes[0, 0]
+    ax1.plot(k_values, privacy_gains, 'b-o', linewidth=2, markersize=6, label='Privacy gain')
+    
+    knee_idx = knee_result.get('knee_index', 0)
+    ax1.axvline(x=k_values[knee_idx], color='red', linestyle='--', alpha=0.7, label=f"Knee: k={knee_result['optimal_k']}")
+    ax1.scatter([k_values[knee_idx]], [privacy_gains[knee_idx]], color='red', s=150, zorder=5, marker='*')
+    
+    ax1.set_xscale('log')
+    ax1.set_xlabel('k-anonymity threshold')
+    ax1.set_ylabel('C-Score reduction (privacy gain)')
+    ax1.set_title('Knee Point Detection\n(Diminishing returns beyond knee)')
+    ax1.legend()
+    ax1.grid(True, alpha=0.3)
+    
+    # Plot 2: Efficiency curve
+    ax2 = axes[0, 1]
+    efficiency = np.array(efficiency_result.get('efficiency_scores', privacy_gains / (mean_masked + 1)))
+    ax2.plot(k_values, efficiency, 'g-s', linewidth=2, markersize=6, label='Efficiency')
+    
+    eff_opt_k = efficiency_result['optimal_k']
+    eff_opt_idx = k_values.index(eff_opt_k)
+    ax2.axvline(x=eff_opt_k, color='darkgreen', linestyle='--', alpha=0.7, label=f"Optimal: k={eff_opt_k}")
+    ax2.scatter([eff_opt_k], [efficiency[eff_opt_idx]], color='darkgreen', s=150, zorder=5, marker='*')
+    
+    ax2.set_xscale('log')
+    ax2.set_xlabel('k-anonymity threshold')
+    ax2.set_ylabel('Privacy gain / Masked count')
+    ax2.set_title('Maximum Efficiency Method\n(Best privacy per masked item)')
+    ax2.legend()
+    ax2.grid(True, alpha=0.3)
+    
+    # Plot 3: Pareto frontier
+    ax3 = axes[1, 0]
+    ax3.scatter(mean_masked, privacy_gains, c=np.log10(k_values), cmap='viridis', s=80, alpha=0.7)
+    
+    # Highlight Pareto-optimal points
+    pareto_indices = pareto_result.get('pareto_indices', [])
+    pareto_masked = [mean_masked[i] for i in pareto_indices]
+    pareto_privacy = [privacy_gains[i] for i in pareto_indices]
+    ax3.scatter(pareto_masked, pareto_privacy, c='red', s=150, marker='D', 
+                edgecolors='black', linewidths=2, label='Pareto optimal', zorder=5)
+    
+    # Connect Pareto points
+    if len(pareto_indices) > 1:
+        sorted_pareto = sorted(zip(pareto_masked, pareto_privacy))
+        ax3.plot([p[0] for p in sorted_pareto], [p[1] for p in sorted_pareto], 
+                'r--', alpha=0.5, linewidth=2)
+    
+    # Annotate k values
+    for i, k in enumerate(k_values):
+        ax3.annotate(f'k={k}', (mean_masked[i], privacy_gains[i]), 
+                    textcoords='offset points', xytext=(5, 5), fontsize=8, alpha=0.7)
+    
+    ax3.set_xlabel('Mean masked count (utility cost)')
+    ax3.set_ylabel('C-Score reduction (privacy gain)')
+    ax3.set_title('Pareto Frontier\n(Red diamonds = non-dominated solutions)')
+    ax3.legend()
+    ax3.grid(True, alpha=0.3)
+    
+    # Plot 4: Summary comparison
+    ax4 = axes[1, 1]
+    
+    methods = ['Knee', 'Max Efficiency', 'Target 50%', 'Pareto Mid']
+    optimal_ks = [
+        knee_result['optimal_k'],
+        efficiency_result['optimal_k'],
+        target_result['optimal_k'],
+        pareto_result['optimal_k']
+    ]
+    
+    colors = ['red', 'green', 'blue', 'purple']
+    
+    # Bar chart of optimal k values
+    x_pos = np.arange(len(methods))
+    bars = ax4.bar(x_pos, optimal_ks, color=colors, alpha=0.7, edgecolor='black')
+    ax4.set_xticks(x_pos)
+    ax4.set_xticklabels(methods, rotation=15, ha='right')
+    ax4.set_ylabel('Optimal k value')
+    ax4.set_yscale('log')
+    ax4.set_title('Optimal k by Method')
+    
+    # Add value labels on bars
+    for bar, k in zip(bars, optimal_ks):
+        ax4.text(bar.get_x() + bar.get_width()/2, bar.get_height(), 
+                f'k={k}', ha='center', va='bottom', fontsize=10, fontweight='bold')
+    
+    ax4.grid(True, alpha=0.3, axis='y')
+    
+    plt.tight_layout()
+    plt.savefig(output_path, dpi=150, bbox_inches='tight')
+    plt.close()
+    
+    print(f"Optimal k analysis saved to {output_path}")
+    
+    # Print summary
+    print("\n" + "="*60)
+    print("OPTIMAL k-ANONYMITY THRESHOLD ANALYSIS")
+    print("="*60)
+    print(f"\nBaseline C-Score (unmasked): {baseline_c:.3f}")
+    print(f"\nMethod Recommendations:")
+    print("-"*60)
+    print(f"  Knee Point:      k = {knee_result['optimal_k']:>6}")
+    print(f"  Max Efficiency:  k = {efficiency_result['optimal_k']:>6}")
+    print(f"  Target 50%:      k = {target_result['optimal_k']:>6}")
+    print(f"  Pareto Optimal:  k ∈ {pareto_result.get('pareto_optimal_k_values', [])}")
+    print("-"*60)
+    
+    # Recommendation
+    recommended_k = knee_result['optimal_k']  # Default to knee
+    print(f"\n→ RECOMMENDED: k = {recommended_k}")
+    print(f"  {knee_result.get('explanation', '')}")
+    
+    return {
+        'knee': knee_result,
+        'efficiency': efficiency_result,
+        'target': target_result,
+        'pareto': pareto_result,
+        'recommended_k': recommended_k
+    }
 
 # =============================================================================
 # CLI Entry Point

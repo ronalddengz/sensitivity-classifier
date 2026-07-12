@@ -125,10 +125,10 @@ class NarrativeSensitivityDetector:
     
     def __init__(
         self, 
-        model: str = "qwen2.5:3b",
+        model: str = "phi3.5:3.8b",
         ollama_url: str = "http://localhost:11434",
         temperature: float = 0.1,  # Low temperature for consistent analysis
-        timeout: int = 120
+        timeout: int = 200
     ):
         self.model = model
         self.ollama_url = ollama_url
@@ -136,37 +136,26 @@ class NarrativeSensitivityDetector:
         self.timeout = timeout
     
     def _build_prompt(self, text: str) -> str:
-        """Build the analysis prompt with clear examples."""
-        
         factors_description = "\n".join([
             f"- {f['name']}: {f['description']}"
             for f in self.SENSITIVITY_FACTORS
         ])
-        
-        prompt = f"""You are a privacy analyst evaluating ALREADY-REDACTED text for residual risks.
 
-    CRITICAL RULE: Anything in [BRACKETS] like [PERSON], [DISEASE], [ORGANIZATION] is a REDACTION PLACEHOLDER. 
-    The actual sensitive data has been REMOVED. Do NOT treat placeholders as sensitive information, as they are unknown.
+        prompt = f"""You are a privacy analyst. The text below has already been redacted: 
+    ANY text inside square brackets, e.g. [PERSON], is a PLACEHOLDER for removed data. 
+    You MUST IGNORE all bracketed text completely. Only the unredacted words are real.
 
-    YOUR JOB: Find risks in the UNREDACTED parts of the text.
+    Your task: assess the following risk factors using ONLY the unredacted content.
+    If the only evidence for a factor comes from a bracketed placeholder, set detected=false.
 
-    === EXAMPLE: LOW RISK ===
-    Text: "[PERSON] visited [ORGANIZATION] for treatment of [DISEASE]. Dr. [PERSON] provided a prescription."
-    Analysis: LOW RISK - All specifics are redacted. Generic medical visit structure reveals nothing.
-    Factors detected: None
-
-    === EXAMPLE: HIGH RISK ===  
-    Text: "[PERSON] was the sole survivor of the Flight 447 crash and is being treated at [ORGANIZATION]."
-    Analysis: HIGH RISK - "sole survivor of Flight 447 crash" is unique enough to identify via news search.
-    Factors detected: NARRATIVE_UNIQUENESS (high), INFERENTIAL_DISCLOSURE (medium)
-
-    === ANALYZE THIS TEXT ===
-    \"\"\"{text}\"\"\"
-
-    FACTORS TO EVALUATE:
     {factors_description}
 
-    For each factor, assess the UNREDACTED content only. Attributes in square brackets like [PERSON] are NOT evidence of risk.
+    Important: Do NOT treat placeholders as sensitive. They are unknown and provide no evidence.
+
+    Return JSON with exactly these factors, each with detected (bool), confidence (0.0-1.0), and explanation (string).
+
+    Text to analyze:
+    \"\"\"{text}\"\"\"
 
     Return JSON:
     {{
@@ -179,9 +168,8 @@ class NarrativeSensitivityDetector:
             {{"name": "SMALL_COMMUNITY_RISK", "detected": false, "confidence": 0.0, "explanation": ""}},
             {{"name": "TEMPORAL_CORRELATION_RISK", "detected": false, "confidence": 0.0, "explanation": ""}}
         ],
-        "summary": "Assessment based on unredacted content"
+        "summary": "Short summary based only on unredacted content."
     }}"""
-
         return prompt
     
     def _call_ollama(self, prompt: str) -> str:
@@ -243,6 +231,59 @@ class NarrativeSensitivityDetector:
                 "summary": f"Failed to parse LLM response: {str(e)}",
                 "parse_error": True
             }
+
+    @staticmethod
+    def _coerce_confidence(value) -> float:
+        """Convert a model confidence value into a float.
+
+        Ollama responses are usually numeric here, but some model outputs
+        wrap the score in a nested object or emit text labels like "high".
+        """
+
+        if isinstance(value, (int, float)):
+            return float(value)
+
+        if isinstance(value, str):
+            try:
+                return float(value)
+            except ValueError:
+                text_value = value.strip().lower()
+                named_values = {
+                    "low": 0.25,
+                    "medium": 0.5,
+                    "med": 0.5,
+                    "moderate": 0.5,
+                    "high": 0.75,
+                    "critical": 0.9,
+                    "yes": 1.0,
+                    "true": 1.0,
+                    "no": 0.0,
+                    "false": 0.0,
+                }
+                return named_values.get(text_value, 0.0)
+
+        if isinstance(value, dict):
+            for key in ("confidence", "score", "value", "probability", "prob"):
+                if key in value:
+                    return NarrativeSensitivityDetector._coerce_confidence(value[key])
+
+            for key in ("high", "medium", "low"):
+                if key in value:
+                    return NarrativeSensitivityDetector._coerce_confidence(value[key])
+
+            numeric_values = [
+                NarrativeSensitivityDetector._coerce_confidence(item)
+                for item in value.values()
+            ]
+            numeric_values = [item for item in numeric_values if item > 0]
+            return max(numeric_values) if numeric_values else 0.0
+
+        if isinstance(value, (list, tuple)):
+            numeric_values = [NarrativeSensitivityDetector._coerce_confidence(item) for item in value]
+            numeric_values = [item for item in numeric_values if item > 0]
+            return max(numeric_values) if numeric_values else 0.0
+
+        return 0.0
     
     def _calculate_risk_score(self, factors: list[SensitivityFactor]) -> tuple[float, RiskLevel]:
         """Calculate overall risk score from individual factors."""
@@ -302,10 +343,12 @@ class NarrativeSensitivityDetector:
         # Build factor objects
         factors = []
         for f_data in parsed.get("factors", []):
+            if not isinstance(f_data, dict):
+                continue
             factor = SensitivityFactor(
                 name=f_data.get("name", "UNKNOWN"),
                 detected=f_data.get("detected", False),
-                confidence=float(f_data.get("confidence", 0.0)),
+                confidence=self._coerce_confidence(f_data.get("confidence", 0.0)),
                 explanation=f_data.get("explanation", "")
             )
             factors.append(factor)

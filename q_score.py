@@ -1,8 +1,12 @@
 """
-Q-Score: Quasi-Identifier Detection and Risk Assessment with NLP Enhancement
-=============================================================================
-Detects quasi-identifiers using spaCy NER + pattern matching and calculates
-re-identification risk based on k-anonymity principles.
+Q-Score: Quasi-Identifier Detection and Risk Assessment with Local SLM
+======================================================================
+Detects quasi-identifiers using a local Small Language Model (SLM) via Ollama
+and calculates re-identification risk based on k-anonymity principles.
+
+The SLM replaces the previous spaCy NER + regex approach for better coverage
+of non-standard QIs and more accurate normalization to match external dataset
+nomenclature (Orphanet, CDC, Census, BLS).
 
 All population statistics are fetched live from:
   - Census Bureau API (age, gender, state/location, ZIP population)
@@ -17,7 +21,7 @@ import hashlib
 import time
 import logging
 import requests
-import spacy
+
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from enum import Enum
@@ -148,220 +152,256 @@ STATE_ABBREV_TO_NAME = {
 US_STATES = set(STATE_NAME_TO_FIPS.keys())
 
 # =============================================================================
-# NLP-Enhanced Quasi-Identifier Extractor
+# SLM-Based Quasi-Identifier Extractor  (Ollama)
 # =============================================================================
-class NLPQIExtractor:
+class SLMQIExtractor:
     """
-    Extracts quasi-identifiers using a dual-model approach:
-      1. General spaCy (en_core_web_lg) for structural QIs (age, gender, location).
-      2. SciSpaCy (en_ner_bc5cdr_md) for highly accurate disease detection.
-      3. Context-based regex and PhraseMatcher for occupations.
+    Extracts quasi-identifiers using a local Small Language Model via Ollama.
+
+    Advantages over the previous NLP/regex approach:
+      1. Catches QIs that don't match rigid NER or regex patterns.
+      2. Normalizes detected values to standard nomenclature so downstream
+         API lookups (Orphanet, CDC, Census, BLS) match correctly.
+      3. Single model handles all QI types — no separate spaCy + SciSpaCy
+         + PhraseMatcher + regex stacks.
+
+    Results are cached to disk so repeated calls on the same text are free.
     """
 
-    def __init__(self, model_name: str = "en_core_web_lg", disease_model: str = "en_ner_bc5cdr_md"):
-        try:
-            self.nlp = spacy.load(model_name)
-        except OSError:
-            spacy.cli.download(model_name)
-            self.nlp = spacy.load(model_name)
+    VALID_QI_TYPES = {t.value for t in QIType}
 
-        try:
-            self.nlp_disease = spacy.load(disease_model)
-        except OSError:
-            log.warning(f"Could not load {disease_model}. Diseases may not be detected. Run 'pip install https://s3-us-west-2.amazonaws.com/ai2-s2-scispacy/releases/v0.5.4/en_ner_bc5cdr_md-0.5.4.tar.gz' to fix.")
-            self.nlp_disease = None
-
-        self._add_structural_patterns()
-        self._setup_occupation_matcher()
-
-    def _add_structural_patterns(self):
-        """Add patterns only for structured/syntactic QIs (age, gender)."""
-        ruler = self.nlp.add_pipe("entity_ruler", before="ner",
-                                  config={"overwrite_ents": False})
-        ruler.add_patterns([
-            {"label": "AGE", "pattern": [{"LIKE_NUM": True}, {"LOWER": {"IN": ["year", "years"]}}, {"LOWER": "old"}]},
-            {"label": "AGE", "pattern": [{"LIKE_NUM": True}, {"TEXT": {"REGEX": r"y\.?o\.?"}}]},
-            {"label": "AGE", "pattern": [{"LOWER": "age"}, {"IS_PUNCT": True, "OP": "?"}, {"LIKE_NUM": True}]},
-            {"label": "GENDER", "pattern": [{"LOWER": {"IN": ["male", "female", "man", "woman", "boy", "girl"]}}]},
-        ])
-
-    def _setup_occupation_matcher(self):
-        from spacy.matcher import PhraseMatcher
-        self.occ_matcher = PhraseMatcher(self.nlp.vocab, attr="LOWER")
-        # A small sample of common occupations that might appear without context cues
-        common_occupations = [
-            "doctor", "physician", "nurse", "cardiologist", "neurologist", "surgeon",
-            "lawyer", "attorney", "teacher", "professor", "engineer", "developer",
-            "programmer", "firefighter", "police officer", "pilot", "chef", "accountant",
-            "dentist", "pharmacist", "therapist", "scientist", "researcher", "manager",
-            "consultant", "analyst", "mechanic", "electrician", "plumber"
-        ]
-        patterns = [self.nlp.make_doc(text) for text in common_occupations]
-        self.occ_matcher.add("OCCUPATION", patterns)
-
-    # Regex fallbacks
-    AGE_PATTERNS = [
-        r'\b(\d{1,3})\s*[-–]?\s*(?:years?\s*old|year\s*old|yo|y\.o\.|y/o)\b',
-        r'\bage[d]?\s*[:;]?\s*(\d{1,3})\b',
-        r'\b(\d{1,3})\s*(?:year|yr)[\s-]*old\b',
-        r'\b([1-9][0-9]?)\s*[MFmf]\b',
-    ]
-    DOB_PATTERNS = [
-        r'\b(?:DOB|D\.O\.B\.|Date of Birth|Birth\s*Date|Born)[:\s]*(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})\b',
-        r'\b(?:DOB|D\.O\.B\.|Date of Birth|Birth\s*Date|Born)[:\s]*(\d{4}[/-]\d{1,2}[/-]\d{1,2})\b',
-    ]
-    GENDER_MAP = {
-        'male': 'male', 'm': 'male', 'man': 'male', 'boy': 'male',
-        'female': 'female', 'f': 'female', 'woman': 'female', 'girl': 'female',
-    }
-
-    # Context-based occupation extraction patterns.
-    OCCUPATION_CONTEXT_PATTERNS = [
-        r'(?:works?\s+as\s+(?:a|an)?|employed\s+as\s+(?:a|an)?'
-        r'|occupation[:\s]+|job[:\s]+|profession[:\s]+'
-        r'|career[:\s]+|position[:\s]+|role[:\s]+)\s*'
-        r'((?:[A-Za-z]+(?:\s+[A-Za-z]+){0,2}))',
-        # "is a/an <occupation>" heuristic for titles ending in common suffixes
-        r'\bis\s+(?:a|an)\s+((?:[A-Za-z]+(?:\s+[A-Za-z]+){0,2})(?:ist|er|or|ian|ant|ent|man|eer|ive|ot|geon|cher|yst|ner))\b',
-    ]
-
-    _STOP_WORDS = {
-        'and', 'or', 'but', 'the', 'a', 'an', 'in', 'on', 'at', 'to',
-        'for', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have',
-        'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
-        'should', 'may', 'might', 'shall', 'can', 'with', 'from', 'that',
-        'this', 'which', 'who', 'whom', 'whose', 'where', 'when', 'while',
-        'if', 'then', 'than', 'so', 'very', 'not', 'no', 'he', 'she', 'it',
-        'they', 'we', 'you', 'i', 'me', 'him', 'her', 'his', 'my', 'your',
-        'our', 'its', 'also', 'of', 'by', 'as',
-    }
+    def __init__(
+        self,
+        model: str = "qwen2.5:3b-instruct-q4_K_M",
+        ollama_url: str = "http://localhost:11434",
+        temperature: float = 0.1,
+        timeout: int = 60,
+    ):
+        self.model = model
+        self.ollama_url = ollama_url
+        self.temperature = temperature or 0.0
+        self.timeout = timeout
 
     # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
     def extract(self, text: str) -> List[QuasiIdentifier]:
-        doc = self.nlp(text)
-        qis = []
-        qis.extend(self._from_general_ner(doc))
-        qis.extend(self._from_disease_ner(text))
-        qis.extend(self._from_occupation_matcher(doc))
-        qis.extend(self._occupations_regex(text))
-        qis.extend(self._ages_regex(text))
-        qis.extend(self._dobs_regex(text))
-        qis.extend(self._zip_regex(text))
+        """Extract quasi-identifiers from *text* using the SLM."""
+        cache_key = f"slm_qi|{hashlib.sha256(text.encode()).hexdigest()[:32]}"
+        cached = _cache.get(cache_key)
+        if cached is not None:
+            return [self._dict_to_qi(d) for d in cached]
+
+        try:
+            raw_response = self._call_ollama(self._build_prompt(text))
+            parsed = self._parse_response(raw_response)
+            qis = self._to_quasi_identifiers(parsed, text)
+            _cache.set(cache_key, [self._qi_to_dict(qi) for qi in qis])
+            return qis
+        except Exception as exc:
+            log.warning("SLM QI extraction failed: %s", exc)
+            return []
+
+    # ------------------------------------------------------------------
+    # Prompt engineering
+    # ------------------------------------------------------------------
+    def _build_prompt(self, text: str) -> str:  # noqa: D401
+        return (
+            "You are a quasi-identifier detection system for privacy risk "
+            "analysis.  Analyze the following text and extract ALL quasi-"
+            "identifiers — attributes that are not directly identifying on "
+            "their own but could help re-identify a person when combined "
+            "with other attributes.\n\n"
+            "Quasi-identifier types to detect:\n"
+            '- age: A person\'s age. Normalize to just the integer (e.g. "45").\n'
+            "- date_of_birth: A date of birth. Normalize to MM/DD/YYYY.\n"
+            '- gender: Gender or sex. Normalize to "male" or "female".\n'
+            "- location: Geographic location, especially US states or cities. "
+            "For US states normalize to the full lowercase state name "
+            '(e.g. "maryland", "new york").\n'
+            "- zip_code: ZIP or postal code. Normalize to the 5-digit ZIP "
+            'string (e.g. "21218").\n'
+            "- disease: Any medical condition, disease, disorder, or syndrome. "
+            "Normalize to the standard medical name as it would appear "
+            "in the Orphanet rare-disease database or the CDC chronic-disease "
+            'database (e.g. "ehlers-danlos syndrome", '
+            '"type 2 diabetes mellitus", "joint hypermobility syndrome"). '
+            "Use the most specific standard name.\n"
+            "- occupation: Job title or profession. Normalize to the standard "
+            'occupation title (e.g. "zoologist", "registered nurse").\n'
+            "- ethnicity: Ethnic, racial, or national group. Normalize to "
+            'lowercase (e.g. "hispanic", "african american").\n\n'
+            "TEXT TO ANALYZE:\n"
+            f'"""\n{text}\n"""\n\n'
+            "Return ONLY valid JSON in this exact format:\n"
+            "{\n"
+            '  "quasi_identifiers": [\n'
+            '    {"type": "age", "raw_value": "45 year old", '
+            '"normalized_value": "45", "confidence": 0.95},\n'
+            '    {"type": "disease", "raw_value": "hypermobility", '
+            '"normalized_value": "joint hypermobility syndrome", '
+            '"confidence": 0.85}\n'
+            "  ]\n"
+            "}\n\n"
+            "Rules:\n"
+            "- You MUST extract EVERY SINGLE occurrence of any category list above. "
+            "Be extremely comprehensive and do not omit any. Check for age, gender, "
+            "location, zip_code, disease, occupation, and ethnicity.\n"
+            "- Extract information about PEOPLE only, not organizations or "
+            "abstract concepts.\n"
+            "- raw_value must be the exact substring as it appears in the "
+            "text.\n"
+            "- For diseases, use the standard medical name that would appear "
+            "in the Orphanet rare-disease database or CDC chronic-disease "
+            "database.\n"
+            "- confidence is 0.0–1.0 reflecting certainty that this is a "
+            "quasi-identifier about a person.\n"
+            '- If no quasi-identifiers are found, return '
+            '{"quasi_identifiers": []}.'
+        )
+
+    # ------------------------------------------------------------------
+    # Ollama communication
+    # ------------------------------------------------------------------
+    def _call_ollama(self, prompt: str) -> str:
+        """Send a prompt to the local Ollama instance and return the raw response."""
+        url = f"{self.ollama_url}/api/generate"
+        payload = {
+            "model": self.model,
+            "prompt": prompt,
+            "temperature": self.temperature,
+            "stream": False,
+            "format": "json",
+        }
+        try:
+            r = requests.post(url, json=payload, timeout=self.timeout)
+            if r.status_code != 200:
+                try:
+                    err_json = r.json()
+                    err_msg = err_json.get("error", r.text)
+                except Exception:
+                    err_msg = r.text
+                raise RuntimeError(
+                    f"Ollama returned HTTP {r.status_code} for model '{self.model}': {err_msg}"
+                )
+            r.raise_for_status()
+            return r.json().get("response", "")
+        except requests.exceptions.ConnectionError:
+            raise ConnectionError(
+                "Could not connect to Ollama. "
+                "Make sure it is running with: ollama serve"
+            )
+        except requests.exceptions.Timeout:
+            raise TimeoutError(
+                f"Ollama request timed out after {self.timeout}s"
+            )
+
+    # ------------------------------------------------------------------
+    # Response parsing
+    # ------------------------------------------------------------------
+    def _parse_response(self, response: str) -> list[dict]:
+        """Extract the quasi_identifiers list from the SLM JSON output."""
+        response = response.strip()
+        # Strip non-JSON preamble / postamble if present
+        if not response.startswith("{"):
+            start = response.find("{")
+            if start != -1:
+                response = response[start:]
+        if not response.endswith("}"):
+            end = response.rfind("}")
+            if end != -1:
+                response = response[: end + 1]
+        try:
+            data = json.loads(response)
+            return data.get("quasi_identifiers", [])
+        except json.JSONDecodeError as exc:
+            log.warning("Failed to parse SLM response: %s", exc)
+            return []
+
+    # ------------------------------------------------------------------
+    # Conversion helpers
+    # ------------------------------------------------------------------
+    def _to_quasi_identifiers(
+        self, parsed: list[dict], text: str
+    ) -> List[QuasiIdentifier]:
+        """Convert raw SLM dicts into validated QuasiIdentifier objects."""
+        qis: List[QuasiIdentifier] = []
+        text_lower = text.lower()
+        for item in parsed:
+            qi_type_str = item.get("type", "")
+            if qi_type_str not in self.VALID_QI_TYPES:
+                continue
+
+            raw = item.get("raw_value", "")
+            normalized = item.get("normalized_value", raw)
+            confidence = float(item.get("confidence", 0.5))
+
+            # Locate the raw_value inside the original text for masking
+            start_pos, end_pos = self._find_span(text, text_lower, raw)
+
+            qis.append(
+                QuasiIdentifier(
+                    qi_type=QIType(qi_type_str),
+                    raw_value=raw,
+                    normalized_value=normalized.lower().strip(),
+                    confidence=min(max(confidence, 0.0), 1.0),
+                    start_pos=start_pos,
+                    end_pos=end_pos,
+                    detection_method="slm",
+                )
+            )
         return self._dedup(qis)
 
-    def _from_disease_ner(self, text: str) -> List[QuasiIdentifier]:
-        if not self.nlp_disease:
-            return []
-        doc = self.nlp_disease(text)
-        qis = []
-        for ent in doc.ents:
-            if ent.label_ == "DISEASE":
-                qis.append(QuasiIdentifier(QIType.DISEASE, ent.text, ent.text.lower(), 
-                                           0.9, ent.start_char, ent.end_char, "scispacy_ner"))
-        return qis
+    @staticmethod
+    def _find_span(
+        text: str, text_lower: str, raw_value: str
+    ) -> tuple[int, int]:
+        """Return (start, end) character offsets for *raw_value* in *text*.
 
-    def _from_occupation_matcher(self, doc) -> List[QuasiIdentifier]:
-        qis = []
-        matches = self.occ_matcher(doc)
-        for match_id, start, end in matches:
-            span = doc[start:end]
-            qis.append(QuasiIdentifier(QIType.OCCUPATION, span.text, span.text.lower(),
-                                       0.85, span.start_char, span.end_char, "phrase_matcher"))
-        return qis
-
-    def _trim_capture(self, raw: str) -> str:
-        words = raw.strip().split()
-        while words and words[-1].lower().rstrip('.,;:') in self._STOP_WORDS:
-            words.pop()
-        return ' '.join(words).strip().rstrip('.,;:')
-
-    def _occupations_regex(self, text: str) -> List[QuasiIdentifier]:
-        out: List[QuasiIdentifier] = []
-        for pat in self.OCCUPATION_CONTEXT_PATTERNS:
-            for m in re.finditer(pat, text, re.IGNORECASE):
-                name = self._trim_capture(m.group(1))
-                if len(name) >= 3:
-                    out.append(QuasiIdentifier(QIType.OCCUPATION, m.group(0).strip(), name.lower(),
-                                               0.8, m.start(), m.end(), "pattern"))
-        return out
-
-    def _from_general_ner(self, doc) -> List[QuasiIdentifier]:
-        qis: List[QuasiIdentifier] = []
-        for ent in doc.ents:
-            qi = None
-            label = ent.label_
-            if label == "AGE":
-                m = re.search(r'\d+', ent.text)
-                if m:
-                    age = int(m.group())
-                    if 0 <= age <= 120:
-                        qi = QuasiIdentifier(QIType.AGE, ent.text, str(age),
-                                             0.9, ent.start_char, ent.end_char, "ner")
-            elif label == "GENDER":
-                g = self.GENDER_MAP.get(ent.text.lower())
-                if g:
-                    qi = QuasiIdentifier(QIType.GENDER, ent.text, g,
-                                         0.95, ent.start_char, ent.end_char, "ner")
-            elif label in ("GPE", "LOC"):
-                loc = ent.text.lower()
-                normalized = STATE_ABBREV_TO_NAME.get(loc, loc)
-                if normalized in US_STATES:
-                    qi = QuasiIdentifier(QIType.LOCATION, ent.text, normalized, 0.85, ent.start_char, ent.end_char, "ner")
-                else:
-                    qi = QuasiIdentifier(QIType.LOCATION, ent.text, loc, 0.7, ent.start_char, ent.end_char, "ner")
-            elif label == "NORP":
-                qi = QuasiIdentifier(QIType.ETHNICITY, ent.text, ent.text.lower(), 0.7, ent.start_char, ent.end_char, "ner")
-            
-            if qi:
-                qis.append(qi)
-        return qis
-
-    def _ages_regex(self, text: str) -> List[QuasiIdentifier]:
-        out: List[QuasiIdentifier] = []
-        for pat in self.AGE_PATTERNS:
-            for m in re.finditer(pat, text, re.IGNORECASE):
-                try:
-                    age = int(m.group(1))
-                    if 0 <= age <= 120:
-                        out.append(QuasiIdentifier(QIType.AGE, m.group(0),
-                                   str(age), 0.9, m.start(), m.end(), "pattern"))
-                except ValueError:
-                    continue
-        return out
-
-    def _dobs_regex(self, text: str) -> List[QuasiIdentifier]:
-        out: List[QuasiIdentifier] = []
-        for pat in self.DOB_PATTERNS:
-            for m in re.finditer(pat, text, re.IGNORECASE):
-                out.append(QuasiIdentifier(QIType.DATE_OF_BIRTH, m.group(0),
-                           m.group(1), 0.95, m.start(), m.end(), "pattern"))
-        return out
-
-    def _zip_regex(self, text: str) -> List[QuasiIdentifier]:
-        out: List[QuasiIdentifier] = []
-        # ZIP with context
-        for m in re.finditer(
-            r'(?:zip|postal|address|located|lives|resides)[^0-9]{0,30}(\d{5})(?:-\d{4})?',
-            text, re.IGNORECASE):
-            out.append(QuasiIdentifier(QIType.ZIP_CODE, m.group(1),
-                       m.group(1), 0.95, m.start(1), m.end(1), "pattern"))
-        # State abbrev + ZIP
-        for m in re.finditer(r'\b[A-Z]{2}\s+(\d{5})(?:-\d{4})?\b', text):
-            z = m.group(1)
-            if not any(q.normalized_value == z for q in out):
-                out.append(QuasiIdentifier(QIType.ZIP_CODE, m.group(0),
-                           z, 0.9, m.start(1), m.end(1), "pattern"))
-        return out
+        Falls back to case-insensitive search, then to (0, 0) if not found.
+        """
+        idx = text.find(raw_value)
+        if idx != -1:
+            return idx, idx + len(raw_value)
+        idx = text_lower.find(raw_value.lower())
+        if idx != -1:
+            return idx, idx + len(raw_value)
+        return 0, 0
 
     @staticmethod
     def _dedup(qis: List[QuasiIdentifier]) -> List[QuasiIdentifier]:
-        best: dict[tuple, tuple[QuasiIdentifier, int]] = {}
+        """Keep the highest-confidence QI per (type, normalized_value) pair."""
+        best: dict[tuple, QuasiIdentifier] = {}
         for qi in qis:
             key = (qi.qi_type, qi.normalized_value)
-            pri = 1 if qi.detection_method == "ner" else 0
-            if key not in best or pri > best[key][1]:
-                best[key] = (qi, pri)
-        return [qi for qi, _ in best.values()]
+            if key not in best or qi.confidence > best[key].confidence:
+                best[key] = qi
+        return list(best.values())
+
+    # -- serialization for disk cache ----------------------------------
+    @staticmethod
+    def _qi_to_dict(qi: QuasiIdentifier) -> dict:
+        return {
+            "qi_type": qi.qi_type.value,
+            "raw_value": qi.raw_value,
+            "normalized_value": qi.normalized_value,
+            "confidence": qi.confidence,
+            "start_pos": qi.start_pos,
+            "end_pos": qi.end_pos,
+            "detection_method": qi.detection_method,
+        }
+
+    @staticmethod
+    def _dict_to_qi(d: dict) -> QuasiIdentifier:
+        return QuasiIdentifier(
+            qi_type=QIType(d["qi_type"]),
+            raw_value=d["raw_value"],
+            normalized_value=d["normalized_value"],
+            confidence=d["confidence"],
+            start_pos=d["start_pos"],
+            end_pos=d["end_pos"],
+            detection_method=d.get("detection_method", "slm"),
+        )
 
 
 # =============================================================================
@@ -641,10 +681,10 @@ class OccupationDataSource(PopulationDataSource):
             return cached if cached != "__NONE__" else None
 
         try:
+            # Querying without startyear and endyear automatically retrieves
+            # the latest year available (e.g. 2025), preventing no-data errors.
             payload = {
-                "seriesid": [series_id],
-                "startyear": str(int(CensusDataSource.YEAR) - 1),
-                "endyear": CensusDataSource.YEAR,
+                "seriesid": [series_id]
             }
             if self.bls_key:
                 payload["registrationkey"] = self.bls_key
@@ -808,11 +848,24 @@ class DiseaseDataSource(PopulationDataSource):
                              headers={"Accept": "application/json"})
             if r.status_code == 200:
                 data = r.json()
-                # Handle list or dict response
-                results = data if isinstance(data, list) else data.get("results", [data])
-                if results:
-                    entry = results[0] if isinstance(results, list) else results
-                    return str(entry.get("ORPHAcode", entry.get("orphacode", "")))
+                inner_data = data.get("data", data) if isinstance(data, dict) else data
+                results = inner_data.get("results", inner_data) if isinstance(inner_data, dict) else inner_data
+                
+                entry = None
+                if isinstance(results, list) and results:
+                    entry = results[0]
+                elif isinstance(results, dict):
+                    entry = results
+                
+                if entry:
+                    code = entry.get("ORPHAcode", entry.get("orphacode", ""))
+                    if not code and "DisorderDisorderAssociation" in entry:
+                        associations = entry["DisorderDisorderAssociation"]
+                        if isinstance(associations, list) and associations:
+                            target = associations[0].get("TargetDisorder", {})
+                            code = target.get("ORPHAcode", target.get("orphacode", ""))
+                    if code:
+                        return str(code)
         except Exception as exc:
             log.warning("Orphadata name lookup error for '%s': %s", disease, exc)
         return None
@@ -833,29 +886,39 @@ class DiseaseDataSource(PopulationDataSource):
             "<1 / 1 000 000": 0.5 / 1_000_000,
         }
         try:
-            # Navigate various response shapes
+            inner_data = data.get("data", data) if isinstance(data, dict) else data
+            results = inner_data.get("results", inner_data) if isinstance(inner_data, dict) else inner_data
+            
             prevalences = []
-            if isinstance(data, dict):
-                epi = data.get("Epidemiology", data)
-                if isinstance(epi, dict):
-                    prevalences = epi.get("Prevalences", epi.get("prevalences", []))
-                elif isinstance(epi, list):
-                    prevalences = epi
+            if isinstance(results, dict):
+                for key in ["Prevalence", "Prevalences", "prevalence", "prevalences"]:
+                    if key in results:
+                        prevalences = results[key]
+                        break
+            elif isinstance(results, list) and results:
+                first = results[0]
+                if isinstance(first, dict):
+                    for key in ["Prevalence", "Prevalences", "prevalence", "prevalences"]:
+                        if key in first:
+                            prevalences = first[key]
+                            break
+
+            if not isinstance(prevalences, list):
+                prevalences = [prevalences]
 
             for prev in prevalences:
-                pclass = prev.get("PrevalenceClass",
-                                  prev.get("prevalenceClass", ""))
-                ptype = prev.get("PrevalenceType",
-                                 prev.get("prevalenceType", ""))
+                if not isinstance(prev, dict):
+                    continue
+                pclass = prev.get("PrevalenceClass", prev.get("prevalenceClass", ""))
+                ptype = prev.get("PrevalenceType", prev.get("prevalenceType", ""))
                 # Prefer "Point prevalence" over "Birth prevalence"
                 if "point" in str(ptype).lower() or "prevalence" in str(ptype).lower():
                     for key, val in PREVALENCE_MAP.items():
                         if key.lower() in pclass.lower():
                             return val
             # If no match, try first prevalence class anyway
-            if prevalences:
-                pclass = prevalences[0].get("PrevalenceClass",
-                    prevalences[0].get("prevalenceClass", ""))
+            if prevalences and isinstance(prevalences[0], dict):
+                pclass = prevalences[0].get("PrevalenceClass", prevalences[0].get("prevalenceClass", ""))
                 for key, val in PREVALENCE_MAP.items():
                     if key.lower() in pclass.lower():
                         return val
@@ -874,7 +937,7 @@ class QScoreCalculator:
         self.census = CensusDataSource()
         self.disease = DiseaseDataSource()
         self.occupation = OccupationDataSource()
-        self.extractor = NLPQIExtractor()
+        self.extractor = SLMQIExtractor()
         self.k_threshold = k_threshold
 
     @property
@@ -923,13 +986,20 @@ class QScoreCalculator:
         )
 
     def _get_frequency(self, qi: QuasiIdentifier) -> Optional[QIFrequency]:
+        freq = self._get_frequency_by_value(qi, qi.normalized_value)
+        if not freq and qi.raw_value != qi.normalized_value:
+            # Fall back to raw_value in case normalization format mismatched dataset nomenclature
+            freq = self._get_frequency_by_value(qi, qi.raw_value)
+        return freq
+
+    def _get_frequency_by_value(self, qi: QuasiIdentifier, value: str) -> Optional[QIFrequency]:
         if qi.qi_type in (QIType.AGE, QIType.DATE_OF_BIRTH, QIType.GENDER,
                           QIType.LOCATION, QIType.ZIP_CODE):
-            return self.census.get_frequency(qi.qi_type, qi.normalized_value)
+            return self.census.get_frequency(qi.qi_type, value)
         if qi.qi_type == QIType.DISEASE:
-            return self.disease.get_frequency(qi.qi_type, qi.normalized_value)
+            return self.disease.get_frequency(qi.qi_type, value)
         if qi.qi_type == QIType.OCCUPATION:
-            return self.occupation.get_frequency(qi.qi_type, qi.normalized_value)
+            return self.occupation.get_frequency(qi.qi_type, value)
         return None
 
     @staticmethod
