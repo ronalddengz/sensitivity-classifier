@@ -449,7 +449,9 @@ class BenchmarkPipeline:
         for qi in q_report.get("detected_quasi_identifiers", []):
             freq = qi.get("frequency")
             pop_count = freq.get("population_count") if freq else None
-            if pop_count is None or pop_count < k:
+            if pop_count is None:
+                pop_count = 10000  # Assume moderate rarity
+            if pop_count < k:
                 pos = qi.get("position", {})
                 start = pos.get("start")
                 end = pos.get("end")
@@ -465,7 +467,7 @@ class BenchmarkPipeline:
             if start is None or end is None:
                 continue
             if end <= last_start:
-                masked_text = masked_text[:start] + f"[{qi_type.upper()}]" + masked_text[end:]
+                masked_text = masked_text[:start] + "[REDACTED]" + masked_text[end:]
                 masked_count += 1
                 last_start = start
 
