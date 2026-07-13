@@ -1,183 +1,183 @@
 {
   "total_samples": 629,
-  "c_score_sensitive_count": 199,
-  "c_score_not_sensitive_count": 430,
+  "c_score_sensitive_count": 227,
+  "c_score_not_sensitive_count": 402,
   "correlations": {
-    "e_mean_confidence_vs_c_sensitive": 0.07134932022245649,
-    "e_median_confidence_vs_c_sensitive": 0.07362927314260918,
-    "q_mean_confidence_vs_c_sensitive": 0.06585395060665208,
-    "q_median_confidence_vs_c_sensitive": 0.0725329782927301,
-    "combined_mean_confidence_vs_c_sensitive": 0.04839168227362125,
-    "combined_median_confidence_vs_c_sensitive": 0.05107398943311589,
-    "e_score_vs_c_sensitive": 0.07591535528229107,
-    "q_score_vs_c_sensitive": 0.0259409219169023,
-    "e_q_score_sum_vs_c_sensitive": 0.07909727857208727,
-    "e_q_score_product_vs_c_sensitive": 0.012521690444889122,
-    "e_q_score_max_vs_c_sensitive": 0.0785244826421355,
-    "score_disparity_vs_c_sensitive": 0.0702234133275013,
-    "total_entity_count_vs_c_sensitive": 0.10316207887848948,
-    "e_score_entity_count_vs_c_sensitive": 0.07443293629348129,
-    "q_score_qi_count_vs_c_sensitive": 0.27323146167081136,
-    "unique_entity_type_count_vs_c_sensitive": 0.1975953045208147,
-    "entity_density_vs_c_sensitive": 0.05640543324303434,
-    "narrative_entity_count_vs_c_sensitive": 0.07566749841077823,
-    "direct_identifier_count_vs_c_sensitive": 0.05595092279739799,
-    "mask_ratio_vs_c_sensitive": 0.04915949346505145,
-    "mask_token_count_vs_c_sensitive": 0.07783166079250073,
-    "chars_masked_ratio_vs_c_sensitive": 0.0467023098467623,
-    "e_score_coverage_vs_c_sensitive": 0.085482232551126,
-    "q_score_coverage_vs_c_sensitive": 0.06874823845441907,
-    "text_length_vs_c_sensitive": 0.1817655872216021,
-    "word_count_vs_c_sensitive": 0.23965221691397987,
-    "sentence_count_vs_c_sensitive": 0.04529410006868034,
-    "has_person_vs_c_sensitive": 0.00591364862141705,
-    "has_location_vs_c_sensitive": 0.25975610206705074,
-    "has_datetime_vs_c_sensitive": 0.13470883813979914,
-    "has_organization_vs_c_sensitive": 0.05162851339978953,
-    "has_direct_identifier_vs_c_sensitive": 0.06334077863534014,
-    "has_high_risk_combo_vs_c_sensitive": 0.18804921566861,
-    "high_risk_combo_count_vs_c_sensitive": 0.12388542784875525
+    "e_mean_confidence_vs_c_sensitive": 0.03945110380051838,
+    "e_median_confidence_vs_c_sensitive": 0.029822703689810298,
+    "q_mean_confidence_vs_c_sensitive": 0.03168428840360786,
+    "q_median_confidence_vs_c_sensitive": 0.026340159010259684,
+    "combined_mean_confidence_vs_c_sensitive": 0.10598009890574414,
+    "combined_median_confidence_vs_c_sensitive": 0.05243836528221594,
+    "e_score_vs_c_sensitive": 0.03779821418022362,
+    "q_score_vs_c_sensitive": 0.0016085227011135253,
+    "e_q_score_sum_vs_c_sensitive": 0.03460290718897544,
+    "e_q_score_product_vs_c_sensitive": 0.013997362775612088,
+    "e_q_score_max_vs_c_sensitive": 0.02914451136345643,
+    "score_disparity_vs_c_sensitive": 0.020550108591462144,
+    "total_entity_count_vs_c_sensitive": 0.07945094529676373,
+    "e_score_entity_count_vs_c_sensitive": 0.049199003321902066,
+    "q_score_qi_count_vs_c_sensitive": 0.2812819601393298,
+    "unique_entity_type_count_vs_c_sensitive": 0.13920980178652917,
+    "entity_density_vs_c_sensitive": -0.031129057224935485,
+    "narrative_entity_count_vs_c_sensitive": 0.07587276856076859,
+    "direct_identifier_count_vs_c_sensitive": -0.02119808158704852,
+    "mask_ratio_vs_c_sensitive": -0.014250001589064178,
+    "mask_token_count_vs_c_sensitive": 0.06166291557990814,
+    "chars_masked_ratio_vs_c_sensitive": 0.05244086441054182,
+    "e_score_coverage_vs_c_sensitive": 0.020145745702800207,
+    "q_score_coverage_vs_c_sensitive": 0.0016173504825311557,
+    "text_length_vs_c_sensitive": 0.24945168792357852,
+    "word_count_vs_c_sensitive": 0.2958595689631999,
+    "sentence_count_vs_c_sensitive": 0.07261118400458284,
+    "has_person_vs_c_sensitive": -0.0029384536484438656,
+    "has_location_vs_c_sensitive": 0.2410254778814625,
+    "has_datetime_vs_c_sensitive": 0.037268601174308094,
+    "has_organization_vs_c_sensitive": 0.08606345040729495,
+    "has_direct_identifier_vs_c_sensitive": 0.011740959059532681,
+    "has_high_risk_combo_vs_c_sensitive": 0.16945095856803044,
+    "high_risk_combo_count_vs_c_sensitive": 0.09189043599238891
   },
   "feature_importance": [
     [
-      "q_score_qi_count",
-      0.27323146167081136
-    ],
-    [
-      "has_location",
-      0.25975610206705074
-    ],
-    [
       "word_count",
-      0.23965221691397987
+      0.2958595689631999
     ],
     [
-      "unique_entity_type_count",
-      0.1975953045208147
-    ],
-    [
-      "has_high_risk_combo",
-      0.18804921566861
+      "q_score_qi_count",
+      0.2812819601393298
     ],
     [
       "text_length",
-      0.1817655872216021
+      0.24945168792357852
     ],
     [
-      "has_datetime",
-      0.13470883813979914
+      "has_location",
+      0.2410254778814625
     ],
     [
-      "high_risk_combo_count",
-      0.12388542784875525
+      "has_high_risk_combo",
+      0.16945095856803044
     ],
     [
-      "total_entity_count",
-      0.10316207887848948
-    ],
-    [
-      "e_score_coverage",
-      0.085482232551126
-    ],
-    [
-      "e_q_score_sum",
-      0.07909727857208727
-    ],
-    [
-      "e_q_score_max",
-      0.0785244826421355
-    ],
-    [
-      "mask_token_count",
-      0.07783166079250073
-    ],
-    [
-      "e_score",
-      0.07591535528229107
-    ],
-    [
-      "narrative_entity_count",
-      0.07566749841077823
-    ],
-    [
-      "e_score_entity_count",
-      0.07443293629348129
-    ],
-    [
-      "e_median_confidence",
-      0.07362927314260918
-    ],
-    [
-      "q_median_confidence",
-      0.0725329782927301
-    ],
-    [
-      "e_mean_confidence",
-      0.07134932022245649
-    ],
-    [
-      "score_disparity",
-      0.0702234133275013
-    ],
-    [
-      "q_score_coverage",
-      0.06874823845441907
-    ],
-    [
-      "q_mean_confidence",
-      0.06585395060665208
-    ],
-    [
-      "has_direct_identifier",
-      0.06334077863534014
-    ],
-    [
-      "entity_density",
-      0.05640543324303434
-    ],
-    [
-      "direct_identifier_count",
-      0.05595092279739799
-    ],
-    [
-      "has_organization",
-      0.05162851339978953
-    ],
-    [
-      "combined_median_confidence",
-      0.05107398943311589
-    ],
-    [
-      "mask_ratio",
-      0.04915949346505145
+      "unique_entity_type_count",
+      0.13920980178652917
     ],
     [
       "combined_mean_confidence",
-      0.04839168227362125
+      0.10598009890574414
     ],
     [
-      "chars_masked_ratio",
-      0.0467023098467623
+      "high_risk_combo_count",
+      0.09189043599238891
+    ],
+    [
+      "has_organization",
+      0.08606345040729495
+    ],
+    [
+      "total_entity_count",
+      0.07945094529676373
+    ],
+    [
+      "narrative_entity_count",
+      0.07587276856076859
     ],
     [
       "sentence_count",
-      0.04529410006868034
+      0.07261118400458284
     ],
     [
-      "q_score",
-      0.0259409219169023
+      "mask_token_count",
+      0.06166291557990814
+    ],
+    [
+      "chars_masked_ratio",
+      0.05244086441054182
+    ],
+    [
+      "combined_median_confidence",
+      0.05243836528221594
+    ],
+    [
+      "e_score_entity_count",
+      0.049199003321902066
+    ],
+    [
+      "e_mean_confidence",
+      0.03945110380051838
+    ],
+    [
+      "e_score",
+      0.03779821418022362
+    ],
+    [
+      "has_datetime",
+      0.037268601174308094
+    ],
+    [
+      "e_q_score_sum",
+      0.03460290718897544
+    ],
+    [
+      "q_mean_confidence",
+      0.03168428840360786
+    ],
+    [
+      "entity_density",
+      0.031129057224935485
+    ],
+    [
+      "e_median_confidence",
+      0.029822703689810298
+    ],
+    [
+      "e_q_score_max",
+      0.02914451136345643
+    ],
+    [
+      "q_median_confidence",
+      0.026340159010259684
+    ],
+    [
+      "direct_identifier_count",
+      0.02119808158704852
+    ],
+    [
+      "score_disparity",
+      0.020550108591462144
+    ],
+    [
+      "e_score_coverage",
+      0.020145745702800207
+    ],
+    [
+      "mask_ratio",
+      0.014250001589064178
     ],
     [
       "e_q_score_product",
-      0.012521690444889122
+      0.013997362775612088
+    ],
+    [
+      "has_direct_identifier",
+      0.011740959059532681
     ],
     [
       "has_person",
-      0.00591364862141705
+      0.0029384536484438656
+    ],
+    [
+      "q_score_coverage",
+      0.0016173504825311557
+    ],
+    [
+      "q_score",
+      0.0016085227011135253
     ]
   ],
   "suggested_e_score_threshold": 0.44586666666666663,
-  "suggested_q_score_threshold": 0.15789473684210525,
+  "suggested_q_score_threshold": 0.0,
   "suggested_combined_threshold": 0.44647368421052636,
   "best_predictors": []
 }
