@@ -554,11 +554,11 @@ class BenchmarkPipeline:
         
         # Ground truth: run unmasked text through C-Score to establish baseline
         try:
-            orig_cache_key = original_text.strip()
+            orig_cache_key = e_masked.strip()  
             if orig_cache_key in self._c_score_cache:
                 c_orig_result = self._c_score_cache[orig_cache_key]
             else:
-                c_orig_result = self.c_detector.analyze(original_text)
+                c_orig_result = self.c_detector.analyze(e_masked) 
                 self._c_score_cache[orig_cache_key] = c_orig_result
             c_score_original_risk_score = c_orig_result.risk_score
             c_score_original_deemed_sensitive = c_score_original_risk_score >= self.c_score_sensitivity_threshold
