@@ -440,14 +440,10 @@ class BenchmarkPipeline:
     def c_detector(self):
         return self._c_detector
     
-    def _mask_for_k(self, original_text: str, e_result, q_report: dict, k: float) -> Tuple[str, int]:
+    def _mask_for_k(self, masked_text: str, q_report: dict, k: float) -> Tuple[str, int]:
         spans_to_mask = []
 
-        # 1. E-Score entities (always mask direct PII)
-        for ent in e_result.entities:
-            spans_to_mask.append((ent.start, ent.end, ent.entity_type))
-
-        # 2. Q-Score quasi-identifiers:
+        # Q-Score quasi-identifiers:
         # mask if fewer than k people in the population share this value
         # (standard k-anonymity: anonymity-set size must be >= k)
         for qi in q_report.get("detected_quasi_identifiers", []):
@@ -462,9 +458,8 @@ class BenchmarkPipeline:
 
         sorted_spans = sorted(list(set(spans_to_mask)), key=lambda s: s[0], reverse=True)
 
-        masked_text = original_text
         masked_count = 0
-        last_start = len(original_text) + 1
+        last_start = len(masked_text) + 1
 
         for start, end, qi_type in sorted_spans:
             if start is None or end is None:
@@ -570,9 +565,9 @@ class BenchmarkPipeline:
         # Run multi-k analysis
         c_scores_by_k = {}
         masked_counts_by_k = {}
-        k_values = [10, 1000, 100000, 1000000, 10000000]
+        k_values = [2, 5, 10, 50, 100, 500, 1000]
         for k_val in k_values:
-            masked_t, masked_c = self._mask_for_k(original_text, e_result, q_report, k_val)
+            masked_t, masked_c = self._mask_for_k(e_masked, q_report, k_val)
             cache_key = masked_t.strip()
             if cache_key in self._c_score_cache:
                 risk_score = self._c_score_cache[cache_key].risk_score
@@ -784,7 +779,7 @@ class BenchmarkPipeline:
 # =============================================================================
 # Visualization Functions
 # =============================================================================
-def create_visualizations(results: List[PipelineResult], output_dir: Path):
+def create_visualizations(results: List[PipelineResult], output_dir: Path, c_score_threshold: float = 0.3):
     """Create visualizations for alternative features."""
     
     if not results:
@@ -1061,8 +1056,8 @@ def create_visualizations(results: List[PipelineResult], output_dir: Path):
     plt.savefig(output_dir / 'correlation_heatmap.png', dpi=150, bbox_inches='tight')
     plt.close()
 
-    if any(r.expected_critical for r in results):  # Need labeled data
-        create_privacy_accuracy_visualization(results, output_dir)
+    if any(r.expected_critical for r in results): 
+        create_privacy_accuracy_visualization(results, output_dir, c_score_threshold)
         create_score_distribution_plot(results, output_dir)
     
     print(f"Saved visualizations to {output_dir}")
@@ -1188,7 +1183,7 @@ def find_threshold(scores: np.ndarray, c_sensitive: np.ndarray) -> float:
     
     return float(best_threshold)
 
-def create_privacy_accuracy_visualization(results: List[PipelineResult], output_dir: Path):
+def create_privacy_accuracy_visualization(results: List[PipelineResult], output_dir: Path, c_score_threshold: float = 0.3):
     """
     Create accuracy vs privacy trade-off visualization.
     
@@ -1460,7 +1455,7 @@ def run_benchmark(
     # Only generate visualizations and analysis if we have results and weren't interrupted
     if results and not checkpoint.was_interrupted:
         print("\nGenerating visualizations...")
-        create_visualizations(results, out_path)
+        create_visualizations(results, out_path, c_score_threshold)
         create_multi_k_analysis_plot(results, str(out_path / "multi_k_analysis.png"))
         create_optimal_k_visualization(results, str(out_path / "optimal_k_analysis.png"))
         
