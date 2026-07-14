@@ -236,11 +236,8 @@ class SLMQIExtractor:
             "Return ONLY valid JSON in this exact format:\n"
             "{\n"
             '  "quasi_identifiers": [\n'
-            '    {"type": "age", "raw_value": "45 year old", '
-            '"normalized_value": "45", "confidence": 0.95},\n'
-            '    {"type": "disease", "raw_value": "hypermobility", '
-            '"normalized_value": "joint hypermobility syndrome", '
-            '"confidence": 0.85}\n'
+            '    {"type": "<type_string>", "raw_value": "<exact_text_substring>", '
+            '"normalized_value": "<normalized_value>", "confidence": <float_score>}\n'
             "  ]\n"
             "}\n\n"
             "Rules:\n"
@@ -256,6 +253,7 @@ class SLMQIExtractor:
             "database.\n"
             "- confidence is 0.0–1.0 reflecting certainty that this is a "
             "quasi-identifier about a person.\n"
+            "- NEVER use or output the placeholder values from the format example (like '<type_string>'). Only output values extracted directly from the text.\n"
             '- If no quasi-identifiers are found, return '
             '{"quasi_identifiers": []}.'
         )
@@ -338,6 +336,10 @@ class SLMQIExtractor:
 
             # Locate the raw_value inside the original text for masking
             start_pos, end_pos = self._find_span(text, text_lower, raw)
+
+            # Skip hallucinated items not present in the text
+            if not raw or (start_pos == 0 and end_pos == 0 and raw.lower() not in text_lower):
+                continue
 
             qis.append(
                 QuasiIdentifier(
